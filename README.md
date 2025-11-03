@@ -1,63 +1,82 @@
-# Vedaang Chopra - Artificial Intelligence & Machine Learning Enthusiast
+# 👋 Hi, I'm Vedaang Chopra  
+### *AI Researcher | Machine Learning Engineer | CS @ Georgia Tech*
 
-[![LinkedIn](https://img.shields.io/badge/LinkedIn-blue?style=flat&logo=linkedin)](https://www.linkedin.com/in/vedaang-chopra/)
-[![GitHub](https://img.shields.io/badge/GitHub-gray?style=flat&logo=github)](http://github.com/Vedaang-Chopra)
-[![Email](https://img.shields.io/badge/Email-vedaangchopra1009%40gmail.com-red?style=flat&logo=gmail)](mailto:vedaangchopra1009@gmail.com)
-
-## About Me
-I'm an AI Researcher, Machine Learning Engineer, and Software Engineer passionate about leveraging data and machine learning to solve real-world problems. Currently pursuing my Master's in Computer Science with a focus on Machine Learning from Georgia Institute of Technology. With a background in software and embedded engineering, I specialize in AI-driven solutions, specifically in network diagnostics and automation.
-
-## Skills
-
-### Languages
-- Python (Primary), Golang, C, C++, Java, JavaScript
-
-### Key Libraries & Tools
-- PyTorch, TensorFlow, HuggingFace, Numpy, Pandas, Scikit-Learn, MLFlow, ONNX, LangChain, NLTK, OpenCV
-- MLOps, Docker, Git, PostgreSQL, Elasticsearch, Redis, RabbitMQ
-
-### Core Expertise
-- **Artificial Intelligence**: Machine Learning, Deep Learning, Computer Vision, NLP, Generative AI, Reinforcement Learning
-- **Software Engineering**: System Design, REST API Development, Multithreading
-- **Cybersecurity**: Automated Penetration Testing, Malware Detection
-
-## Work Experience
-
-### Fortinet Technologies Inc.
-**Embedded Software Engineer (Feb 2021 - Present)**
-
-- **Product**: FortiAIOps – AI/ML solution for network diagnostics, anomaly detection, and automated troubleshooting.
-- **Key Contributions**:
-  - Developed a data collection system and ML solutions for connectivity threshold optimization and outlier detection.
-  - Implemented and deployed ML models on edge devices.
-  - Designed an AI chatbot leveraging Retrieval-Augmented Generation, GPT-2, and Mistral models.
-  - Re-engineered OpenSearch database architecture, enhancing scalability to handle high traffic.
-
-### Cyber Boxer
-**Cybersecurity Architect Intern (Oct 2020 - Dec 2020)** and **Cybersecurity Analyst Intern (May 2019 - Aug 2019)**
-- Built an Automated Penetration Testing tool for risk assessment and cybersecurity solutions.
-
-### National Critical Information Infrastructure Protection Centre (NCIIPC), NTRO
-**Security Researcher Intern (Jan 2020 - Apr 2020)**
-- Developed an automated system hardening audit script.
-
-### MuSigma
-**Decision Scientist Trainee (Jul 2020 - Sep 2020)**
-- Worked on ML case studies for major clients like Home Depot, Chevron, and Microsoft.
-
-## Projects
-
-- **Mutual Fund Analysis**: Time series forecasting for NAV prediction.
-- **Malware Detection**: AI-driven endpoint security using NLP, dynamic/static analysis.
-- **Ontology-Based Text Classification**: Enhanced classification using an ontology-based approach for symptom-disease categorization.
-- **Computer Vision & NLP Applications**: Developed various applications, including face detection, mask segmentation, sentiment analysis, and text interpretation.
-- **ML Predictive Analytics**: Created predictive models for banking analytics, concrete strength prediction, and recommendation systems.
-
-## Achievements
-
-- **Fortinet Hackathon 2023**: Secured 5th place in a nationwide hackathon.
-- **Intel Cyber Course Competition**: Achieved a top-70 rank in the Global Cipher Challenge CTF.
+[![LinkedIn](https://img.shields.io/badge/LinkedIn-blue?logo=linkedin&logoColor=white)](https://www.linkedin.com/in/vedaang-chopra/)
+[![GitHub](https://img.shields.io/badge/GitHub-gray?logo=github&logoColor=white)](https://github.com/Vedaang-Chopra)
+[![Email](https://img.shields.io/badge/Email-vedaangchopra1009%40gmail.com-red?logo=gmail&logoColor=white)](mailto:vedaangchopra1009@gmail.com)
 
 ---
 
-Feel free to connect with me on LinkedIn or GitHub to explore collaboration opportunities or view my work!
+## 🧠 About Me  
+I’m passionate about building intelligent systems that **learn, adapt, and create**.  
+Currently pursuing my **M.S. in Computer Science (Machine Learning specialization)** at **Georgia Tech**,  
+where I explore **multimodal AI**, **generative models**, and **edge-ready LLM/VLM systems**.
+
+Previously, I worked at **Fortinet Technologies** as an **AI/ML Engineer**,  
+building production-grade models for **network anomaly detection**, **automated diagnostics**, and **edge intelligence**.  
+
+💡 I love combining **research + engineering** — from training models to deploying scalable AI pipelines.
+
+---
+
+## ⚙️ Core Skills
+
+**Languages:** Python 🐍 | Go | C/C++ | Java | JavaScript  
+**ML & DL Frameworks:** PyTorch | TensorFlow | Hugging Face | Scikit-Learn | MLFlow  
+**MLOps & Systems:** Docker | ONNX | LangChain | PostgreSQL | Elasticsearch | Redis  
+**Specialties:**  
+- 🧩 **Deep Learning & Generative AI:** Vision, NLP, and Multimodal Models  
+- ⚡ **Systems & Deployment:** Scalable model serving, inference optimization, quantization  
+- 🔒 **AI for Security:** Anomaly detection, malware classification, autonomous diagnostics  
+
+---
+
+## 🧩 Featured Projects
+
+| Project | Description | Stack |
+|----------|--------------|-------|
+| 🧠 [**Edge Glass Assistant**](https://github.com/Vedaang-Chopra/Edge-Glass) | Multimodal memory-aware AI assistant combining text, vision & audio models using CLIP, Whisper, and MiniLM. | PyTorch, vLLM, Docker |
+| 🧭 [**Which-VLM Router**](https://github.com/Vedaang-Chopra/Which-VLM-Router) | Semantic router for intelligent model selection across open VLMs (Qwen, Molmo, Gemma, etc.) | Rust, Go, Python |
+| 🧬 **Malware Detection** | Used static + dynamic analysis with NLP embeddings to classify malicious binaries. | PyTorch, Scikit-Learn |
+| 📈 **Mutual Fund Analysis** | Time-series forecasting of NAV using LSTM and ARIMA models. | Python, Pandas, Statsmodels |
+| 🧠 **Ontology-based Text Classification** | Used hierarchical ontology graph for medical text categorization. | NetworkX, BERT, FastText |
+
+---
+
+## 💼 Experience
+
+### 🧩 **Fortinet Technologies Inc.** — *AI/Embedded Software Engineer* (Feb 2021 – Present)
+- Built **FortiAIOps**, an AI-driven platform for network diagnostics and anomaly detection.  
+- Developed ML pipelines for **connectivity threshold optimization** and **outlier detection**.  
+- Deployed lightweight inference models on **edge devices** using ONNX and TensorRT.  
+- Integrated **RAG + GPT-based troubleshooting assistant** for internal product teams.
+
+### 🛡️ **Cyber Boxer** — *Cybersecurity Architect Intern*
+- Designed an **automated penetration testing framework** for vulnerability scanning.  
+
+### 🛰️ **NCIIPC (NTRO, India)** — *Security Research Intern*
+- Built an **automated system hardening audit** script for infrastructure security.
+
+---
+
+## 🏆 Highlights & Achievements
+- 🥇 **Top-5 Finalist**, Fortinet Global Hackathon 2023  
+- 🧩 **Patent:** “Unsupervised Connectivity Threshold Detection for Network Anomalies” (Filed PCT/172022/958026)  
+- 🧠 **Top-70**, Intel Global Cipher Challenge (CTF)
+
+---
+
+## 📚 Currently Exploring
+- Multimodal Embedding Alignment (Text ↔ Vision ↔ Audio)  
+- Lightweight Quantization & Distillation for Edge AI  
+- LLM Routing, Memory, and Agentic Systems  
+
+---
+
+## 🤝 Let’s Connect  
+If you’re working on **LLMs, multimodal AI**, or **agentic systems**, I’d love to chat!  
+Feel free to reach out on [LinkedIn](https://www.linkedin.com/in/vedaang-chopra/) or explore my work on [GitHub](https://github.com/Vedaang-Chopra).
+
+---
+
+⭐ *“Building intelligent systems that make the world a little smarter, one model at a time.”*  
