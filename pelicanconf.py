@@ -36,7 +36,7 @@ PAGE_URL = '{slug}.html'
 PAGE_SAVE_AS = '{slug}.html'
 
 # Menu
-MENUITEMS = (('Resume', '#'),) # Placeholder for Resume
+MENUITEMS = (('Resume', 'resume.html'),)
 
 DEFAULT_PAGINATION = 10
 
@@ -71,4 +71,4 @@ MARKDOWN = {
 }
 
 # Static Paths
-STATIC_PATHS = ['images', 'data']
+STATIC_PATHS = ['images', 'data', 'Resumes']

@@ -1,4 +1,29 @@
-- name: "Vision-Language Router"
-  description: "Optimizing VLM inference using budget-aware routing."
-  stack: "Python, PyTorch"
-  url: "https://github.com/Vedaang-Chopra/vlm-project"
+- name: "Edge-Glass"
+  description: "A lightweight, privacy-preserving multimodal assistant using frozen encoders and quantized projectors for on-device inference."
+  stack: "Jupyter Notebook, Python"
+  url: "https://github.com/Vedaang-Chopra/Edge-Glass"
+
+- name: "AI-Security"
+  description: "Security concepts in AI: backdoors, poisoning, jailbreaks, and adversarial attacks."
+  stack: "Python, Jupyter Notebook"
+  url: "https://github.com/Vedaang-Chopra/AI-Security"
+
+- name: "Audit_Script_Development"
+  description: "Automated security audit script for Linux environments to identify vulnerabilities and assess security posture."
+  stack: "Shell, Python"
+  url: "https://github.com/Vedaang-Chopra/Audit_Script_Development"
+
+- name: "Disease_Ontology_Project"
+  description: "Biomedical text classification using the Human Disease Ontology (DOID)."
+  stack: "Python, Jupyter Notebook"
+  url: "https://github.com/Vedaang-Chopra/Disease_Ontology_Project"
+
+- name: "Machine_Learning"
+  description: "A collection of small projects and experiments undertaken for learning machine learning concepts."
+  stack: "Python, Jupyter Notebook"
+  url: "https://github.com/Vedaang-Chopra/Machine_Learning"
+
+- name: "Developer_Reference_Repository"
+  description: "A comprehensive reference repository for development resources and best practices."
+  stack: "General"
+  url: "https://github.com/Vedaang-Chopra/Developer_Reference_Repository"
