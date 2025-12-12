@@ -15,7 +15,10 @@
                 <a href="https://vedaang-chopra.github.io/Vedaang-Chopra/" class="brand">Home</a>
                 <a href="https://vedaang-chopra.github.io/Vedaang-Chopra/blog.html">Blog</a>
                 <a href="https://vedaang-chopra.github.io/Vedaang-Chopra/projects.html">Projects</a>
-                <a href="#">Resume</a>
+                <a href="resume.html">Resume</a>
+                <button id="theme-toggle" aria-label="Toggle Theme">
+                    <span class="icon">☀</span>
+                </button>
             </nav>
         </header>
 
@@ -23,9 +26,34 @@
 <h1>Projects</h1>
 <div class="project-grid">
         <div class="project-card">
-            <h2><a href="https://github.com/Vedaang-Chopra/vlm-project" target="_blank">Vision-Language Router ↗</a></h2>
-            <p class="project-desc">Optimizing VLM inference using budget-aware routing.</p>
-            <p class="project-stack"><strong>Stack:</strong> Python, PyTorch</p>
+            <h2><a href="https://github.com/Vedaang-Chopra/Edge-Glass" target="_blank">Edge-Glass ↗</a></h2>
+            <p class="project-desc">A lightweight, privacy-preserving multimodal assistant using frozen encoders and quantized projectors for on-device inference.</p>
+            <p class="project-stack"><strong>Stack:</strong> Jupyter Notebook, Python</p>
+        </div>
+        <div class="project-card">
+            <h2><a href="https://github.com/Vedaang-Chopra/AI-Security" target="_blank">AI-Security ↗</a></h2>
+            <p class="project-desc">Security concepts in AI: backdoors, poisoning, jailbreaks, and adversarial attacks.</p>
+            <p class="project-stack"><strong>Stack:</strong> Python, Jupyter Notebook</p>
+        </div>
+        <div class="project-card">
+            <h2><a href="https://github.com/Vedaang-Chopra/Audit_Script_Development" target="_blank">Audit_Script_Development ↗</a></h2>
+            <p class="project-desc">Automated security audit script for Linux environments to identify vulnerabilities and assess security posture.</p>
+            <p class="project-stack"><strong>Stack:</strong> Shell, Python</p>
+        </div>
+        <div class="project-card">
+            <h2><a href="https://github.com/Vedaang-Chopra/Disease_Ontology_Project" target="_blank">Disease_Ontology_Project ↗</a></h2>
+            <p class="project-desc">Biomedical text classification using the Human Disease Ontology (DOID).</p>
+            <p class="project-stack"><strong>Stack:</strong> Python, Jupyter Notebook</p>
+        </div>
+        <div class="project-card">
+            <h2><a href="https://github.com/Vedaang-Chopra/Machine_Learning" target="_blank">Machine_Learning ↗</a></h2>
+            <p class="project-desc">A collection of small projects and experiments undertaken for learning machine learning concepts.</p>
+            <p class="project-stack"><strong>Stack:</strong> Python, Jupyter Notebook</p>
+        </div>
+        <div class="project-card">
+            <h2><a href="https://github.com/Vedaang-Chopra/Developer_Reference_Repository" target="_blank">Developer_Reference_Repository ↗</a></h2>
+            <p class="project-desc">A comprehensive reference repository for development resources and best practices.</p>
+            <p class="project-stack"><strong>Stack:</strong> General</p>
         </div>
 </div>
         </main>
@@ -34,5 +62,51 @@
             <p>&copy; 2025 Vedaang Chopra</p>
         </footer>
     </div>
+
+    <script>
+        const toggleBtn = document.getElementById('theme-toggle');
+        const body = document.body;
+        const icon = toggleBtn.querySelector('.icon');
+
+        // Theme Definitions
+        const themes = ['', 'mint-theme', 'dark-theme', 'sepia-theme'];
+        const icons = ['☀', '🌿', '🌙', '☕'];
+
+        // Load saved theme
+        let currentThemeIndex = 0;
+        const savedTheme = localStorage.getItem('theme');
+        
+        if (savedTheme) {
+            const savedIndex = themes.indexOf(savedTheme);
+            if (savedIndex !== -1) {
+                currentThemeIndex = savedIndex;
+                if (themes[currentThemeIndex]) {
+                    body.classList.add(themes[currentThemeIndex]);
+                }
+                icon.textContent = icons[currentThemeIndex];
+            }
+        }
+
+        toggleBtn.addEventListener('click', () => {
+            // Remove current theme class if it exists
+            if (themes[currentThemeIndex]) {
+                body.classList.remove(themes[currentThemeIndex]);
+            }
+
+            // Cycle to next theme
+            currentThemeIndex = (currentThemeIndex + 1) % themes.length;
+
+            // Add new theme class if it exists (not empty string)
+            if (themes[currentThemeIndex]) {
+                body.classList.add(themes[currentThemeIndex]);
+                localStorage.setItem('theme', themes[currentThemeIndex]);
+            } else {
+                localStorage.removeItem('theme');
+            }
+
+            // Update icon
+            icon.textContent = icons[currentThemeIndex];
+        });
+    </script>
 </body>
 </html>
