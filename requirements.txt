@@ -1,4 +1,6 @@
 pelican
-markdown
-pygments
-pyyaml
+mMarkdown
+Pygments
+PyYAML
+pypdf
+python-pptx

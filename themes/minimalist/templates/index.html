@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+
+{% block title %}Blog - {{ SITENAME }}{% endblock %}
+
+{% block content %}
+    <div class="blog-header">
+        <h1>Writing</h1>
+        <p class="blog-subtitle">My thoughts on design + software engineering + life.</p>
+        
+        <div class="research-link-container" style="margin-top: 2rem; margin-bottom: 3rem;">
+            <a href="category/research-paper-analysis.html" class="research-card">
+                <div class="research-icon">📝</div>
+                <div class="research-content">
+                    <span class="research-title">My take (Research paper)</span>
+                    <span class="research-subtitle">Detailed analysis & presentation notes</span>
+                </div>
+                <div class="research-arrow">↗</div>
+            </a>
+        </div>
+    </div>
+
+    <div class="blog-list">
+        {% for year, year_articles in articles|groupby('date.year')|reverse %}
+        <div class="blog-year-group">
+            <div class="blog-year">{{ year }}</div>
+            <div class="blog-items">
+                {% for article in year_articles %}
+                <div class="blog-item">
+                    <span class="blog-date">{{ article.date|strftime('%b %d') }}</span>
+                    <a href="{{ SITEURL }}/{{ article.url }}" class="blog-title">{{ article.title }}</a>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+{% endblock %}

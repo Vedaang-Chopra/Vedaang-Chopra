@@ -184,6 +184,145 @@ h3 {
     border-color: var(--btn-hover-bg);
 }
 
+/* Blog List (Writing Page) */
+.blog-header {
+    margin-bottom: 4rem;
+}
+
+.blog-subtitle {
+    font-size: 1.1rem;
+    color: var(--text-color);
+    opacity: 0.8;
+    margin-top: 0.5rem;
+}
+
+.blog-list {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+}
+
+.blog-year-group {
+    display: flex;
+    gap: 4rem;
+    /* Space between year and articles */
+}
+
+.blog-year {
+    font-family: var(--font-main);
+    font-size: 1.1rem;
+    opacity: 0.9;
+    min-width: 60px;
+    /* Fixed width for alignment */
+    padding-top: 0.2rem;
+    /* Align with first article */
+}
+
+.blog-items {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    flex: 1;
+}
+
+.blog-item {
+    display: flex;
+    gap: 2rem;
+    align-items: baseline;
+}
+
+.blog-date {
+    font-size: 0.95rem;
+    color: var(--text-color);
+    opacity: 0.6;
+    min-width: 60px;
+    font-variant-numeric: tabular-nums;
+}
+
+.blog-title {
+    font-size: 1.1rem;
+    text-decoration: none;
+    color: var(--text-color);
+    border-bottom: 1px solid transparent;
+    transition: border-color 0.2s;
+}
+
+.blog-title:hover {
+    border-bottom-color: var(--text-color);
+}
+
+@media (max-width: 768px) {
+    .blog-year-group {
+        flex-direction: column;
+        gap: 1rem;
+    }
+
+    .blog-year {
+        font-weight: bold;
+        opacity: 1;
+        margin-bottom: 0.5rem;
+    }
+
+    .blog-item {
+        gap: 1rem;
+    }
+}
+
+/* Research Link Card */
+.research-link-container {
+    margin-top: 3rem;
+    max-width: 600px;
+}
+
+.research-card {
+    display: flex;
+    align-items: center;
+    padding: 1.5rem;
+    background-color: var(--btn-bg);
+    /* Use theme button bg */
+    border: 1px solid var(--border-color);
+    text-decoration: none;
+    color: var(--text-color);
+    transition: all 0.2s ease;
+    /* Tabular look */
+    border-left: 4px solid var(--accent-color);
+}
+
+.research-card:hover {
+    background-color: var(--btn-hover-bg);
+    color: var(--btn-hover-text);
+    transform: translateY(-2px);
+    box-shadow: 4px 4px 0 var(--border-color);
+}
+
+.research-icon {
+    font-size: 1.5rem;
+    margin-right: 1rem;
+}
+
+.research-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.research-title {
+    font-family: var(--font-main);
+    font-weight: 700;
+    font-size: 1.1rem;
+    margin-bottom: 0.2rem;
+}
+
+.research-subtitle {
+    font-size: 0.85rem;
+    opacity: 0.8;
+}
+
+.research-arrow {
+    font-size: 1.2rem;
+    margin-left: 1rem;
+}
+
 /* Article List */
 .article-list {
     list-style: none;
@@ -267,12 +406,65 @@ h3 {
     font-size: 0.9rem;
 }
 
+/* Footer */
 footer {
-    margin-top: 8rem;
-    padding-top: 2rem;
-    border-top: 1px solid #eee;
-    color: #888;
-    font-size: 0.9rem;
+    border-top: 1px solid var(--border-color);
+    padding-top: 3rem;
+    margin-top: 4rem;
+}
+
+.footer-content {
     display: flex;
     justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.footer-icons {
+    display: flex;
+    gap: 1rem;
+}
+
+.footer-icon-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    /* Circle */
+    background-color: var(--btn-bg);
+    color: var(--text-color);
+    border: 1px solid var(--border-color);
+    text-decoration: none;
+    font-size: 0;
+    /* Hide text, show icon (using text as icon surrogate for now or simple SVG later, here simple box) */
+    position: relative;
+    transition: all 0.2s;
+}
+
+/* Hack to show first letter or icon if we don't use FA */
+.footer-icon-btn::after {
+    content: attr(href);
+    /* Temp */
+    font-size: 12px;
+}
+
+/* Better styling for text-based icons if no SVG */
+.footer-icon-btn {
+    width: auto;
+    height: auto;
+    padding: 8px 16px;
+    border-radius: 20px;
+    font-size: 0.9rem;
+}
+
+.footer-icon-btn::after {
+    content: none;
+}
+
+.footer-icon-btn:hover {
+    background-color: var(--btn-hover-bg);
+    color: var(--btn-hover-text);
+    border-color: var(--btn-hover-bg);
 }

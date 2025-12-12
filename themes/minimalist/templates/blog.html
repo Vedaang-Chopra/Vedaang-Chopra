@@ -3,13 +3,24 @@
 {% block title %}Blog - {{ SITENAME }}{% endblock %}
 
 {% block content %}
-<h1>Blog Index</h1>
-<ul class="article-list">
-    {% for article in articles %}
-    <li>
-        <span class="date">{{ article.date|strftime('%Y-%m-%d') }}</span>
-        <a href="{{ SITEURL }}/{{ article.url }}">{{ article.title }}</a>
-    </li>
-    {% endfor %}
-</ul>
+    <div class="blog-header">
+        <h1>Writing</h1>
+        <p class="blog-subtitle">My thoughts on design + software engineering + life.</p>
+    </div>
+
+    <div class="blog-list">
+        {% for year, year_articles in articles|groupby('date.year')|reverse %}
+        <div class="blog-year-group">
+            <div class="blog-year">{{ year }}</div>
+            <div class="blog-items">
+                {% for article in year_articles %}
+                <div class="blog-item">
+                    <span class="blog-date">{{ article.date|strftime('%b %d') }}</span>
+                    <a href="{{ SITEURL }}/{{ article.url }}" class="blog-title">{{ article.title }}</a>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+        {% endfor %}
+    </div>
 {% endblock %}

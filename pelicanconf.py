@@ -35,8 +35,13 @@ PROJECTS_SAVE_AS = 'projects.html'
 PAGE_URL = '{slug}.html'
 PAGE_SAVE_AS = '{slug}.html'
 
+DISPLAY_PAGES_ON_MENU = False
+DISPLAY_CATEGORIES_ON_MENU = False
+
 # Menu
-MENUITEMS = (('Resume', 'resume.html'),)
+MENUITEMS = (('Resume', 'resume.html'),
+             ('Writing', 'blog.html'),
+             ('Uses', 'uses.html'),)
 
 DEFAULT_PAGINATION = 10
 
@@ -71,4 +76,4 @@ MARKDOWN = {
 }
 
 # Static Paths
-STATIC_PATHS = ['images', 'data', 'Resumes']
+STATIC_PATHS = ['images', 'data', 'Resumes', 'blog/raw_content']
