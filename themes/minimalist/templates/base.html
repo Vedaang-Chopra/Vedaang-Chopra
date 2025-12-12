@@ -12,8 +12,10 @@
     <div class="container">
         <header>
             <nav>
+                <a href="{{ SITEURL }}/" class="profile-brand">
+                    <img src="{{ SITEURL }}/images/profile.png" alt="Profile" class="profile-circle">
+                </a>
                 <a href="{{ SITEURL }}/" class="brand">Home</a>
-                <a href="{{ SITEURL }}/blog.html">Blog</a>
                 <a href="{{ SITEURL }}/projects.html">Projects</a>
                 {% for title, link in MENUITEMS %}
                 <a href="{{ link }}">{{ title }}</a>

@@ -62,6 +62,26 @@ body.sepia-theme {
     color: var(--text-color);
 }
 
+.profile-brand {
+    display: flex;
+    align-items: center;
+    margin-right: 0.5rem;
+    text-decoration: none;
+}
+
+.profile-circle {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 1px solid var(--border-color);
+    transition: transform 0.2s;
+}
+
+.profile-circle:hover {
+    transform: scale(1.1);
+}
+
 body {
     background-color: var(--bg-color);
     color: var(--text-color);
