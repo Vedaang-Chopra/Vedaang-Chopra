@@ -1,0 +1,599 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>cs8803 VLM   MOLMO & PIXMO - Vedaang Chopra</title>
+    <link rel="stylesheet" href="https://vedaang-chopra.github.io/Vedaang-Chopra/theme/css/style.css" />
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <nav>
+                <a href="https://vedaang-chopra.github.io/Vedaang-Chopra/" class="profile-brand">
+                    <img src="https://vedaang-chopra.github.io/Vedaang-Chopra/images/profile.png" alt="Profile" class="profile-circle">
+                </a>
+                <a href="https://vedaang-chopra.github.io/Vedaang-Chopra/" class="brand">Home</a>
+                <a href="https://vedaang-chopra.github.io/Vedaang-Chopra/projects.html">Projects</a>
+                <a href="resume.html">Resume</a>
+                <a href="blog.html">Writing</a>
+                <a href="uses.html">Uses</a>
+                <button id="theme-toggle" aria-label="Toggle Theme">
+                    <span class="icon">☀</span>
+                </button>
+            </nav>
+        </header>
+
+        <main>
+<article>
+    <header>
+        <h1>cs8803 VLM   MOLMO & PIXMO</h1>
+        <div class="meta">
+            <span class="date">2025-12-12</span>
+        </div>
+    </header>
+    
+    <div class="content">
+        <div class="download-box" style="margin-bottom: 2rem; padding: 1rem; background: var(--btn-bg); border-radius: 8px; display: inline-block;">
+    <a href="https://vedaang-chopra.github.io/Vedaang-Chopra/blog/cs8803-VLM - MOLMO & PIXMO.pptx" style="text-decoration: none; font-weight: bold;">
+        📥 Download Original Slides (PPTX)
+    </a>
+</div>
+
+<h2>Molmo and PixMoOpen Weights and Open Data for State-of-the-Art Vision-Language Models(CVPR) 2025</h2>
+<p>Hi, I am Vedaang Chopra, and I will be presenting the paper Molmo and Pixmo. Firstly, I know we have been discussing diffusion for some time, but now I would like all of us to sort of come back to multi modal architectures, which we have been discussing since the beginning.</p>
+<p><strong>Key Takeaways:</strong>
+*   Allen Institute for AI &amp; University of Washington
+*   Presented by: - Vedaang Chopra
+*   ‹#›</p>
+<p>To begin with I am also sharing the paper's poster presentation; which was submitted to CVPR 2025(and selected as well).I wanted to start with it as inMy opinion is it shows the things the authors want to prioritize on.  Based on this poster for this paper, Looks like there dataset and their and their results are something the authors liked us to focus on the most, a little focus on the architecture as well.</p>
+<p><strong>Key Takeaways:</strong>
+*   Fig:- Poster Presentation of Molmo Paper
+*   ​
+*   ‹#›</p>
+<h2>Problem Introduction and Motivation</h2>
+<p>Let me setup a quick introduction sort of like the motivation for this paper. There are already some many VLM's in the market, the market is crowded, GPT, QWEN, LLAVA, FLAVA, Gemini, so why MOLMO ? What is this paper all about ? Why this VLM ? What was the point of this model ?  Is it just another model, whose job is to make sure that student’s write a review, and rush to submit it at the 11:59pm deadline every tuesday, thursday !!</p>
+<p><strong>Key Takeaways:</strong>
+*   ‹#›</p>
+<h2>What is the problem that this paper addresses ?</h2>
+<p>What Allen AI through molmo want to achieve is was transparency  “This paper is not just another VLM — it’s a blueprint for how to build GPT-4V-like multimodal systems in the open”What they shared with us was 3 things: - Dataset, architecture, and training code. They gave us a high-quality data (PixMo) and scalable yet efficient architecture, and training code. Molmo bridges this gap by showing that openness and state-of-the-art performance can coexist So as everyone here moves to get jobs or do their own startups and come into a lot of money to purchase many GPU’s, and tomorrow wish to build to their own VLM, this paper is sort of a like a guide on how to do so.   I mention here the vision encoder is left out, as shown by the next image, because in the paper, the image they shared shows that. (I will get to that, it is just me nitpicking things)</p>
+<p><strong>Key Takeaways:</strong>
+*   Solution:- MOLMO
+*   A state-of-the-art open VLM: First large-scale open-weights + open-data + open-code (still the vision encoder is left out !) demonstrating competitive performance
+*   Open weights
+*   Open data (PixMo)
+*   Open training code
+*   Git Repo: - https://github.com/allenai/molmo/tree/main
+*   Website:- https://allenai.org/blog/molmo
+*   Problem: - Lack of open, transparent, and high-performing vision-language models
+*   Category-1: - API Based: - GPT-4o, Claude, Gemini, Groq,
+*   Category-2: - Open Weights: - Qwen, InternVL, PaliGemma
+*   Category-3: - Open Weights &amp; Data: - LLava, Cambrian, Xgen
+*   ‹#›</p>
+<p>And this picture sort of sums up the entire motivation, which is how crowded yet close the market of VLM's are. Some models share weights, some share code, but no one has actually shared everything, so that researcher/students like us can actually try to build VLM's ourselves. As we can see several models try to open source something, but MOLMO is the closest when it comes to completely open source model.  Open models (like LLaVA, PaliGemma, Cambrian) exist, but: They depend heavily on synthetic data generated by those closed models. Example: Datasets like ShareGPT4V were built using GPT-4V-generated captions.Previous models like LLaVA or Cambrian were semi-open — trained on data distilled from closed VLMs. Molmo removes that dependency</p>
+<p><strong>Key Takeaways:</strong>
+*   Fig: - VLM Openness Comparison. We characterize the openness of VLMs based on two attributes (open weights, open data and code) across three model components (the VLM and its two pre-trained components, the LLM backbone and the vision encoder). In addition to open vs. closed, we use the ”distilled” label to indicate that the data used to train the VLM includes images and text generated by a different, proprietary VLM, meaning that the model cannot be reproduced without a dependency on the proprietary VLM.
+*   ‹#›</p>
+<p>So before we begin, I would like to just begin by informing the general flow of the presentation, Molmo and Pixmo, technically are two papers(debatable). The idea here is to present this paper, how we usually build our projects/ how "life cycle of a multimodal model"   in reality is.  As an example when we train an ML model, we first look at the data stage(cleaning and pre-processing), then we move to the modeling stage(selecting a classifier); then we evaluate the results of the model.And in the end if we get good results(with small changes), publish a paper, so that in the next batch students like us have to submit one more review just by 11:59 pm, to get the grades, make our life more difficult, because we need to study some small changes.</p>
+<p><strong>Key Takeaways:</strong>
+*   Paper Flow — Understanding Molmo Like Training a Model
+*   ‹#›</p>
+<h2>Let's try to understand in a way of how a model is actually built !!</h2>
+<p>Personally, the reason for selecting this flow is that: everything is a story; a well crafted story. And my opinion here is that we understand stories and sequences better.So with this flow, let’s try to understand the entire paper.</p>
+<p><strong>Key Takeaways:</strong>
+*   ‹#›</p>
+<h2>Stage-1: - The Data Phase</h2>
+<p>So let us start with the data phase; We are building our models and we need to select the right datasets .</p>
+<p><strong>Key Takeaways:</strong>
+*   ‹#›</p>
+<h2>What datasets did previous architectures use ?</h2>
+<p>Before I introduce the data Pixmo, I want to slightly go back in history. This paper is of Molmo is of 2024. Every paper is sort of like a history lesson as everyone is pointing past mistakes. I am showing some architectures here and each architecture contributed something to the VLM, but what dataset were they trained on, that had a huge influence on how they behave. “ViT proved transformers can work on images, but only with enormous labeled data like JFT — which wasn’t public. CLIP changed everything — instead of human labels, it learned from the internet itself, matching images and their alt-text but Dataset called WebImageText (WIT); not released, later reproduced as LAION-400M/5B.  VILT and FLAVA Used clean academic datasets: COCO, Visual Genome, VQAv2, GQA, NLVR2, Flickr30k. FLAVA blended multiple open sources — RedCaps (12 M), YFCC100M, CC12M, VG, COCO, Localized Narratives.“ViLT and FLAVA tried to mix structured datasets to learn cross-modal alignment without relying on private web data.” Flamingo moved beyond single image-caption pairs — it learned from web pages and videos, seeing multiple images in sequence.So up to 2022, we saw a clear trend — from curated, small datasets to web-scale multimodal data — but mostly closed and noisy. That’s what next-generation datasets in 2023-24 tried to fix.</p>
+<p><strong>Key Takeaways:</strong>
+*   ‹#›</p>
+<h2>What datasets did previous architectures use ?</h2>
+<p>Then fine-tuned on LLaVA-Instruct (~150 K GPT-4-generated QA pairs). ;  Qwen-VL and InternVL scaled up open data and added documents, OCR, and chart reasoning — moving toward true multimodality.  Qwen-2-VL broadens coverage — not just captions or Q&amp;A, but dynamic, multi-image and video reasoning — bringing us very close to fully general VLMs  By 2024, data became richer and more instruction-driven, but still mostly web or GPT-generated.</p>
+<p><strong>Key Takeaways:</strong>
+*   ‹#›</p>
+<h2>What were the problems with Previous Models/Datasets  ?</h2>
+<p>Molmo and PixMo take a look at base step — they rebuild the data foundation itself, focusing on pixel-level grounding and open reproducibility. Problem-1 : - Molmo calls this “distillation of proprietary models,” limiting openness and reproducibility Problem-2: - You scrapped the entire internet, but what is the data clean ? There is a lot of noise introduced due to this  Problem-4: - Humans and annotators are lazy; is what is their assumption. Here are certain that Pixmo cause and they inherently affect the architecture that is being used to train;</p>
+<p><strong>Key Takeaways:</strong>
+*   ‹#›</p>
+<h2>Data Collection</h2>
+<p>Let me begin with the data collection, what all data they actually used. What is the dataset they wanted to present ?</p>
+<p><strong>Key Takeaways:</strong>
+*   ‹#›</p>
+<p>This is one of their key contributions to the field, the reason in my opinion this paper is valued, the PixMo dataset that they created which can be used to build your own VLM's.The blue highlights the human annotations, whereas the green highlights the synthetic data generationPixMo is a collection of 7 datasets in total. 3 human-annotated (for realism and grounding) and 4 synthetic (non-VLM) (for targeted skills and scale)</p>
+<p><strong>Key Takeaways:</strong>
+*   PixMo (Pixels for Molmo)
+*   ‹#›</p>
+<h2>PixMo-CAP</h2>
+<p>PixMo-CAP: - Here the annotators, were asked to speak the description rather than type(each audio 60-90 seconds) and they were asked to, describe it in detail. After the transcripts were taken and sent to an LLM to summarize it.  Is there an LLM bias introduced here ? Due to summary ?</p>
+<p><strong>Key Takeaways:</strong>
+*   Goal: Teach broad visual understanding with very detailed descriptions.
+*   How it’s built:
+*   Images sourced across ~70 topics (street signs, memes, food, drawings, websites, blurry photos, …).
+*   Annotators speak descriptions for 60–90s (voice forces more detail and prevents copying from VLMs).
+*   Audio → ASR transcripts → a text-only LLM cleans/summarizes to a final caption (remove fillers, unify style).
+*   Scale &amp; stats:
+*   712k images, 1.3M transcripts/captions; ~196 words/caption (vs 11 in COCO; 37 in Localized Narratives).
+*   Why it’s novel/useful: The voice-first trick yields richer, denser content and auditability (audio receipts), crucial for learning fine detail.
+*   ‹#›</p>
+<h2>PixMo-AskModel Anything</h2>
+<p>This dataset adds instruction-following ability — Molmo learns to answer any question about an image. Human annotators collaborated with a language-only LLM, not a VLM, to generate and refine answers. Every answer was verified or rewritten by the annotator to ensure quality.  It covers free-form, natural questions — useful for conversational visual reasoning. No synthetic captions or closed data — everything is human-approved.</p>
+<p><strong>Key Takeaways:</strong>
+*   Goal: Teach the model to answer diverse, realistic questions grounded in the image.
+*   How it’s built:
+*   Annotator picks an image and writes a question.
+*   Run OCR (non-VLM) + a PixMo-Cap-trained captioner.
+*   A text-only LLM drafts an answer using only OCR + caption (no VLM supervision).
+*   Annotator accepts/rejects/revises until correct.
+*   Scale: 162k QA pairs over 73k images.
+*   Why it matters: Human-in-the-loop yields high-quality, grounded answers without VLM dependency.
+*   ‹#›</p>
+<h2>PixMo-Points</h2>
+<p>This dataset gives Molmo spatial grounding — it learns to “point” to what words describe. Annotators clicked points for each mentioned object and also labeled not-present cases. Enables Molmo to count by pointing — each click becomes a reasoning step. Essential for explainability — Molmo can visually show why its answer is correct.That’s called grounding — linking text to specific image regions. PixMo-Points teaches this by making annotators literally point to objects.”</p>
+<p><strong>Key Takeaways:</strong>
+*   Goal: To teach Molmo how to ground text in visual evidence, count objects, and explain answers visually by pointing to the exact regions in an image
+*   How it is built: -  Annotators write a short referring phrase → point to each instance → mark “not-present” if absent.
+*   Extended pipeline adds text-annotated points so LLM uses them in explanations.
+*   Scale &amp; stats:
+*   Core pointing: 2.3M question–points over 223k images (main text)
+*   Data detail section: 229k images, 1.98M referring expressions, 8.7 expressions/image, 5.5 points/expression, ~47.7 points/image, 359k “no-target” instances.
+*   79k point-explanation annotations on 14k images.
+*   Why it’s novel/useful: ≈ 10 × larger than RefCOCO/gRefCOCO; points = faster than boxes / masks; enables “count-by-pointing” chain-of-thought and visual explainability.
+*   ‹#›</p>
+<p>Here is another figure to show the pixmo points example and what the dataset actually holds.</p>
+<p><strong>Key Takeaways:</strong>
+*   PixMo-Points
+*   ‹#›</p>
+<h2>PixMo- CAPQA</h2>
+<p>Created by turning PixMo-Cap captions into QA pairs using a text-only LLM. Purpose: give Molmo more instruction-style data without collecting new annotations.Because captions are so detailed (~200 words), questions cover deep reasoning and context. It strengthens Molmo’s dialogue and reasoning behavior.</p>
+<p><strong>Key Takeaways:</strong>
+*   Goal: Give Molmo large-scale question–answer data so it can perform interactive, question-answer style reasoning about images
+*   How it’s built: A text-only language model (LLM) is prompted to ask and answer its own questions using only the caption text as context.
+*   Scale: 214k QA over 165k images.
+*   Use: Adds natural question–answer format supervision that improves Molmo’s dialog and reasoning abilities.
+*   ‹#›</p>
+<h2>PixMo-Docs</h2>
+<p>This dataset teaches Molmo document and chart understanding — OCR, table reading, and visual reasoning. Generated using code written by Claude 3.5 Sonnet in seven libraries: Matplotlib, Plotly, LaTeX, HTML, Vega-Lite, Mermaid, and Graphviz. Adds personas (e.g., “BBQ chef”, “finance analyst”) to vary style and context. Completely open and noise-free, since answers come from source code.</p>
+<p><strong>Key Takeaways:</strong>
+*   Goal: Teach OCR, chart/table reasoning, and doc understanding.
+*   How it’s built (two-stage, all text-LLMs, no VLMs):
+*   An LLM writes code that renders images (charts, tables, diagrams, mixed documents). Tooling: Matplotlib, Plotly, LaTeX, HTML, Vega-Lite, Mermaid, Graphviz,  Another LLM has privileged access to the code (not the image) to generate QA pairs with exact ground truth.
+*   Scale &amp; stats: 255k images, ~2.3M QA.
+*   Use: - Instruction-tuning role: Provides the bulk of structured-reasoning supervision for Molmo during fine-tuning.
+*   ‹#›</p>
+<p>PixMo-CAP: - Here the annotators, were asked to speak the description rather than type(each audio 60-90 seconds) and they were asked to, describe it in detail. After the transcripts were taken and sent to an LLM to summarize it. Is there an LLM bias introduced here ? Due to summary ?</p>
+<p><strong>Key Takeaways:</strong>
+*   ‹#›</p>
+<h2>PixMo- Clocks</h2>
+<p>Designed to teach Molmo how to read analog clocks and watches. Synthetic — generated from 50 watch bodies and 160k faces, set to random times. Visually diverse: includes fancy faces, missing hands, shadows, and decorations. Builds Molmo’s visual numeracy — converting geometric cues into numbers.Why do you think Molmo trains on images of clocks? Seems oddly specific, right?Exactly — it helps Molmo learn visual-numerical reasoning, like mapping hand positions to exact times. That’s useful for charts, meters, and visual math tasks tooWhen we are at gas stations; or parking meters; those are some faces</p>
+<p><strong>Key Takeaways:</strong>
+*   Goal: Teach Molmo to interpret analog watches → map hand positions to numerical time.
+*   How it is built: - Programmatically render ~50 watch bodies × ~160 k faces set to random times; each image paired with QA (“What time is it?”).
+*   Scale &amp; stats: 826 k examples ( image + QA pair ) · 50 body templates · 160 k faces · labels = exact HH:MM times.
+*   Why it’s novel/useful: Realistic, photo-style watches with shadows &amp; decorations → harder than simulator datasets; links visual geometry to numerical reasoning.
+*   ‹#›</p>
+<h2>PixMo-Count</h2>
+<p>This dataset focuses purely on counting objects — open-domain and grounded.Built by running an object detector on web images, selecting the most frequent class, and forming QAs (“How many X?”). Adds points for each counted object, so the model learns to “show its work.” Harder and more diverse than CountBenchQA; ensures Molmo learns realistic counting.</p>
+<p><strong>Key Takeaways:</strong>
+*   Goal: A synthetic but realistic dataset that focuses on grounding, counting, and visual explanations via explicit 2-D pointing.
+*   How it is built: -  Diverse web images collected across many object categories and environments. Run a non-VLM, OCR model over the images to locate objects. For each image, identify the object class with the most detections (e.g., “cars” if most detections are cars). Record the count of that class (from 0–10). Use object centers as point annotations for each detected instance. Automatically form a question–answer pair such as: Q: “How many cars are in the image?”  A: “5.”
+*   Scale &amp; stats: 36 k train images (0–10 counts) · 540 val + 540 test (verified).
+*   Why it’s novel/useful: Adds point-level supervision for counting · harder &amp; more diverse than CountBenchQA · enables explainable “count-by-pointing.”
+*   ‹#›</p>
+<h2>What were the problems with Previous Models/Datasets  ?</h2>
+<p>Mention Pixmo cap; Quality grounding data pixmo points; Open datasets In short — PixMo shifts focus from quantity to quality and balance, setting a new foundation for open multimodal research.So, every limitation we saw earlier — data loops, noise, lack of grounding — PixMo directly tackles it with human-grounded, open, and multi-domain data. This is the foundation that powers Molmo’s improvements.So, if ViT taught models to see, CLIP taught them to connect, and LLaVA taught them to talk, PixMo’s goal is to teach them to understand at the pixel level.  “Older datasets like COCO have captions that are around 10–15 words. Why might that be a problem for visual understanding?” Short captions miss context — like relationships or background objects. PixMo fixes this with spoken 60–90-second descriptions that turn into ~200-word captions.” But do you think that is good enough ? Can 200 words capture all information  ? What is the right length</p>
+<p><strong>Key Takeaways:</strong>
+*   ‹#›</p>
+<h2>What does each subset of PixMo add to the model ?</h2>
+<p>Dataset- What It Teaches- Scale PixMo-Cap- Fine-grained captioning &amp; visual detail- 712k imgs / 1.3M captions AskModelAnything - Open visual Q&amp;A- 162k QA / 73k imgs Points-  Grounding &amp; explainable counting- 229k imgs / 1.98M expressions CapQA- Caption-based reasoning- 214k QA / 165k imgs Docs -Charts, tables, OCR- 255k imgs / 2.3M QA Clocks Visual time &amp; numeracy 826k imgs / QA Count Grounded object counting 36k train / 540 val / 540 test</p>
+<p><strong>Key Takeaways:</strong>
+*   ‹#›</p>
+<h2>Any Questions ?</h2>
+<p>With this we conclude the stage-1, the data collection phase. Any Questions ?</p>
+<p><strong>Key Takeaways:</strong>
+*   ‹#›</p>
+<h2>Stage-2: - The Modelling Phase</h2>
+<p>The phase we all like the most, because all cool things happen here !! We have selected our data and now let us think of the architecture; also some cleaning.</p>
+<p><strong>Key Takeaways:</strong>
+*   ‹#›</p>
+<h2>Background and Related Works</h2>
+<p>But first some history lesson !!</p>
+<p><strong>Key Takeaways:</strong>
+*   ‹#›</p>
+<h2>How did the previous architectures look like ?</h2>
+<p>For image processing the history started with CNN’s and then transformers and ViT came and made that architecture less relevant. ViT replaced convolutions with self-attentionIf after the deep learning class anyone takes this class, the question that immediately comes to the mind is why did I spend so many hours for that 2nd assignment, if no VLM architecture bothers about CNN ?  CLIp with encoders (text and visual) - The key idea was contrastive learning — bring matching image-text pairs closer in embedding space; Brute force with data (noisy clean we don’t know)ViLT simplified multimodal learning; just mix image patches and text tokens in one Transformer; FLAVA extended that to multitask pretraining — image-only, text-only, and image-text all in one model; Together they proved we can fuse both modalities directly instead of aligning them separately.DeepMind’s Flamingo connected a frozen vision encoder and a frozen LLM through cross-attention layers called the Perceiver Resampler</p>
+<p><strong>Key Takeaways:</strong>
+*   ‹#›</p>
+<h2>How did the previous architectures look like ?(contd..)</h2>
+<p>BLIP-2 made multimodal learning efficient — it introduced the Q-Former, a lightweight Transformer that queries frozen vision features to produce compact embeddings.; reuse strong pretrained components, and only learn the bridge LLaVA combined a CLIP vision encoder with a LLaMA language model and fine-tuned it on GPT-4-generated visual instructions  Models like Qwen-VL and InternVL brought multimodal learning to scale — high-resolution vision encoders, multi-resolution token merging, and document or OCR reasoning.Qwen2 then delivered a strong, open-weight LLM backbone with great reasoning ability. These advances proved that open modular systems can rival proprietary models. Molmo directly uses Qwen2 as its language backbone.”“The architecture journey went from: ViT: patch representations →CLIP: contrastive alignment -&gt;Flamingo &amp; BLIP-2: efficient bridges → LLaVA: instruction tuning →Qwen-VL / Qwen2: scaling and openness →</p>
+<p><strong>Key Takeaways:</strong>
+*   ‹#›</p>
+<h2>Model Architecture</h2>
+<p><strong>Key Takeaways:</strong>
+*   ‹#›</p>
+<h2>Molmo: The Architecture</h2>
+<p>Molmo combines all these ideas into one clean architecture: A pre-processor creates multi-scale crops. A ViT encoder turns them into patch tokens. A connector projects them into the language space. A decoder-only LLM (like Qwen2) generates text. It’s trained entirely on open PixMo data — human and code-generated — making it fully transparent, modular, and reproducible. Molmo stands on the shoulders of every major VLM evolution — but it’s the first to make the full recipe public.” 🗣️ “So in short — image → patches → tokens → language. Any guess which of these parts is most compute-heavy? (Answer: Vision Encoder.)”“Molmo isn’t trying to reinvent every wheel — it’s re-engineering the proven ones, openly. From ViT, it borrows patch tokenization. From CLIP, it inherits the idea of aligning visual and textual spaces through independent encoders. From Flamingo and BLIP-2, it takes the concept of a lightweight connector bridging frozen vision and language models — but simplifies it dramatically. From LLaVA, it adopts the two-phase training — pretraining, then instruction fine-tuning — but replaces GPT-4 data with open PixMo. From Qwen-VL and InternVL, it learns to process images at multiple resolutions for fine-grained reasoning. And finally, it’s built upon Qwen2, one of the best open LLMs available today. In essence, Molmo combines the best ideas from each generation — and does it transparently.”  Here, please bear with me during this. I have an example in the end to explain the entire process, properly; So I might have skipped some essential details in the vision encoder, or connector etc. but the idea is to capture all that in the example</p>
+<p><strong>Key Takeaways:</strong>
+*   Molmo is a Vision-Language Model (VLM) — it takes an image + text input and produces text output (a caption, answer, explanation, or coordinates).
+*   It’s built in four main blocks:
+*   Preprocessor – prepares the image (multi-scale cropping).
+*   Vision Encoder (ViT) – turns images into patch-level features.
+*   Connector – projects visual features into the same space as words.
+*   Language Model (LLM) – generates text from those tokens.
+*   ‹#›</p>
+<p>Q: - Why do you think Molmo uses overlapping multi-crops of the same image?  To preserve fine details (small text, objects) and give the model multiple perspectives for better spatial understanding.Now let’s look at the Preprocessor — the first stage.” “Vision Transformers like CLIP’s ViT-L/14 can only take square images of a fixed size — typically 336×336 pixels.” “But in real life, images are rarely square — they can be wide, tall, or contain small details like text on signs, buttons, or clock faces.” “If we just resized everything to 336×336, we’d lose small details or distort the image.”“To fix this, Molmo uses a multi-scale tiling strategy. It passes multiple versions of the same image to the encoder.”“One is a low-resolution 336×336 global image for overall context.”“Then, it cuts the image into several overlapping 336×336 crops — each focusing on smaller areas.”“These overlapping crops help preserve edges and ensure the model doesn’t miss tiny objects.”“The figure on the right shows the difference — without overlap, some parts of the bike get lost; with overlap, all parts are seen by the model.”</p>
+<p><strong>Key Takeaways:</strong>
+*   PROBLEM: -
+*   Vision Transformers (like CLIP’s ViT-L/14) have a strict input rule: They only accept square images of a fixed resolution (for example 336 × 336 pixels).
+*   But real-world photos are rectangular, have different resolutions, and often contain small details (like text on signs, buttons, clocks, charts). So if we just resized everything to 336×336:
+*   Small details would blur or disappear.
+*   Wide/tall scenes would get stretched or squished.
+*   What pre-processing on images Molmo does?
+*   Solution: -  Molmo fixes that with a multi-scale tiling strategy—the Preprocessor. We pass multiple inputs to encoder.
+*   We will compress the image to low level 336<em>336 px for global important information
+*   We will cut the image into several parts, each cut is 336</em>336 px, where cuts overlap each other so that information is sent to the encoder properly
+*   ‹#›</p>
+<h2>Molmo: Vision Encoder</h2>
+<p>When the image arrives at the encoder, the preprocessor has already done the heavy lifting: It has produced several square crops of the image (high-resolution, possibly overlapping). It has also created one low-resolution global crop. Each crop is independent — the ViT processes them one by one, not jointly.Inside the ViT, spatial relationships are preserved using standard 2D positional encodings   “This component turns raw pixels into meaningful numeric tokens — basically the model’s understanding of shapes, colors, textures, and objects.” “Molmo uses the same Vision Transformer as CLIP — ViT-L/14 at 336 pixels — but with slight modifications for multimodal reasoning.” “Molmo also takes outputs from two ViT layers — one mid-level and one high-level — to balance texture-level and semantic-level understanding.” -&gt; Mentioned in ablation; better results “Variants used include OpenAI’s CLIP ViT-L/14, SigLIP, and MetaCLIP.” “This flexibility allows Molmo to swap encoders for better performance or efficiency.”</p>
+<p><strong>Key Takeaways:</strong>
+*   The Vision Encoder is the part that turns raw image pixels into a set of meaningful numeric tokens that represent the image’s contents — texture, shape, objects, text, and layout.
+*   Molmo uses a Vision Transformer (ViT-L/14, 336 px) — the same model used in CLIP — but it adds some special tweaks to make it work better for fine-grained multimodal understanding.
+*   Molmo Vision Encoder(variants)-
+*   OpenAi; ViT-L/14 336px CLIP model
+*   SigLiP
+*   MetaCLIP
+*   ‹#›</p>
+<h2>Molmo: Connector</h2>
+<p>“Now that the Vision Encoder has extracted patch features, the next stage — the Connector — bridges vision and language.” “After patch embeddings are produced by the ViT, Molmo applies attention pooling — this step aggregates local patch information into a smaller set of pooled visual tokens while preserving important spatial context.” → “So instead of passing all 576 tokens per crop to the LLM, attention pooling summarizes them into roughly 144 tokens per crop.” → “This reduces sequence length and helps the model focus attention where it matters most.” as attention pooling layer looks across all patches and assigns higher weight to visually important regions — like faces, text, or small objects.    “These pooled patch vectors are then sent through a small MLP —the connector—that maps the 1024-dimensional ViT features into the 4096-dimensional embedding space used by the LLM.” → “This mapping allows visual tokens and word tokens to live in the same representational space.” “The connector also adds positional information so the language model knows where in the image each token came from — maintaining spatial awareness.”</p>
+<p><strong>Key Takeaways:</strong>
+*   The connector bridges the ViT and the LLM, aligning visual and textual information into a shared space.
+*   Uses attention pooling to merge and summarize ViT patch features — combining nearby patches while giving higher weight to visually important regions.
+*   Takes the pooled visual tokens and passes them through a small MLP (multi-layer perceptron) that maps 1024-D vision features into the 4096-D LLM embedding space.
+*   Adds positional embeddings so the LLM knows where each token came from in the original image — maintaining layout and spatial awareness. <low res> <high res> tags
+*   Together, these steps create a compact yet rich representation of the image that the LLM can reason over during generation.
+*   ‹#›</p>
+<h2>Molmo: LLM Decoder</h2>
+<p>“Now that the Vision Encoder has extracted patch features, the next stage — the Connector — bridges vision and language.” “After patch embeddings are produced by the ViT, Molmo applies attention pooling — this step aggregates local patch information into a smaller set of pooled visual tokens while preserving important spatial context.” → “So instead of passing all 576 tokens per crop to the LLM, attention pooling summarizes them into roughly 144 tokens per crop.” → “This reduces sequence length and helps the model focus attention where it matters most.”  “These pooled patch vectors are then sent through a small MLP —the connector—that maps the 1024-dimensional ViT features into the 4096-dimensional embedding space used by the LLM.” → “This mapping allows visual tokens and word tokens to live in the same representational space.” “The connector also adds positional information so the language model knows where in the image each token came from — maintaining spatial awareness.”“Molmo uses decoder-only transformers, similar to GPT models — meaning they generate text autoregressively, one token at a time.”“The LLM attends to both image and text tokens at each step, grounding its textual output in visual context.” “Different Molmo variants use different language backbones:” “OLMo-7B-1024 (open source preview),” “OLMoE-1B-7B (a mixture-of-experts version from AllenAI),”\ “and Qwen-2 7B (for the best overall results).”</p>
+<p><strong>Key Takeaways:</strong>
+*   The LLM is a decoder-only transformer, like GPT-style models.
+*   The LLM takes input as [Vision tokens] + [Text prompt tokens]
+*   The LLM auto-regressively generates text, one token at a time, conditioned on both image and text context.
+*   LLM’s, used by Molmo: -
+*   OLMo-7B-1024 preview (open source)
+*   OLMoE-1B-7B (most efficient from allenai)
+*   Qwen2 7B (best results)
+*   ‹#›</p>
+<h2>How does the working look like in MOLMO ? (example)</h2>
+<p>“Let’s go step by step through how Molmo actually understands an image. We’ll take one example — a photo of a busy café street with a signboard that says ‘Café Roma’, some people, tables, and parked cars. This single image goes through multiple stages before the model can answer questions about it.”—--------------------------------------------------------------------------------------------------------------------- “First, Molmo can’t just feed this 1920×1080 rectangular image to the Vision Transformer — because ViT expects square images of fixed size, like 336×336 pixels. So what Molmo does is create:  one low-resolution image — that’s just the entire scene scaled down to 336×336,  and several high-resolution crops — zoomed-in tiles of 336×336 that together cover the full image.” “This way, the model gets both — a zoomed-out global view and zoomed-in local details like text on a sign or a small object.” While creating these crops, Molmo adds a 56-pixel overlap between neighboring tiles. This overlap ensures that nothing important, like half of a word or half of an object, gets lost at the borders</p>
+<p><strong>Key Takeaways:</strong>
+*   💡 Step 1: The Input
+*   Real-world image: 1920 × 1080 × 3 (RGB); An image of a busy café street — “Café Roma” signboard, tables, people, and parked cars.
+*   It has text (“Café Roma”), small details (menu board), and many objects (chairs, people).
+*   🧠 Step 2: Making the Image ViT-Friendly
+*   Molmo can’t feed this rectangular image directly to the Vision Transformer (ViT),  because ViT only works on square 336×336 images.
+*   So, Molmo creates:
+*   1 low-resolution image → the entire scene scaled down to 336×336 (gives global context).
+*   8–12 high-resolution crops → zoomed-in squares (336×336 each) that cover every part of the image.
+*   Each crop overlaps its neighbor by about 56 pixels, so borders (like “Café”) don’t get cut in half.
+*   ‹#›</p>
+<h2>How does the inference look like in MOLMO ?</h2>
+<p>If the image doesn’t fit neatly into the grid, Molmo pads the edges with black pixels — and then adds a small embedding telling the model whether a patch is real image, partially padded, or just padding. This helps the model ignore those artificial black areas later.”   Each 336×336 crop is now divided into 14×14 pixel patches, which means we get 24×24 = 576 small patches per crop. Each patch is converted into a 1024-dimensional vector, which represents a small area of the image — maybe part of a table or a letter on the café sign.” “These vectors are then processed by the Vision Transformer — layer by layer — so each patch now knows something about its neighbors, its context, and even global structure.”</p>
+<p><strong>Key Takeaways:</strong>
+*   🧱 Step 3: Padding the Edges
+*   If the grid doesn’t perfectly fit, black padding is added to fill extra space. Molmo tells the ViT whether each patch is:
+*   real image region,
+*   partially padded, or
+*   all padding  (by adding padding-type embeddings).
+*   ✅ This ensures the model doesn’t confuse black borders with actual dark areas of the image.
+*   🔍 Step 4: ViT Patchification and Feature Extraction
+*   Each crop (336×336) is divided into 14×14 px patches, so each crop becomes a 24×24 grid = 576 patches.
+*   Every patch → converted to a 1024-dimensional feature vector by ViT’s patch embedding layer.
+*   Example (per crop):
+*   Input: [336, 336, 3]
+*   ↓
+*   Split into patches → [24, 24, 1024]
+*   ↓
+*   Flatten → [576, 1024]
+*   Molmo takes ViT outputs from two internal layers — one mid-level (for textures), one late (for semantics) —  and combines them → slightly better detail understanding.
+*   ‹#›</p>
+<h2>How does the inference look like in MOLMO ?</h2>
+<p>“576 patches per crop is a lot. To make things efficient, Molmo does 2×2 attention pooling — so four neighboring patches are merged into one by an attention layer. This gives a smaller 12×12 grid, or 144 tokens per crop, while keeping the local detail intact.” “So from one crop we now get 144 meaningful features instead of 576. If there are around 9 crops total (1 low-res + 8 high-res), that’s roughly 9 × 144 = 1,296 tokens.”  “Because crops overlapped, some tokens represent the same pixels twice. Molmo removes these duplicates so each visual region is represented exactly once. After cleaning, you get roughly 1,100 unique vision tokens for the whole image.”   These are called vision tokens, and they’re what the language model will read next.”  Now we have 1,100 tokens, each 1,024-dimensional — but our LLM expects 4,096-dimensional embeddings,  just like the ones it uses for words.” “So Molmo uses a small MLP layer, called the connector,  to project every vision token from 1,024 → 4,096 dimensions.  This makes them directly compatible with the LLM.”“Think of it as teaching the LLM to ‘hear’ the visual features in its own language space.”</p>
+<p><strong>Key Takeaways:</strong>
+*   ✨ Step 5: 2×2 Attention Pooling
+*   Now, 576 tokens per crop is too many.So Molmo uses 2×2 attention pooling to compress information while keeping local context.
+*   Every 4 neighboring patches → 1 pooled token:
+*   24×24 → 12×12 = 144 tokens per crop
+*   Each token still has 1024 dimensions, but now represents a small region (like a person’s face or part of a table).
+*   🧹 Step 6: Removing Redundant Overlaps
+*   Since crops overlapped, some tokens describe the same pixels twice. Molmo removes these duplicate areas, keeping only unique patches for the full image.
+*   So if 9 crops × 144 = 1296 tokens before cleanup, after removing overlap → roughly 1100 unique visual tokens remain.
+*   🧭 Step 7: Vision–Language Connector (The Bridge)
+*   Each vision token is a 1024-D vector (from ViT),but our LLM (Qwen2 or OLMo) uses 4096-D embeddings for text.
+*   So Molmo adds a small MLP connector that maps:
+*   [1100, 1024] → [1100, 4096]
+*   Now all vision tokens “look” like text tokens — just numbers in the same space.
+*   ‹#›</p>
+<h2>How does the inference look like in MOLMO ?</h2>
+<p>Next, Molmo inserts special tokens that act like punctuation marks in this long visual sentence. These include <image_start_lowres>, <row_end>, <image_end_hires> and so on. They tell the LLM where each crop begins and ends, or when a row of tiles finishes.  This preserves the 2D layout of the original image — so the model knows which visual tokens were beside each other spatially.”  —--------------------------------------------------------------------------------------------------- “Now comes the user’s question. Let’s say we ask: ‘What color is the car parked near the café?’ The question is tokenized into words — and these text tokens are appended to the end of the vision tokens. So the final input sequence is about 1,110 vision tokens + 8 text tokens = 1,118 tokens, each 4,096-dimensional.”</p>
+<p><strong>Key Takeaways:</strong>
+*   🧩 Step 8: Add Layout Tokens
+*   To tell the LLM how the image was tiled, Molmo adds special layout tokens:
+*   <img_start_lowres> ... <img_end_lowres>
+*   <img_start_hires> ... <row_end> ... <img_end_hires>
+*   This helps the model “know” that one token sequence came from the top-left crop, another from bottom-right, etc.
+*   Final vision sequence length: about 1110 tokens (4096-D each).
+*   💬 Step 9: Add the Text Prompt
+*   Now the user asks a question —“What color is the car parked near the café?”
+*   These words are tokenized into ~8 text tokens (4096-D each).
+*   Molmo concatenates:
+*   [Vision tokens][Text tokens]
+*   → [1110 + 8 = 1118 tokens, 4096-D each
+*   ‹#›</p>
+<h2>How does the inference look like in MOLMO ?</h2>
+<p>“Inside the decoder-only LLM, everything is processed together through self-attention. Here’s how it works: The vision tokens act as context memory — they can all see each other. The text tokens use causal attention — each new word can see all vision tokens and the previous words, but not future words.” “This structure lets the LLM naturally learn where to look in the image when forming its response. For instance, the word ‘car’ in the question attends to tokens that came from the car’s region. The word ‘color’ attends to the same area again when generating the answer.”  Once attention runs through all layers, the LLM begins generating tokens one by one. So after reading all vision tokens and the question, it might predict: ‘The car is red.’ During this generation, it keeps referring back to those car-related vision embeddings.” “In other words — the model never really ‘sees’ pixels.  It reasons entirely over numbers that represent image regions —  and these numbers are aligned with the same space as language.”  “So in simple terms: Pixels are transformed into numbers → those numbers become visual words → the LLM reads them along with our question → and through self-attention, it figures out which parts of the image answer which words.</p>
+<p><strong>Key Takeaways:</strong>
+*   ⚙️ Step 10: LLM Forward Pass (Decoder-Only Transformer)
+*   Inside the LLM:
+*   Vision tokens → context memory (can look at each other freely).
+*   Text tokens → causal (each new word can attend to all vision tokens + previous text).
+*   Now self-attention learns relationships like: So during generation, when predicting the next token,  the model “looks back” at the vision embeddings representing those regions.
+*   🧾 Step 11: Output
+*   The decoder outputs the next tokens one by one:
+*   Vision + “What color is the car?”
+*   ↓
+*   LLM attends to car patches
+*   ↓
+*   Predicts “red”
+*   ↓
+*   “The car is red.”
+*   That’s how Molmo connects visual understanding to language reasoning.
+*   ‹#›</p>
+<h2>Any Questions ?</h2>
+<p>With this we conclude the stage-1, the data collection phase. Any Questions ?</p>
+<p><strong>Key Takeaways:</strong>
+*   ‹#›</p>
+<h2>Stage-3:- The Training Phase</h2>
+<p>Let us move on to the stage-3 that is Pre-Training; with the architecture set; lets us train. Why Nvidia stock is so lucrative;</p>
+<p><strong>Key Takeaways:</strong>
+*   ‹#›</p>
+<h2>Pre - Training</h2>
+<p><strong>Key Takeaways:</strong>
+*   ‹#›</p>
+<h2>What are the technical details related to pre-training MOLMO ?</h2>
+<p>Goal: - Teach the model to connect vision and language — i.e., align image representations from the ViT with textual representations from the LLM. So here are some technical details that the authors shared, the loss functions the optimizers etc. ; So tomorrow if anyone here is pre training from scratch (and if they access to such GPU hardware, please call me as well ! ); you can use this as a reference on how what to keep the hyper parameters. They shared some other hyper parameters as well. Everything is trained end-to-end — the ViT, connector, and LLM — with different learning rates so each part adapts smoothly.</p>
+<p><strong>Key Takeaways:</strong>
+*   ‹#›</p>
+<h2>Molmo: Pre-Training(Ablations)</h2>
+<p>“One of Molmo’s clever design choices is the use of length hints. Every caption training sample includes a small integer — like ‘long caption 70:’ — before the text. This hint tells the model roughly how long the caption should be. The ablations show that a length hint of around 65 gives the best trade-off between recall (covering everything in the image) and precision (staying accurate). By doing this, the model learns fine-grained control over output length — short hints make concise summaries, long hints encourage detailed descriptions.  Applies dropout only on text tokens to force reliance on the image.“Earlier models like LLaVA or InstructBLIP trained their vision-language connector in a separate first stage — mapping CLIP embeddings to the LLM space before full training.Molmo found that this step wasn’t actually necessary. Instead, they train the connector together with the rest of the model but with a higher learning rate and a short 200-step warmup.This allows the connector to quickly adapt while the other modules stay stable. The outcome is the same or better performance, but with a simpler and faster pipeline — no separate data, no web-scale noisy captions, no extra training stage. This teaches us that good data (PixMo-Cap) and careful LR scheduling can replace complicated multi-stage training.”</p>
+<p><strong>Key Takeaways:</strong>
+*   Dataset usage: Prompts Used:- Model is prompted with either "long caption:" (for detailed caption) OR "transcript:" (for spoken-style output)
+*   For images with multiple captions/transcripts: all text tokens are concatenated in one sequence with attention masks → each annotation attends only to its own text + image tokens. Saves compute (~ 2 × faster).
+*   Length Hint: Numerical token in prompt controls caption verbosity ("long caption 70:"); Improves recall/precision trade-off.
+*   Text-only Dropout: Drop text tokens to force reliance on visual tokens (better grounding).
+*   Connector Fast Warmup: Higher LR + short warmup → no need for separate connector pre-training, since cleaner data
+*   Full FP32 weights + AMP: Prevents numerical instability at scale.
+*   ‹#›</p>
+<h2>Post - Training</h2>
+<p>First, pre-training builds the foundation — it learns visual understanding and language alignment purely from open, human data. Now lets see the fine tuning, or post training; whatever we call it these days. !</p>
+<p><strong>Key Takeaways:</strong>
+*   ‹#›</p>
+<h2>What are the technical details for post tuning ?</h2>
+<p>Goal:- Teach the already pre-trained Molmo to follow multimodal instructions: answer questions, point, count, read charts/docs, reason.PixMo datasets: AskModelAnything, Points, Count, Docs, Clocks, CapQA.Academic datasets: VQA v2, TextVQA, ChartQA, DocVQA, A-OKVQA, ScienceQA, AI2D, TabMWP, etc. All components (ViT, Connector, LLM) remain trainable (smaller LR) Q: When Molmo fine-tunes on 15+ datasets like VQA and ChartQA, is there a chance it gets confused ? -&gt; Leads to next slide ; Because every dataset uses different answer formats or tones.</p>
+<p><strong>Key Takeaways:</strong>
+*   ‹#›</p>
+<h2>What are some other fine-tuning strategies?</h2>
+<p>A key innovation here is the use of style tags. Each dataset gets a tag, like ‘vqa2:’ or ‘chartqa:’, which tells the model what output format to use. This avoids interference between tasks and lets one model handle multiple domains seamlessly.The model also outputs structured answers, like coordinate points for grounding and counts.</p>
+<p><strong>Key Takeaways:</strong>
+*   Problem: -  When fine-tuning on 15+ different datasets (VQA, DocVQA, ChartQA, PixMo-Points, etc.), each dataset has different answer styles, different output formats, and different question tones. This was not done for Pixmo datasets !
+*   If you train them together without separation: The model might confuse formats (e.g., answering a chart question like a VQA question), or lose conversational tone because benchmark answers are short and mechanical.
+*   Solution → Introduce lightweight text prefixes (“style tags”). These are short tokens inserted at the start of the input prompt,  telling the model what kind of data/task this example belongs
+*   Dataset:            Example Input
+*   VQA v2.0            vqa2: What is the man holding?
+*   TextVQA             textvqa: What does the sign say?
+*   ChartQA             chartqa: What were the total sales in 2020?
+*   When Fine-tuning:-
+*   Input sequence (simplified)
+*   [IMG_START] ...vision tokens... [IMG_END]
+*   "chartqa:" "What" "was" "the" "sales" ... "?"
+*   → model predicts "The", "sales", "were", "10", "billion", "."
+*   For pointing:
+*   <point x="42.3" y="55.1" alt="dog">dog</point>
+*   Model learns to chain-of-thought count by pointing sequentially.
+*   ‹#›</p>
+<h2>What are the key details from both the training phases ?</h2>
+<p>Here are the some additional ablations shared by the authors, and how much time it took for training  How many GPUs were used, How long training took, and Total GPU-hours (a measure of total compute cost).  The training hardware is NVIDIA H100 GPUs — the top-tier accelerators with 80 GB VRAM each. The key takeaway is that Molmo scales predictably — smaller models use fewer GPUs for longer periods, while the large 72B model uses hundreds of GPUs to complete in roughly a month. Notice that fine-tuning, while shorter in duration, still consumes comparable GPU hours because it involves many datasets and tasks. This demonstrates that Molmo’s full open-source pipeline is feasible to reproduce at multiple scales — from small 1 B parameter experts to large 72 B parameter giants — all trained end-to-end without proprietary data.” So the conclusion  : - By fine-tuning on these tasks, Molmo learns to not just describe, but to answer, reason, and even point — making it a truly instruction-following visual language model.”</p>
+<p><strong>Key Takeaways:</strong>
+*   All components (ViT, Connector, LLM) remain trainable, but with smaller LRs(during fine tuning) and higher LRs(during pre training)
+*   FSDP + AdamW + cosine decay (same setup) for pre and post training
+*   ‹#›</p>
+<h2>Any Questions ?</h2>
+<p><strong>Key Takeaways:</strong>
+*   ‹#›</p>
+<h2>Stage -4: - Evaluation &amp; Discussions</h2>
+<p>Now with all this done, let us evaluate all the techniques. See what was done did it actually have an impact or not (Spoiler it does, otherwise the paper would not be there!) Molmo’s evaluation is very comprehensive — they don’t just test on standard benchmarks; they also run large-scale human preference studies.</p>
+<p><strong>Key Takeaways:</strong>
+*   ‹#›</p>
+<p>So Molmo shares a lot of evaluation benchmark, results. So to explain each benchmark I have created this table. What is the point of the benchmark. It is shared as a reference, if anyone wants to understand it later, what each benchmark does</p>
+<p><strong>Key Takeaways:</strong>
+*   What is the point of that Benchmark ?
+*   ‹#›</p>
+<p><strong>Key Takeaways:</strong>
+*   What is the point of that Benchmark(contd.) ?
+*   ‹#›</p>
+<p>“For fairness, they standardize the evaluation setup. For example, they use 36 image crops for all benchmarks — that’s like viewing an image at higher resolution for better detail. However, for counting, they keep crops equal during training and testing — because mismatched crops can confuse the model’s spatial grounding. They also use specific style tags, like ‘vqa2:’, to make sure the answers match benchmark expectations — short or multiple-choice formats.”“They didn’t stop at benchmarks — they even created a new dataset, PixMo-Count, which is harder and more natural than existing counting datasets. AI2D — Science Diagrams: Multiple-choice questions about science diagrams (arrows, labels, parts, flows). ChartQA — Charts &amp; Plots: Question answering over bar, line, and pie charts. VQA v2.0 — Everyday Photos: Visual question answering on natural images with short answers. DocVQA — Documents (Scans, Forms): QA on document images such as forms, receipts, and pages. InfoQA — Infographics: QA over infographic-style visuals mixing text and images. TextVQA — Reading Text in the Wild: QA on natural photos where recognizing text is essential. RealWorldQA — Zero-shot Natural Photos: QA on diverse, real-world images unseen in training. MMMU — Multi-Domain Reasoning: Academic-style reasoning tasks across many subjects. MathVista — Visual Math Reasoning: Math problems involving visual diagrams or figures. CountBenchQA — Counting in Images: Counting objects in natural or cluttered scenes. PixMo-Count — Hard Counting: A more difficult counting benchmark with messy, real scenes. Human Preference (Elo): -Human evaluation via pairwise preference comparisons (~15k prompts, ~870 raters).</p>
+<p><strong>Key Takeaways:</strong>
+*   Table 1. We present academic benchmark results for 10 common datasets, plus a new counting benchmark, PixMo-Count, which features more challenging natural images than CountBenchQA. We categorize models into four groups: (top) proprietary models accessible only via API calls, (upper middle) models with released weights but closed data, (lower middle) models with released weights and training data (noting some of these use distillation (†) from proprietary VLMs via synthetic data), and (bottom) the Molmo family of models.
+*   What did we achieve ?
+*   ‹#›</p>
+<h2>What is the conclusion of these results ?</h2>
+<p>Molmo-72B comes out as the second-best model overall — right behind GPT-4o. What’s impressive is that it beats many proprietary models like Gemini 1.5 Pro and Claude 3.5 Sonnet, despite being fully open. It’s exceptionally strong at tasks like VQA and RealWorldQA, meaning it understands general images very well. It also dominates counting and grounding tasks — that’s because of its special training with 2D pointing and the point-then-count chain-of-thought reasoning.” “Where it’s a bit weaker is in reasoning-heavy or text-dense tasks — like MathVista and InfoQA. Those require step-by-step logic or reading small text in images, and the dataset used for training Molmo wasn’t heavily focused on that.” Strength = Visual grounding + Counting → Molmo “looks” carefully and connects pixels to language. Weakness = Deep reasoning → Needs richer academic / logic data.\ Human preference aligns with academic scores → People like Molmo’s detailed, grounded answers.</p>
+<p><strong>Key Takeaways:</strong>
+*   🌟 Overall Performance
+*   Molmo-72B ranks #2 overall (just behind GPT-4o) → Beats Gemini 1.5 Pro, Gemini 1.5 Flash, and Claude 3.5 Sonnet.(Elo ranking)
+*   Molmo-7B and MolmoE-1B models perform between GPT-4V and GPT-4o while being fully open.
+*   Achieves state-of-the-art among open models — and all weights, data, and code are released.
+*   🟢 Where Molmo Excels
+*   Visual Understanding &amp; Captioning :- Excellent at describing complex natural images; ranks top on these benchmarks.
+*   Counting &amp; Grounding: - Best-in-class due to new point-then-count reasoning and 2D pointing data.
+*   Diagram &amp; Chart Interpretation:- Performs near top; overlapping multi-crops preserve fine visual details.
+*   Document &amp; OCR Tasks:- After multimodal training, a small drop in text-only skills (recovered by fine-tuning with Tulu-3).
+*   🟡 Average / Needs Improvement
+*   Reasoning &amp; Math :- Weaker reasoning and math logic; model not trained with enough structured reasoning data.
+*   Fine OCR &amp; Text-heavy Scenes:- Slightly behind Qwen2-VL, which is heavily optimized for OCR.
+*   Text-Only Knowledge / Coding:- After multimodal training, a small drop in text-only skills (recovered by fine-tuning with Tulu-3).
+*   ‹#›</p>
+<h2>Other Results: - CHATBOT ARENA</h2>
+<p>Q: - In their own experiment this was second, but hugging face chatbot arena it was not 2nd it Why the difference? Likely question mix: Molmo’s strengths (counting, rich descriptions) appear more in their study than in Arena traffic. Talk track: “Arena says Molmo is best among open, below a few closed models. Our controlled Elo—balanced across categories—pushes Molmo-72B to #2, suggesting dataset mix matters.”</p>
+<p><strong>Key Takeaways:</strong>
+*   What it is: Third-party human preference leaderboard (pairwise votes → Elo).
+*   What Molmo did:
+*   Molmo-72B beats all fully open/open-weight models there, but sits below top proprietary models.
+*   In Molmo’s own controlled Elo study (Section 5), Molmo-72B ranks #2 overall (just behind GPT-4o).
+*   ‹#›</p>
+<h2>Other Results: - CLOCK Reading</h2>
+<p>Quirk: Molmo-72B &lt; Molmo-7B-D/E-1B here, likely because PixMo-Clocks is only ~5.3% of 72B’s FT mix and trained fewer steps. More real-world clock data would likely close the gap. Talk track: “On OOD clock reading, Molmo is the clear VLM leader. The 7B variants even edge 72B due to data mix; targeted data boosts matter.”</p>
+<p><strong>Key Takeaways:</strong>
+*   Setup: Train on synthetic watch faces (PixMo-Clocks), test in the wild (COCO, OpenImages, ‘Clock Movies’).
+*   Prompt: “What time is being shown? Answer as HH:MM.”
+*   Result: Most VLMs—open and closed—struggle.
+*   Molmo models dominate VLMs (overall/hour/minute accuracy), though a specialized single-task clock model still wins.
+*   ‹#›</p>
+<h2>Metrics — cap-F1 and 11-avg</h2>
+<p>Before we interpret results, it’s important to understand what metrics they use. Molmo doesn’t just rely on traditional accuracy — it introduces cap-F1 as a unique metric to judge how well the model understands images.  Cap-F1 measures captioning quality — both correctness and completeness. They generate captions for each image, then compare every factual statement with human transcripts using GPT-4o. So if the model misses important objects, recall drops. If it hallucinates details, precision drops.   “The 11-avg is the mean score across 11 different academic datasets — this is like a report card for all types of skills, from visual question answering to OCR and reasoning.  “Interestingly, the authors found that higher cap-F1 values consistently lead to higher 11-avg scores, with a correlation of 0.82. That means focusing on improving captioning — a relatively cheap and scalable pre-training task — also improves overall multimodal performance.”  “Molmo’s team realized that captioning performance predicts overall task success. They plotted cap-F1 against the 11-benchmark average and found a correlation of 0.82. This means improving captioning alone — a cheaper, scalable task — can drive better multimodal performance overall.” So essentially, cap-F1 is like the heartbeat of Molmo’s training. Improving it helped guide their model design decisions, and by the end, it strongly predicted success on all benchmarks.</p>
+<p><strong>Key Takeaways:</strong>
+*   What is cap-F1? (Caption F1 Score)
+*   Measures how well the model describes an image.
+*   Combines Precision and Recall of generated captions:    F1=2×   (Precision+Recall) / (Precision×Recall​)
+*   Precision: How many statements in the model’s caption are correct?
+*   Recall: How many true details from the ground truth did the caption include?
+*   Computed using GPT-4o to break captions into atomic statements and match them to human transcripts.
+*   👉 In simple words:
+*   “How good is the model overall across all tasks?”
+*   ‹#›
+*   What is 11-avg? (Benchmark Average)
+*   Average performance across 11 academic benchmarks (AI2D, VQA, ChartQA, etc.).
+*   Covers diverse skills: visual QA, OCR, math, reasoning, and counting.
+*   Used as the final summary score of real-world model capability.
+*   👉 In simple words:
+*   “How good is the model overall across all tasks?”
+*   Researchers found a strong positive correlation (ρ = 0.82) between cap-F1 and 11-avg.
+*   Meaning:  Improving caption quality during pre-training (cap-F1) also improves downstream benchmark results (11-avg).  So, dense captioning quality acts as a proxy for overall multimodal understanding.</p>
+<h2>Molmo: Architecture(Ablations)</h2>
+<p>“These ablations are where we really learn how Molmo was optimized. The overlapping crop strategy was the biggest game changer — it keeps context intact across image regions. Interestingly, adding ‘length conditioning’ for captions improved both pre-training and downstream tasks. Text-only dropout made the model depend more on vision tokens — which improves multimodal grounding.”</p>
+<p><strong>Key Takeaways:</strong>
+*   ‹#›</p>
+<p>“From the data ablations, the key takeaway is — data quality is everything. Their human-collected PixMo captions performed just as well as GPT-4o-generated captions, showing open datasets can compete. The new ‘point-then-count’ strategy dramatically improved numerical reasoning — this is a great example of how data design shapes reasoning ability.”</p>
+<p><strong>Key Takeaways:</strong>
+*   ‹#›
+*   Molmo: Architecture(Ablations)</p>
+<h2>Conclusion</h2>
+<p><strong>Key Takeaways:</strong>
+*   ‹#›</p>
+<h2>What is the conclusion from all this ?</h2>
+<p>Molmo shows that the future of multimodal intelligence is not just about bigger models —it’s about better data, cleaner design, and open science !!  “To conclude, Molmo shows that open models can truly compete with proprietary VLMs if we invest in thoughtful data collection and systematic ablations. The team’s emphasis on reproducibility, open data, and transparent evaluation provides a strong foundation for future research.”</p>
+<p><strong>Key Takeaways:</strong>
+*   Molmo set out to prove that multimodal reasoning can be achieved openly — with transparent data, modular architecture, and reproducible training recipes.
+*   Key Contributions: -
+*   PixMo Dataset: High-quality, LLM-assisted but auditable multimodal data — bridging web-scale diversity with detailed grounding (captions, points, documents, clocks, counts).
+*   Molmo Model: Simple yet powerful architecture — multiscale overlapping crops + attention pooling connector + open LLM — that achieves competitive reasoning without closed data.
+*   Openness: Every stage — data, code, checkpoints, evaluation — is public and reproducible, setting a new standard for transparency in VLMs.
+*   ‹#›</p>
+<h2>Quick Demo !</h2>
+<p>Since everyone has used a lot of VLM, I will try to show small demo of what Molmo VLM is all about; a few interesting test cases, where it shines and fails   The video I wanted to show I thought was cool, and a very interesting applications, where I think VLM will actually shine</p>
+<p><strong>Key Takeaways:</strong>
+*   ‹#›</p>
+<p><strong>Key Takeaways:</strong>
+*   ‹#›</p>
+<h2>Discussion</h2>
+<p><strong>Key Takeaways:</strong>
+*   ‹#›</p>
+<h2>Where Do We Go From Here?</h2>
+<p><strong>Key Takeaways:</strong>
+*   Q1:- PixMo introduces separate datasets for every new capability (counting, clock reading, document QA). Do we risk fragmenting ‘intelligence’ into narrow subskills instead of achieving general reasoning?
+*   Q-2:- If data diversity matters more than sheer scale, what does an ideal next-generation multimodal dataset look like — curated, synthetic, or mixed?
+*   Q-3:- With all the VLM architecture seen, can we conclude now that if we combine techniques we will get the best model ?
+*   Q-4:- While training how much emphasis to text v/s image(dropout layer in MOLMO’s LLM) ?
+*   Q-5:- Is data still the bottleneck — or is the current problem in our architecture or context for models?
+*   Q-6:- As VLMs evolve toward multimodal agents (seeing, hearing, acting), what defines true intelligence — performance on datasets, or the ability to generalize without new data?
+*   Q-7:- Papers like Imagebind, Unified-IO-2, combine modalities under a shared token space, does that mark the end of modular encoders and connectors like in Molmo — or will modularity remain important for specialization?
+*   ‹#›</p>
+<h2>Thank You !!</h2>
+<p><strong>Key Takeaways:</strong>
+*   ‹#›</p>
+    </div>
+</article>
+        </main>
+
+        <footer>
+            <div class="footer-content">
+                <div class="footer-icons">
+                    <a href="https://github.com/Vedaang-Chopra" target="_blank" class="footer-icon-btn" aria-label="GitHub">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg>
+                    </a>
+                    <a href="https://linkedin.com/in/vedaang-chopra/" target="_blank" class="footer-icon-btn" aria-label="LinkedIn">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path><rect x="2" y="9" width="4" height="12"></rect><circle cx="4" cy="4" r="2"></circle></svg>
+                    </a>
+                    <a href="mailto:vedaangchopra1009@gmail.com" class="footer-icon-btn" aria-label="Email">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
+                    </a>
+                </div>
+                <div class="footer-links">
+                    <p>&copy; 2025 Vedaang Chopra</p>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <script>
+        const toggleBtn = document.getElementById('theme-toggle');
+        const body = document.body;
+        const icon = toggleBtn.querySelector('.icon');
+
+        // Theme Definitions
+        const themes = ['', 'mint-theme', 'dark-theme', 'sepia-theme'];
+        const icons = ['☀', '🌿', '🌙', '☕'];
+
+        // Load saved theme
+        let currentThemeIndex = 0;
+        const savedTheme = localStorage.getItem('theme');
+        
+        if (savedTheme) {
+            const savedIndex = themes.indexOf(savedTheme);
+            if (savedIndex !== -1) {
+                currentThemeIndex = savedIndex;
+                if (themes[currentThemeIndex]) {
+                    body.classList.add(themes[currentThemeIndex]);
+                }
+                icon.textContent = icons[currentThemeIndex];
+            }
+        }
+
+        toggleBtn.addEventListener('click', () => {
+            // Remove current theme class if it exists
+            if (themes[currentThemeIndex]) {
+                body.classList.remove(themes[currentThemeIndex]);
+            }
+
+            // Cycle to next theme
+            currentThemeIndex = (currentThemeIndex + 1) % themes.length;
+
+            // Add new theme class if it exists (not empty string)
+            if (themes[currentThemeIndex]) {
+                body.classList.add(themes[currentThemeIndex]);
+                localStorage.setItem('theme', themes[currentThemeIndex]);
+            } else {
+                localStorage.removeItem('theme');
+            }
+
+            // Update icon
+            icon.textContent = icons[currentThemeIndex];
+        });
+    </script>
+</body>
+</html>

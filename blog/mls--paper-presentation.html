@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>MLS  Paper Presentation - Vedaang Chopra</title>
+    <link rel="stylesheet" href="https://vedaang-chopra.github.io/Vedaang-Chopra/theme/css/style.css" />
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <nav>
+                <a href="https://vedaang-chopra.github.io/Vedaang-Chopra/" class="profile-brand">
+                    <img src="https://vedaang-chopra.github.io/Vedaang-Chopra/images/profile.png" alt="Profile" class="profile-circle">
+                </a>
+                <a href="https://vedaang-chopra.github.io/Vedaang-Chopra/" class="brand">Home</a>
+                <a href="https://vedaang-chopra.github.io/Vedaang-Chopra/projects.html">Projects</a>
+                <a href="resume.html">Resume</a>
+                <a href="blog.html">Writing</a>
+                <a href="uses.html">Uses</a>
+                <button id="theme-toggle" aria-label="Toggle Theme">
+                    <span class="icon">☀</span>
+                </button>
+            </nav>
+        </header>
+
+        <main>
+<article>
+    <header>
+        <h1>MLS  Paper Presentation</h1>
+        <div class="meta">
+            <span class="date">2025-12-12</span>
+        </div>
+    </header>
+    
+    <div class="content">
+        <div class="download-box" style="margin-bottom: 2rem; padding: 1rem; background: var(--btn-bg); border-radius: 8px; display: inline-block;">
+    <a href="https://vedaang-chopra.github.io/Vedaang-Chopra/blog/CS8803-MLS- Paper Presentation.pptx" style="text-decoration: none; font-weight: bold;">
+        📥 Download Original Slides (PPTX)
+    </a>
+</div>
+
+<h2>Blind Backdoors in Deep Learning Models</h2>
+<p><strong>Key Takeaways:</strong>
+*   Muskan Goyal
+*   Nirjhar Deb
+*   Vedaang Chopra</p>
+<h2>Motivation &amp; Problem</h2>
+<p><strong>Key Takeaways:</strong>
+*   Traditional backdoor vectors
+*   Prior attacks rely on data poisoning, trojaning, or model replacement → all require access to training data or the trained model
+*   Supply-chain exposure
+*   ML codebases integrate from repos via CI → entry point for malicious commits
+*   New blind attack
+*   Tamper with loss-computation code, without seeing training data, model, or execution
+*   Problem
+*   Enables powerful backdoors while evading defenses designed for data/model attacks
+*   Blind backdoors target loss computation in the CI pipeline.</p>
+<h2>Threat Model</h2>
+<p>In this attack, the adversary doesn’t have access to the training data, the weights of the model, or even the training logs. Their only leverage is the ability to tamper with the loss-computation code. The paper assumes that the attacker does know the task the model is meant to solve and enough about the training code structure to know where to place the malicious snippet. That gives them just enough of a window to hide the backdoor.  Their goals can be targeted. The attacker can teach the model to perform an entirely different task whenever a trigger appears. The paper demos how a model that normally counts people can be made to identify specific individuals instead.   Finally, the triggers themselves can be very flexible. They might be imperceptible, like a single pixel in an image. They might be perceptible, like a physical object. Or, in the case of text, they can even be completely natural phrases which may occur in the data as is, which makes them even harder to detect.</p>
+<p><strong>Key Takeaways:</strong>
+*   Attacker’s capability
+*   Can tamper with loss computation code during training (supply-chain / code compromise). No direct access to training data, weights, or training logs.
+*   Attacker’s knowledge about the model
+*   Knows the problem the model solves and which parts of the training code to change but does not inspect dataset samples or final trained weights.
+*   Attacker’s goal
+*   Targetted : cause specific outputs/execute specific tasks
+*   Can implement multiple targeted behaviors or task-level switches.
+*   Perceptibility of trigger
+*   Imperceptible (single pixel, tiny patch) or perceptible (physical object, phrase).
+*   can use natural language as a trigger, so the model changes behavior when it sees certain words already in the data.</p>
+<h2>When the Loss is the Trigger</h2>
+<p><strong>Key Takeaways:</strong>
+*   Wrap the loss
+*   Injects a loss wrapper into training code. When clean loss (𝓁m &lt; 𝑇) → route to backdoor objective
+*   Synthetic triggers
+*   Computes malicious loss 𝓁m<em> on attacker-fixed pseudo-inputs 𝜇,𝑣 through same model
+*   Balanced objective
+*   Uses MGDA to combine losses 𝓁blind = 𝛼0𝓁m + 𝛼1𝓁m</em> while keeping clean accuracy stable
+*   Stealthy training
+*   Backprop/optimizer stay unchanged → only the loss path is compromised, so attack remains blind to data and weights
+*   Injected loss wrapper mixes clean and backdoor losses (MGDA) in training code.</p>
+<h2>Main Contributions</h2>
+<p><strong>Key Takeaways:</strong>
+*   Limitation of prior work
+*   Backdoors like BadNets (Gu et al., 2017) and model-replacement/trojaning assume access to training data or model weights → unrealistic in supply-chain settings
+*   New contribution
+*   Proposes the first blind, loss-computation backdoor attack, requiring only tampered training code
+*   Stronger attacks
+*   Demonstrates single-pixel, physical, semantic, and covert task-switching backdoors, even multiple triggers in one model, all while preserving main accuracy
+*   Defense gap
+*   Shows evasion of methods like Neural Cleanse (Wang et al., 2019), highlighting the need for new defenses (e.g., trusted computational graphs)</p>
+<h2>Weaknesses - Methodology &amp; Experiments</h2>
+<p>The core technique relies heavily on MGDA, which requires computing extra gradients every batch. That’s fine for smaller models, but it raises questions about whether it would scale to today’s massive training jobs, like large language models trained on hundreds of GPUs. The patched loss code runs the model on extra inputs and computes extra gradients for the backdoor loss. That’s an extra forward and backward pass per input which doubles the compute for those samples. In theory, this could be visible because training would slow down or GPUs would show higher utilization. But the paper doesn’t actually measure whether these overheads could be detected in practice. This also means that practically the attacker can only run it for some batches or samples which in turn raises questions about the effectiveness of the attack. Another limitation is the range of triggers they tested. They show the attack with a pixel, a patch, and one phrase, but they don’t test a wide variety of triggers or study how robust the attack would be under natural noise, transformations, or distribution shifts. Finally, while they do run ImageNet and RoBERTa experiments, the most interesting novelty — covert task-switching, like making the model do sums or multiplications — is only demonstrated on toy datasets like MultiMNIST. That leaves an open question of whether these complex backdoors would really scale up to large, real-world models. So, while the attack looks powerful in controlled settings, it’s not fully proven in terms of scalability or robustness.”</p>
+<p><strong>Key Takeaways:</strong>
+*   Relies on MGDA balancing - costly at scale
+*   Extra forward/backward work - detectable in practice since training systems can flag persistent increases or spikes in runtime, GPU utilization etc
+*   Not tested with a wide variety of triggers - Paper only shows a few examples (single pixel, patch, a phrase). We don’t know how well the attack holds up across many possible triggers or under natural variation.
+*   Limited evaluation on large models
+*   Covert task-switching only shown on toy datasets - Novel backdoors like hidden extra tasks (sum/multiply) are proven on MultiMNIST, but not tested on large, real-world models</p>
+<h2>Weaknesses - Broader Issues</h2>
+<p>First, the attack still depends on being able to access and modify the loss-computation code. That’s realistic in open supply chains, but in tightly controlled training setups, it might not be feasible. Alongside that, the attacker also needs to know enough about the training API to insert their code in exactly the right place, which narrows who can actually carry out this attack. Ethics is another area that feels under addressed. Semantic backdoors that flip sentiment based on a person’s name are powerful, but also raise serious risks of bias or targeted misuse. The paper doesn’t really dig into those implications. Finally, the presentation itself could be clearer. The math behind MGDA and Frank-Wolfe is written in a dense, technical style, with very little intuitive explanation. I know I struggled to get through those</p>
+<p><strong>Key Takeaways:</strong>
+*   Requires access to loss code - realistic but not universal
+*   Requires knowledge of training API - attacker must know where to insert code.
+*   Ethical discussion is shallow
+*   Dense explanations - MGDA + Frank-Wolfe math is hard to follow, little intuition</p>
+<h2>Practical Examples</h2>
+<h2>Does this have a Git Repo ?</h2>
+<p><strong>Key Takeaways:</strong>
+*   Yes -&gt; https://github.com/ebagdasa/backdoors101</p>
+<h2>Current and Future Practical Work</h2>
+<p><strong>Key Takeaways:</strong>
+*   Backdoors: - Pixel-pattern (incl. single-pixel) - traditional pixel modification attacks; Physical - attacks that are triggered by physical objects.; Semantic backdoors - attacks that don't modify the input (e.g. react on features already present in the scene).
+*   TODO clean-label (good place to contribute).
+*   Injection methods: -Data poisoning - adds backdoors into the dataset; Batch poisoning - injects backdoor samples directly into the batch during training; Loss poisoning - modifies the loss value during training (supports dynamic loss balancing, see Sec 3.4 )
+*   TODO: model poisoning (good place to contribute!).
+*   Datasets: -Image Classification - ImageNet, CIFAR-10, Pipa face identification, MultiMNIST, MNIST; Text - IMDB reviews datasets, Reddit (coming)
+*   TODO: Face recognition, eg Celeba or VGG. We already have some code, but need expertise on producing good models (good place to contribute!).
+*   Defenses:- Input perturbation - NeuralCleanse + added evasion; Model anomalies - SentiNet + added evasion; Spectral clustering / fine-pruning + added evasion.
+*   TODO: Port Jupyter notebooks demonstrating defenses and evasions. Add new defenses and evasions (good place to contribute!).</p>
+<h2>Q&amp;A</h2>
+    </div>
+</article>
+        </main>
+
+        <footer>
+            <div class="footer-content">
+                <div class="footer-icons">
+                    <a href="https://github.com/Vedaang-Chopra" target="_blank" class="footer-icon-btn" aria-label="GitHub">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg>
+                    </a>
+                    <a href="https://linkedin.com/in/vedaang-chopra/" target="_blank" class="footer-icon-btn" aria-label="LinkedIn">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path><rect x="2" y="9" width="4" height="12"></rect><circle cx="4" cy="4" r="2"></circle></svg>
+                    </a>
+                    <a href="mailto:vedaangchopra1009@gmail.com" class="footer-icon-btn" aria-label="Email">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
+                    </a>
+                </div>
+                <div class="footer-links">
+                    <p>&copy; 2025 Vedaang Chopra</p>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <script>
+        const toggleBtn = document.getElementById('theme-toggle');
+        const body = document.body;
+        const icon = toggleBtn.querySelector('.icon');
+
+        // Theme Definitions
+        const themes = ['', 'mint-theme', 'dark-theme', 'sepia-theme'];
+        const icons = ['☀', '🌿', '🌙', '☕'];
+
+        // Load saved theme
+        let currentThemeIndex = 0;
+        const savedTheme = localStorage.getItem('theme');
+        
+        if (savedTheme) {
+            const savedIndex = themes.indexOf(savedTheme);
+            if (savedIndex !== -1) {
+                currentThemeIndex = savedIndex;
+                if (themes[currentThemeIndex]) {
+                    body.classList.add(themes[currentThemeIndex]);
+                }
+                icon.textContent = icons[currentThemeIndex];
+            }
+        }
+
+        toggleBtn.addEventListener('click', () => {
+            // Remove current theme class if it exists
+            if (themes[currentThemeIndex]) {
+                body.classList.remove(themes[currentThemeIndex]);
+            }
+
+            // Cycle to next theme
+            currentThemeIndex = (currentThemeIndex + 1) % themes.length;
+
+            // Add new theme class if it exists (not empty string)
+            if (themes[currentThemeIndex]) {
+                body.classList.add(themes[currentThemeIndex]);
+                localStorage.setItem('theme', themes[currentThemeIndex]);
+            } else {
+                localStorage.removeItem('theme');
+            }
+
+            // Update icon
+            icon.textContent = icons[currentThemeIndex];
+        });
+    </script>
+</body>
+</html>
