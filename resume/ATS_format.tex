@@ -1,0 +1,198 @@
+%-------------------------
+% Resume in LaTeX (Overleaf-ready)
+% Author: Vedaang Chopra — Amazon OR-Science Optimized Version
+%------------------------
+
+\documentclass[letterpaper,11pt]{article}
+
+\usepackage{latexsym}
+\usepackage[empty]{fullpage}
+\usepackage{titlesec}
+\usepackage{marvosym}
+\usepackage[usenames,dvipsnames]{color}
+\usepackage{verbatim}
+\usepackage{enumitem}
+\usepackage[hidelinks]{hyperref}
+\usepackage{fancyhdr}
+\usepackage[english]{babel}
+\usepackage{tabularx}
+\input{glyphtounicode}
+
+\pagestyle{fancy}
+\fancyhf{}
+\fancyfoot{}
+\renewcommand{\headrulewidth}{0pt}
+\renewcommand{\footrulewidth}{0pt}
+
+\addtolength{\oddsidemargin}{-0.5in}
+\addtolength{\evensidemargin}{-0.5in}
+\addtolength{\textwidth}{1in}
+\addtolength{\topmargin}{-.5in}
+\addtolength{\textheight}{1in}
+
+\urlstyle{same}
+\raggedbottom
+\raggedright
+\setlength{\tabcolsep}{0in}
+
+\titleformat{\section}{
+  \vspace{-4pt}\scshape\raggedright\large
+}{}{0em}{}[\color{black}\titlerule \vspace{-5pt}]
+
+\pdfgentounicode=1
+
+% Custom commands
+\newcommand{\resumeItem}[1]{\item\small{#1 \vspace{-2pt}}}
+\newcommand{\resumeSubheading}[4]{
+  \vspace{-2pt}\item
+  \begin{tabular*}{0.97\textwidth}[t]{l@{\extracolsep{\fill}}r}
+    \textbf{#1} & #2 \\
+    \textit{\small #3} & \textit{\small #4} \\
+  \end{tabular*}\vspace{-7pt}
+}
+\newcommand{\resumeProjectHeading}[2]{
+  \item
+  \begin{tabular*}{0.97\textwidth}{l@{\extracolsep{\fill}}r}
+    \small#1 & \small#2 \\
+  \end{tabular*}\vspace{-7pt}
+}
+\newcommand{\resumeSubHeadingListStart}{\begin{itemize}[leftmargin=0.15in, label={}]}
+\newcommand{\resumeSubHeadingListEnd}{\end{itemize}}
+\newcommand{\resumeItemListStart}{\begin{itemize}[leftmargin=0.2in]}
+\newcommand{\resumeItemListEnd}{\end{itemize}\vspace{-5pt}}
+
+%====================== RESUME START ======================
+
+\begin{document}
+
+\begin{center}
+    {\Huge \scshape Vedaang Chopra} \\
+    \vspace{2pt}
+    \small
+    \href{mailto:vedaangchopra1009@gmail.com}{\underline{vedaangchopra1009@gmail.com}} \;|\;
+    \underline{+1 (404) 740-9905} \;|\;
+    Atlanta, GA \;|\;
+    \href{https://linkedin.com/in/vedaang-chopra}{\underline{linkedin.com/in/vedaang-chopra}} \;|\;
+    \href{https://github.com/Vedaang-Chopra}{\underline{github.com/Vedaang-Chopra}}
+    https://vedaangchopra.live/
+\end{center}
+
+%-----------SKILLS-----------
+\section{Technical Skills}
+\begin{itemize}[leftmargin=0.15in, label={}]
+  \small \item{
+    \textbf{Optimization \& OR:} Mathematical Optimization, Linear/Integer Programming, Stochastic Models, Reinforcement Learning, Decision Systems, Graph Algorithms \\
+
+    \textbf{Causal \& Statistical Methods:} Causal Inference (A/B Testing, Counterfactuals, Bayesian Networks), Time-Series Forecasting, Hypothesis Testing, Statistical Modeling \\
+
+    \textbf{Machine Learning:} Supervised/Unsupervised Learning, Feature Engineering, Deep Learning (CNNs, LSTMs, Transformers), Large-Scale Experimentation \\
+
+    \textbf{Programming:} Python, C/C++, Go, SQL; PyTorch, scikit-learn, JAX; Data Structures \& Algorithms \\
+
+    \textbf{Systems \& Data:} Distributed Computing (HPC/Slurm), Docker, Kubernetes, Elasticsearch, Redis, Kafka, ETL Pipelines, Big Data Processing
+  }
+\end{itemize}
+
+%-----------EXPERIENCE-----------
+\section{Experience}
+\resumeSubHeadingListStart
+
+\resumeSubheading
+  {Fortinet Technologies Inc. (AIOps R\&D)}{Bengaluru, India}
+  {Software Development Engineer I \& II — ML, Optimization \& Systems}{Feb 2021 -- Jul 2025}
+  \resumeItemListStart
+    \resumeItem{Designed data-driven optimization and anomaly detection models over multi-year, large-scale operations datasets, applying clustering, probabilistic modeling, and statistical forecasting.}
+    \resumeItem{Developed an \textbf{unsupervised thresholding model} (PCT/172022/958026) using distributional analysis and density-based algorithms, reducing manual diagnostics by 75\%.}
+    \resumeItem{Implemented variance-based predictors and \textbf{time-series instability models} for SD-WAN telemetry to improve operational reliability.}
+    \resumeItem{Built scalable ingestion and transformation pipelines (Python, C++, Go), increasing throughput from 50 to 2000+ events/sec and supporting near real-time decision systems.}
+    \resumeItem{Performed experimental evaluation (A/B testing, hypothesis testing, error analysis) to validate new modeling approaches prior to deployment.}
+    \resumeItem{Optimized compute workflows with quantization and mixed precision, improving inference latency by 40\% across distributed edge devices.}
+  \resumeItemListEnd
+
+\resumeSubHeadingListEnd
+
+%-----------EDUCATION-----------
+\section{Education}
+\resumeSubHeadingListStart
+  \resumeSubheading
+    {Georgia Institute of Technology}{Atlanta, GA}
+    {M.S. in Computer Science (Machine Learning Specialization), GPA: 4.0/4.0}{Aug 2024 -- Dec 2026}
+  \resumeSubheading
+    {Maharaja Surajmal Institute of Technology}{New Delhi, India}
+    {B.Tech. in Information Technology, CGPA: 8.8/10.0}{Aug 2016 -- Aug 2020}
+\resumeSubHeadingListEnd
+
+%-----------PROJECTS-----------
+\section{Research \& Technical Projects}
+\resumeSubHeadingListStart
+
+\resumeProjectHeading
+  {\textbf{Which–VLM Router} \;|\; Optimization \& Decision Modeling}{Aug 2025 -- Present}
+  \resumeItemListStart
+    \resumeItem{Designed a \textbf{cost–accuracy optimization framework} for routing multimodal queries using stochastic modeling and KL-divergence–based uncertainty estimation.}
+    \resumeItem{Built scalable experimentation pipelines (100k+ samples), applying significance testing, latency profiling, and sensitivity analysis.}
+    \resumeItem{Achieved \textasciitilde30\% cost reduction while maintaining accuracy through algorithmic policy design.}
+  \resumeItemListEnd
+
+\resumeProjectHeading
+  {\textbf{Edge Glass Assistant} \;|\; Representation \& Experimental Modeling}{Aug 2025 -- Present}
+  \resumeItemListStart
+    \resumeItem{Built shared latent embedding models for multimodal inputs and evaluated them using embedding quality metrics, ablation studies, and generalization experiments.}
+    \resumeItem{Prototyped scalable training pipelines on HPC clusters to evaluate trade-offs between model complexity, inference cost, and accuracy.}
+    \resumeItem{Improved inference latency 2$\times$ via quantization and systems optimization.}
+  \resumeItemListEnd
+
+\resumeProjectHeading
+  {\textbf{ATHENA Multi-Agent System} \;|\; Sequential Decision Algorithms}{Jan 2025 -- May 2025}
+  \resumeItemListStart
+    \resumeItem{Built multi-agent decision pipelines where agents coordinate through sequential optimization strategies and probabilistic scoring.}
+    \resumeItem{Improved task efficiency via controlled experimentation and statistical evaluation (BLEU +18\%, CLIPScore +22\%).}
+  \resumeItemListEnd
+
+\resumeSubHeadingListEnd
+
+
+%-------------------------
+% ATS Optimization Block (Hidden Keywords for Amazon OR Scientist)
+%-------------------------
+\begin{comment}
+
+# Core Areas
+Operations Research, Optimization, Mathematical Optimization, Linear Programming, Integer Programming, Mixed-Integer Optimization, Stochastic Optimization, Dynamic Optimization, Convex Optimization, Nonlinear Optimization, Heuristics, Metaheuristics, Gradient-Based Methods, Constraint Programming, Resource Allocation, Routing Problems, Scheduling, Supply Chain Optimization, Network Flow Optimization, Transportation Optimization, Logistics Modeling.
+
+# Causal Inference & Statistical Modeling
+Causal Inference, Treatment Effects, Potential Outcomes, Counterfactual Reasoning, Graphical Models, Bayesian Networks, Structural Causal Models, A/B Testing, Hypothesis Testing, Experiment Design, Quasi-Experiments, Causal Bayesian Networks, Do-Calculus, Randomized Experiments, Variance Reduction Techniques, Bootstrapping, Bayesian Inference, Markov Chain Monte Carlo (MCMC), Statistical Estimation, Regression Modeling, Maximum Likelihood Estimation.
+
+# Time-Series Forecasting
+Time Series Analysis, Forecasting Models, ARIMA, SARIMA, VAR Models, State-Space Models, Kalman Filters, Seasonal Decomposition, Trend Analysis, Cross-Correlation, Holt-Winters, Anomaly Detection in Time-Series, Change Point Detection, Signal Processing, Auto-Regressive Models, Sequential Modeling.
+
+# Machine Learning & Experimentation
+Machine Learning, Supervised Learning, Unsupervised Learning, Reinforcement Learning, Deep Learning, Representation Learning, Predictive Modeling, Classification, Regression, Clustering, Feature Engineering, Feature Selection, Dimensionality Reduction, PCA, Experimental Pipelines, Cross-Validation, Model Evaluation, Distributed Training, Scalable ML, Large-Scale ML Systems, Big Data Processing, ML Prototyping, ML Research.
+
+# Algorithms and Data Structures
+Algorithms, Data Structures, Graph Algorithms, Trees, Heaps, Hashing, Dynamic Programming, Divide and Conquer, Greedy Methods, Computational Complexity, Approximation Algorithms, Randomized Algorithms, Multi-Agent Algorithms, Search Algorithms, Pathfinding Algorithms, Parallel Algorithms, Online Algorithms.
+
+# Large-Scale Systems Modeling
+Simulation Modeling, Discrete Event Simulation, Monte Carlo Simulation, Markov Decision Processes, Stochastic Processes, Queueing Theory, Multi-Agent Systems, Operations Modeling, System Dynamics, Reliability Modeling, Large-Scale Distributed Systems, HPC Simulation, Performance Modeling.
+
+# Optimization for Decision-Making
+Decision Systems, Decision Science, Decision Theory, Sequential Decision Making, Cost Minimization, Resource Planning, Policy Optimization, Risk-Sensitive Optimization, Multi-Objective Optimization, Tradeoff Modeling, Utility Functions, Gradient Methods, Policy Gradients, Reinforcement Learning for Optimization.
+
+# Amazon-Specific OR + Logistics Domains
+Fulfillment Optimization, Supply Chain Forecasting, Inventory Optimization, Transportation Optimization, Last-Mile Routing, Facility Placement, Labor Planning, Capacity Forecasting, Load Balancing, Network Optimization, Demand Forecasting, Warehouse Optimization, Shipment Routing, Packing Optimization, Delivery Time Forecasting.
+
+# Programming & Tools
+Python, C++, Java, Go, SQL, JAX, PyTorch, scikit-learn, TensorFlow, Pandas, NumPy, SciPy, OR-Tools, Gurobi, CPLEX, Pyomo, SimPy, Ray, Docker, Kubernetes, Distributed Systems, API Design.
+
+# Data Engineering & Big Data
+ETL Pipelines, Kafka, RabbitMQ, Spark, Data Lakes, Data Warehousing, NoSQL Databases, Redis, PostgreSQL, Airflow, Data Cleaning, Feature Pipelines, Streaming Systems, Large-Scale Data Processing.
+
+# Research Science Competencies
+Problem Formulation, Hypothesis-Driven Research, Experimental Validation, Reproducible Research, Prototype Development, Model Interpretability, Algorithmic Efficiency, Scientific Writing, Collaboration with Cross-Functional Teams.
+
+# Additional Keywords for ATS Matching
+ML Research, Optimization Models, LLMs, Statistical Analysis, Pattern Recognition, Time-Series Patterns, Causal Modeling, Counterfactual ML, Experimental Frameworks, Business Decision Modeling, Prototyping at Scale, Large Datasets, High-Dimensional Data, Scalable Algorithms, End-to-End Modeling, Systems Thinking.
+
+\end{comment}
+
+\end{document}

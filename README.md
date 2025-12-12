@@ -60,3 +60,6 @@ Previously at **Fortinet**, I engineered production-grade AI models for **networ
 <p align="center">
   <i>"Building intelligent systems that make the world a little smarter."</i>
 </p>
+
+
+<!-- pelican --autoreload --listen -->
