@@ -1,54 +1,60 @@
 :root {
-    /* Default (White/Engineer) */
+    /* Default (White/Engineer) - Clean, high contrast but not harsh */
     --bg-color: #ffffff;
-    --text-color: #111111;
-    --accent-color: #333333;
+    --text-color: #1a1a1a;
+    --accent-color: #444444;
     --link-color: #000000;
-    --font-main: 'Roboto Mono', monospace;
-    --border-color: #000000;
-    --btn-bg: #f7f7f7;
-    --btn-text: #111111;
+    --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
+    --font-mono: 'JetBrains Mono', 'Roboto Mono', monospace;
+    --border-color: #e5e5e5;
+    --btn-bg: #f3f4f6;
+    --btn-text: #1a1a1a;
     --btn-hover-bg: #000000;
     --btn-hover-text: #ffffff;
 }
 
-/* Mint Theme */
+/* Mint Theme - Fresh, calming, nature-inspired */
 body.mint-theme {
-    --bg-color: #99f2c3;
-    --text-color: #003d29;
-    --accent-color: #003d29;
-    --link-color: #005c3e;
-    --border-color: #003d29;
-    --btn-bg: rgba(0, 61, 41, 0.1);
-    --btn-text: #003d29;
-    --btn-hover-bg: #003d29;
-    --btn-hover-text: #99f2c3;
+    --bg-color: #e8f5e9;
+    --text-color: #1b5e20;
+    --accent-color: #2e7d32;
+    --link-color: #004d40;
+    --border-color: #c8e6c9;
+    --btn-bg: #c8e6c9;
+    --btn-text: #1b5e20;
+    --btn-hover-bg: #1b5e20;
+    --btn-hover-text: #ffffff;
 }
 
-/* Dark Theme (Night) */
+/* Dark Theme (Night) - Slate/Authour blue-grey, not pure black */
 body.dark-theme {
-    --bg-color: #0a0a0a;
-    --text-color: #e0e0e0;
-    --accent-color: #ffffff;
-    --link-color: #ffffff;
-    --border-color: #ffffff;
-    --btn-bg: #1a1a1a;
-    --btn-text: #e0e0e0;
-    --btn-hover-bg: #e0e0e0;
-    --btn-hover-text: #0a0a0a;
+    --bg-color: #0f172a;
+    /* Slate 900 */
+    --text-color: #e2e8f0;
+    /* Slate 200 */
+    --accent-color: #94a3b8;
+    /* Slate 400 */
+    --link-color: #38bdf8;
+    /* Sky 400 */
+    --border-color: #1e293b;
+    /* Slate 800 */
+    --btn-bg: #1e293b;
+    --btn-text: #e2e8f0;
+    --btn-hover-bg: #e2e8f0;
+    --btn-hover-text: #0f172a;
 }
 
-/* Sepia Theme (Paper) */
+/* Sepia Theme (Paper) - Warm, reading mode */
 body.sepia-theme {
-    --bg-color: #f4ecd8;
-    --text-color: #4a3b32;
-    --accent-color: #5c4b3f;
-    --link-color: #8c7b70;
-    --border-color: #4a3b32;
-    --btn-bg: #e8dec0;
-    --btn-text: #4a3b32;
-    --btn-hover-bg: #4a3b32;
-    --btn-hover-text: #f4ecd8;
+    --bg-color: #fdf6e3;
+    --text-color: #433422;
+    --accent-color: #8b6f4e;
+    --link-color: #a05a2c;
+    --border-color: #efe2cf;
+    --btn-bg: #efe2cf;
+    --btn-text: #5c4b3f;
+    --btn-hover-bg: #5c4b3f;
+    --btn-hover-text: #fdf6e3;
 }
 
 /* Theme Toggle Button */
@@ -85,13 +91,29 @@ body.sepia-theme {
 body {
     background-color: var(--bg-color);
     color: var(--text-color);
-    font-family: var(--font-main);
+    font-family: var(--font-sans);
     transition: background-color 0.3s, color 0.3s;
     line-height: 1.6;
     margin: 0;
     padding: 0;
     font-size: 16px;
     -webkit-font-smoothing: antialiased;
+}
+
+/* Global Link Styles */
+a {
+    color: var(--link-color);
+    text-decoration: none;
+    transition: color 0.2s, text-decoration 0.2s;
+}
+
+a:visited {
+    color: var(--link-color);
+}
+
+a:hover {
+    color: var(--text-color);
+    text-decoration: underline;
 }
 
 .container {
@@ -424,6 +446,7 @@ h3 {
     margin: 2rem 0;
     overflow-x: auto;
     font-size: 0.9rem;
+    font-family: var(--font-mono);
 }
 
 /* Footer */

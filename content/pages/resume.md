@@ -9,7 +9,7 @@ Date: 2024-12-12
 
 # Vedaang Chopra
 **Software Development Engineer (ML/AI)**  
-Atlanta, GA | +1 404-740-9905 | [vedaangchopra1009@gmail.com](mailto:vedaangchopra1009@gmail.com) | [LinkedIn](https://linkedin.com/in/vedaang-chopra/) | [GitHub](https://github.com/Vedaang-Chopra)
+Atlanta, GA | +1 404-740-9905 | [vedaangchopra@gatech.edu](mailto:vedaangchopra@gatech.edu) | [LinkedIn](https://linkedin.com/in/vedaang-chopra/) | [GitHub](https://github.com/Vedaang-Chopra)
 
 ---
 
@@ -26,8 +26,9 @@ Atlanta, GA | +1 404-740-9905 | [vedaangchopra1009@gmail.com](mailto:vedaangchop
 ## Experience
 
 **Fortinet Technologies Inc. (AIOps, R&D)** | *Software Development Engineer I & II (ML/AI)* | Bengaluru, India | Feb 2021 – Jul 2025
+
 *   **Led development of an Agentic RAG chatbot** (LLMs + tool calling) — a Fortinet Hackathon 2023 (5th place) prototype that evolved into a production feature, reducing issue-resolution time by over 70%.
-*   **Built an unsupervised connectivity-threshold model** (PCT/172022/958026) to detect wireless anomalies, cutting manual troubleshooting efforts by more than 75%.
+*   **Built an [unsupervised connectivity-threshold model](https://patents.justia.com/inventor/vedaang-chopra)** (PCT/172022/958026) to detect wireless anomalies, cutting manual troubleshooting efforts by more than 75%.
 *   **Implemented DBSCAN-based anomaly detection** for SD-WAN telemetry, proactively preventing over 50% of potential network outages.
 *   **Re-architected OpenSearch ingestion pipelines** using async I/O and Golang, scaling event throughput from under 50 to over 2000 events per second.
 *   **Deployed edge-optimized ML models** via ONNX Runtime, lowering inference latency by 40% across distributed FortiGate devices.
@@ -38,9 +39,11 @@ Atlanta, GA | +1 404-740-9905 | [vedaangchopra1009@gmail.com](mailto:vedaangchop
 ## Education
 
 **Georgia Institute of Technology** | *M.S. in Computer Science (Machine Learning Specialization)* | Atlanta, GA | Aug 2024 – Dec 2026
+
 *   GPA: 4.0/4.0
 
 **Maharaja Surajmal Institute of Technology (GGSIPU)** | *B.Tech. in Information Technology* | New Delhi, India | Aug 2016 – Aug 2020
+
 *   CGPA: 8.8/10.0
 
 ---
@@ -48,17 +51,21 @@ Atlanta, GA | +1 404-740-9905 | [vedaangchopra1009@gmail.com](mailto:vedaangchop
 ## Research & Other Technical Projects
 
 **Which–VLM Router** | *CS 8803 Systems for AI (Advisor: Dr. Anand Iyer)* | Aug 2025 – Present
+
 *   Designing a semantic router that dynamically directs multimodal (text, vision, audio) queries across multiple VLM/LLM endpoints using budget–aware and retrieval–augmented policies.
 *   Expected to achieve 30% lower inference cost with comparable accuracy to Mixture-of-Experts baselines.
 
 **[Edge Glass Assistant](https://github.com/Vedaang-Chopra/Edge-Glass)** | *CS 8803 VLM & LLM (Advisors: Dr. Zsolt Kira, Dr. Alan Ritter)* | Aug 2025 – Present
+
 *   Building a lightweight multimodal assistant aligning vision, audio, and text embeddings through frozen encoders and quantized projectors for on–device reasoning.
 *   Aims to deliver 2× faster inference with minimal accuracy degradation compared to existing edge–ready frameworks.
 
 **ATHENA** | *CS 8903 Agentic AI (Advisor: Dr. Vijay Madisetti)* | Jan 2025 – May 2025
+
 *   Developed ATHENA, a multi-agent generative AI framework unifying LLMs, diffusion models, and memory orchestration for automated screenplay-to-video generation.
 *   Outperformed prior single-agent baselines (BLEU-4 +18%, CLIPScore +22%).
 
 **[Ontology-based Text Classification](https://github.com/Vedaang-Chopra/Disease_Ontology_Project)** | *Undergraduate Research (Advisor: Dr. Sonika Malik)* | 2019 – 2020
+
 *   Proposed a semantic ontology framework using the Human Disease Ontology (DOID) for biomedical text classification.
 *   Improved accuracy by 10% over classical ML baselines (Published in CEUR Workshop Proceedings Vol. 2786).
