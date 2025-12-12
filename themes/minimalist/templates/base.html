@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{% block title %}{{ SITENAME }}{% endblock %}</title>
+    <link rel="stylesheet" href="{{ SITEURL }}/theme/css/style.css" />
+    <!-- Monospace fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <nav>
+                <a href="{{ SITEURL }}/" class="brand">Home</a>
+                <a href="{{ SITEURL }}/blog.html">Blog</a>
+                <a href="{{ SITEURL }}/projects.html">Projects</a>
+                {% for title, link in MENUITEMS %}
+                <a href="{{ link }}">{{ title }}</a>
+                {% endfor %}
+            </nav>
+        </header>
+
+        <main>
+            {% block content %}{% endblock %}
+        </main>
+
+        <footer>
+            <p>&copy; {{ CURRENT_YEAR }} {{ AUTHOR }}</p>
+        </footer>
+    </div>
+</body>
+</html>

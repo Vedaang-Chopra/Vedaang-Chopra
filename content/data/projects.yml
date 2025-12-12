@@ -1,0 +1,4 @@
+- name: "Vision-Language Router"
+  description: "Optimizing VLM inference using budget-aware routing."
+  stack: "Python, PyTorch"
+  url: "https://github.com/Vedaang-Chopra/vlm-project"

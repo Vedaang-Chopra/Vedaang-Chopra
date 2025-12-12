@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+
+{% block title %}Projects - {{ SITENAME }}{% endblock %}
+
+{% block content %}
+<h1>Projects</h1>
+<div class="project-grid">
+    {% if PROJECTS %}
+        {% for project in PROJECTS %}
+        <div class="project-card">
+            <h2><a href="{{ project.url }}" target="_blank">{{ project.name }} ↗</a></h2>
+            <p class="project-desc">{{ project.description }}</p>
+            <p class="project-stack"><strong>Stack:</strong> {{ project.stack }}</p>
+        </div>
+        {% endfor %}
+    {% else %}
+        <p>No projects loaded.</p>
+    {% endif %}
+</div>
+{% endblock %}
