@@ -76,4 +76,10 @@ MARKDOWN = {
 }
 
 # Static Paths
-STATIC_PATHS = ['images', 'data', 'Resumes', 'blog/raw_content']
+# Static Paths
+STATIC_PATHS = ['images', 'data', 'Resumes', 'blog/raw_content', 'extra']
+
+EXTRA_PATH_METADATA = {
+    'extra/CNAME': {'path': 'CNAME'},
+    'extra/.nojekyll': {'path': '.nojekyll'},
+}
