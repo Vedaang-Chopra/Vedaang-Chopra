@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>"MOLMO and the Anatomy of Modern Vision-Language Models" - Vedaang Chopra</title>
+    <link rel="stylesheet" href="https://vedaangchopra.live/theme/css/style.css" />
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <nav>
+                <a href="https://vedaangchopra.live/" class="profile-brand">
+                    <img src="https://vedaangchopra.live/images/profile.png" alt="Profile" class="profile-circle">
+                </a>
+                <a href="https://vedaangchopra.live/" class="brand">Home</a>
+                <a href="https://vedaangchopra.live/projects.html">Projects</a>
+                <a href="resume.html">Resume</a>
+                <a href="blog.html">Writing</a>
+                <a href="uses.html">Uses</a>
+                <button id="theme-toggle" aria-label="Toggle Theme">
+                    <span class="icon">☀</span>
+                </button>
+            </nav>
+        </header>
+
+        <main>
+<article>
+    <header>
+        <h1>"MOLMO and the Anatomy of Modern Vision-Language Models"</h1>
+        <div class="meta">
+            <span class="date">2024-10-24</span>
+        </div>
+    </header>
+    
+    <div class="content">
+        <p><img alt="MOLMO Vision-Language Model Concept" src="../../images/molmo_hero.png"></p>
+<h1>MOLMO and the Anatomy of Modern Vision-Language Models</h1>
+<h2>Why MOLMO Is Worth Studying</h2>
+<p>Most recent discussions around Vision-Language Models (VLMs) revolve around benchmarks, scale, or whether a model is “open” in name. MOLMO is interesting for a different reason. It is one of the few recent VLMs that can be treated as a <strong>complete research artifact</strong>—one where data construction, architectural decisions, training choices, and evaluation all form a coherent story.</p>
+<p>This article is not a leaderboard-driven summary of MOLMO. Instead, it uses MOLMO as a <strong>lens to reason about VLM design itself</strong>: where multimodal reasoning actually happens, why many VLMs fail silently, and how architectural decisions upstream of the language model determine what kind of intelligence is even possible downstream.</p>
+<p>The central argument is simple but often overlooked:</p>
+<blockquote>
+<p>Multimodal reasoning does not emerge inside the LLM by default. It emerges only if the architecture preserves, aligns, and exposes visual information in a form the LLM can actually reason over.</p>
+</blockquote>
+<p>MOLMO is valuable because it makes these constraints explicit—and largely gets them right.</p>
+<h2>Where Does Multimodal Reasoning Actually Live?</h2>
+<p>At a high level, most VLMs look deceptively similar: an image encoder, a connector, and a language model. This simplicity hides a deeper question that determines success or failure:</p>
+<p><strong>Where, exactly, does multimodal reasoning occur?</strong></p>
+<p>Not in the vision encoder alone. Not magically inside the LLM. And not in the connector by virtue of existing. Multimodal reasoning only emerges if three conditions are met:</p>
+<ol>
+<li>
+<p><strong>Visual information survives preprocessing</strong>
+    If critical spatial or fine-grained details are destroyed before encoding, no amount of downstream reasoning can recover them.</p>
+</li>
+<li>
+<p><strong>Visual tokens are aligned, not merely projected</strong>
+    The connector must preserve structure, locality, and layout—not just match embedding dimensions.</p>
+</li>
+<li>
+<p><strong>The decoder has unrestricted access to vision during generation</strong>
+    Vision must act as persistent context, not a compressed hint.</p>
+</li>
+</ol>
+<p>Most VLM failures trace back to violations of one or more of these constraints, often invisibly.</p>
+<h3>A Minimal VLM Abstraction</h3>
+<p>Conceptually, almost all VLMs can be reduced to the following pipeline:</p>
+<div class="highlight"><pre><span></span><code><span class="n">flowchart</span><span class="w"> </span><span class="n">LR</span>
+<span class="w">    </span><span class="n">I</span><span class="p">[</span><span class="n">Image</span><span class="p">]</span><span class="w"> </span><span class="o">--&gt;</span><span class="w"> </span><span class="n">VE</span><span class="p">[</span><span class="n">Vision</span><span class="w"> </span><span class="n">Encoder</span><span class="p">]</span>
+<span class="w">    </span><span class="n">VE</span><span class="w"> </span><span class="o">--&gt;</span><span class="w"> </span><span class="n">C</span><span class="p">[</span><span class="n">Vision</span><span class="o">-</span><span class="n">Language</span><span class="w"> </span><span class="n">Connector</span><span class="p">]</span>
+<span class="w">    </span><span class="n">C</span><span class="w"> </span><span class="o">--&gt;</span><span class="w"> </span><span class="n">LLM</span><span class="p">[</span><span class="n">Language</span><span class="w"> </span><span class="n">Model</span><span class="w"> </span><span class="n">Decoder</span><span class="p">]</span>
+<span class="w">    </span><span class="n">T</span><span class="p">[</span><span class="n">Text</span><span class="w"> </span><span class="n">Prompt</span><span class="p">]</span><span class="w"> </span><span class="o">--&gt;</span><span class="w"> </span><span class="n">LLM</span>
+</code></pre></div>
+
+<p>This diagram is misleadingly clean. The real complexity lies in what happens <em>inside</em> each arrow.</p>
+<ul>
+<li>The <strong>Image → Vision Encoder</strong> step determines what information is even representable.</li>
+<li>The <strong>Encoder → Connector</strong> step determines what structure survives compression.</li>
+<li>The <strong>Connector → LLM</strong> step determines whether vision is accessible during reasoning or merely appended as context.</li>
+</ul>
+<p>From a research perspective, the most important insight is this:</p>
+<blockquote>
+<p>The LLM cannot reason over what it cannot attend to, and it cannot attend to what the architecture has already discarded.</p>
+</blockquote>
+<p>MOLMO’s contribution is not that it invents new components, but that it treats these transitions as first-class design problems rather than implementation details. In the sections that follow, we will progressively zoom in on how MOLMO addresses each of these failure modes—starting with the most underestimated part of VLMs: how images are prepared <em>before</em> any transformer ever sees them.</p>
+<h2>Why MOLMO’s Architecture Is Quietly Radical</h2>
+<p>At first glance, MOLMO’s architecture looks almost conservative. There is no novel transformer variant, no exotic fusion module, and no end-to-end multimodal pretraining trick that fundamentally alters the standard VLM recipe. This is intentional.</p>
+<p>MOLMO’s architectural contribution is not about <em>inventing new components</em>, but about <strong>treating known constraints as immovable facts</strong> and designing around them. In particular, it takes seriously a constraint that many VLMs implicitly ignore:</p>
+<blockquote>
+<p>Vision Transformers are square, resolution-limited models operating on patchified images—while real-world visual reasoning is neither square nor low-resolution.</p>
+</blockquote>
+<p>Most VLMs implicitly assume that resizing an image to a single fixed resolution is a harmless preprocessing step. MOLMO treats this assumption as false.</p>
+<h3>The Silent Failure Mode in Many VLMs</h3>
+<p>Consider what happens in a typical VLM pipeline:</p>
+<ul>
+<li>A rectangular image is resized to a fixed square resolution (e.g., 224×224 or 336×336).</li>
+<li>Fine details (text, symbols, small objects) are blurred or aliased.</li>
+<li>Spatial relationships are distorted.</li>
+<li>The vision encoder produces tokens that are already missing critical information.</li>
+</ul>
+<p>At this point, <strong>the LLM has already lost</strong>, regardless of how powerful it is.</p>
+<p>From a modeling perspective, this is not a limitation of transformers or language models—it is an <em>information bottleneck introduced upstream</em>. MOLMO’s architecture is built around the idea that <strong>multimodal reasoning capacity is bounded by what survives this bottleneck</strong>.</p>
+<h3>MOLMO’s Architectural Stance</h3>
+<p>MOLMO adopts a clear architectural philosophy:</p>
+<ul>
+<li>Preserve <em>global context</em> without sacrificing <em>local detail</em>.</li>
+<li>Avoid forcing the vision encoder to choose between the two.</li>
+<li>Expose both scales explicitly to the language model.</li>
+</ul>
+<p>This leads to an architecture that is modular but principled:</p>
+<p><img alt="MOLMO Architecture Diagram" src="../images/molmo_architecture.png"></p>
+<p>Nothing here is exotic—but every block exists for a reason. The key insight is that <strong>the preprocessor is not a systems convenience layer</strong>. It is a modeling decision that directly shapes what the LLM can reason about.</p>
+<p>From an AI research perspective, MOLMO reframes where architectural novelty should live: not necessarily in deeper encoders or larger language models, but in <strong>how visual evidence is preserved, structured, and made accessible to reasoning mechanisms</strong>.</p>
+<p>This is why MOLMO is better understood as an architectural <em>correction</em> rather than an architectural <em>innovation</em>. It does not add complexity; it removes implicit assumptions that were never justified.</p>
+<h2>The Image Preprocessor: Letting Vision Survive the Journey</h2>
+<p>In most VLM discussions, the image preprocessor is treated as an implementation detail. In MOLMO, it is the architectural keystone.</p>
+<p>The problem MOLMO confronts is structural, not empirical: <strong>Vision Transformers operate on fixed-size square inputs, while real images are rectangular, high-resolution, and information-dense</strong>. Any attempt to force one into the other introduces irreversible loss.</p>
+<p>Rather than asking the vision encoder to do more, MOLMO changes what it is asked to see.</p>
+<h3>The Core Mismatch: ViTs vs. Real Images</h3>
+<p>Vision Transformers like ViT-L/14 accept inputs of a fixed resolution (e.g., 336×336). This creates an unavoidable trade-off:</p>
+<ul>
+<li>Resize aggressively → preserve global layout, lose fine detail.</li>
+<li>Crop aggressively → preserve detail, lose context.</li>
+</ul>
+<p>Most VLMs choose one side of this trade-off implicitly. MOLMO refuses to choose. Instead, it reframes the problem:</p>
+<blockquote>
+<p>What if the vision encoder sees <em>multiple coherent views</em> of the same image, each optimized for a different level of abstraction?</p>
+</blockquote>
+<h3>Multi-Scale Tiling as a Representation Strategy</h3>
+<p>MOLMO’s preprocessor produces <strong>two complementary visual representations</strong> from a single image:</p>
+<ol>
+<li>
+<p><strong>A low-resolution global view</strong></p>
+<ul>
+<li>The entire image resized to 336×336.</li>
+<li>Preserves scene-level context, object co-occurrence, and layout.</li>
+</ul>
+</li>
+<li>
+<p><strong>Multiple high-resolution overlapping crops</strong></p>
+<ul>
+<li>Each crop is 336×336.</li>
+<li>Covers the image on a grid.</li>
+<li>Overlaps adjacent crops to avoid boundary artifacts.</li>
+</ul>
+</li>
+</ol>
+<p>This is not a data augmentation trick. It is a <strong>deliberate representational decomposition</strong>:</p>
+<p><img alt="MOLMO Multi-Scale Tiling" src="../../images/molmo_tiling.png"></p>
+<p>Each crop answers a different question:
+*   <em>What is happening overall?</em>
+*   <em>What fine details exist here?</em>
+*   <em>What text or small objects would be lost otherwise?</em></p>
+<h3>Why Overlap Matters (More Than It Seems)</h3>
+<p>The overlapping region between crops is not incidental. Without overlap, objects near crop boundaries get split, text gets truncated, and spatial continuity breaks. By overlapping crops, MOLMO ensures that <strong>any visually meaningful region appears fully in at least one crop</strong>. This guarantees that the vision encoder never sees “half an object” as its best view.</p>
+<p>From a reasoning perspective, this is crucial. The LLM can only reason over <em>complete visual evidence</em>, not fragmented patches.</p>
+<h3>Padding Is Also a Modeling Choice</h3>
+<p>Real images rarely tile perfectly. MOLMO pads edge crops when needed, but does so explicitly:
+*   Each patch is tagged as real image, partial padding, or full padding.
+*   Padding-type embeddings tell the model what is <em>absence</em> versus <em>dark pixels</em>.</p>
+<p>This avoids a subtle but common failure mode where models confuse black padding with visual content—particularly harmful in low-light or nighttime scenes.</p>
+<p>The key insight here is not multi-scale cropping itself, but what it represents: <strong>visual reasoning is scale-sensitive</strong>. A single resolution cannot support both perception and interpretation. MOLMO treats scale as a <strong>first-class axis of representation</strong>, rather than something the model is expected to infer implicitly.</p>
+<h2>From Patches to Tokens: Controlling Visual Bandwidth Without Losing Semantics</h2>
+<p>Once MOLMO has preserved visual information through multi-scale preprocessing, it faces the next architectural bottleneck: <strong>token explosion</strong>.</p>
+<p>Vision Transformers do not reason over images directly—they reason over <em>patch tokens</em>. If left unchecked, MOLMO’s careful preprocessing would overwhelm the language model with far more visual tokens than it can meaningfully attend to.</p>
+<p>The challenge here is subtle:</p>
+<blockquote>
+<p>How do we aggressively compress visual information <strong>without destroying the very fine-grained details we preserved</strong>?</p>
+</blockquote>
+<p>MOLMO’s answer is not to reduce input resolution, but to <strong>compress intelligently after semantic extraction</strong>.</p>
+<h3>Patchification: Where Token Explosion Begins</h3>
+<p>Each 336×336 image (global view or crop) is divided into 14×14 pixel patches.
+*   336 / 14 = 24 patches per side
+*   Total per image: <strong>24 × 24 = 576 patches</strong>
+*   If MOLMO processed 9 crops + 1 global image naively, this would result in <strong>~5,760 visual tokens</strong>.</p>
+<p>This is not just inefficient—it is unusable for a decoder-only LLM that must attend over all tokens during generation.</p>
+<h3>Multi-Layer Feature Extraction: Texture Meets Semantics</h3>
+<p>Before compression, MOLMO makes one important modeling decision: it extracts features from <strong>two internal ViT layers</strong>:
+*   A mid-level layer → captures textures, edges, local patterns
+*   A late layer → captures object-level and semantic information</p>
+<p>These are combined before pooling. This reflects a researcher’s intuition: fine-grained visual reasoning often depends on <em>both</em> texture-level evidence and semantic abstraction. Discarding either prematurely harms downstream grounding.</p>
+<h3>2×2 Attention Pooling: Semantic Compression</h3>
+<p>Instead of uniform pooling or token dropping, MOLMO applies <strong>2×2 attention pooling</strong>:
+*   Every 2×2 group of neighboring patches → one pooled token
+*   Spatial resolution per image: 24×24 → 12×12
+*   576 tokens → <strong>144 tokens</strong></p>
+<p>This pooling is <em>attention-based</em>, not average pooling:</p>
+<div class="highlight"><pre><span></span><code><span class="n">flowchart</span><span class="w"> </span><span class="n">LR</span>
+<span class="w">    </span><span class="n">P</span><span class="p">[</span><span class="mi">24</span><span class="err">×</span><span class="mi">24</span><span class="w"> </span><span class="n">Patch</span><span class="w"> </span><span class="n">Tokens</span><span class="err">\</span><span class="n">n576</span><span class="w"> </span><span class="n">tokens</span><span class="p">]</span>
+<span class="w">    </span><span class="n">P</span><span class="w"> </span><span class="o">--&gt;</span><span class="w"> </span><span class="n">AP</span><span class="p">[</span><span class="mi">2</span><span class="err">×</span><span class="mi">2</span><span class="w"> </span><span class="n">Attention</span><span class="w"> </span><span class="n">Pooling</span><span class="p">]</span>
+<span class="w">    </span><span class="n">AP</span><span class="w"> </span><span class="o">--&gt;</span><span class="w"> </span><span class="n">T</span><span class="p">[</span><span class="mi">12</span><span class="err">×</span><span class="mi">12</span><span class="w"> </span><span class="n">Tokens</span><span class="err">\</span><span class="n">n144</span><span class="w"> </span><span class="n">tokens</span><span class="p">]</span>
+</code></pre></div>
+
+<p>From a modeling perspective, this is critical: tokens now represent <em>regions</em>, not pixels. Each token still corresponds to a localized part of the image, allowing the LLM to reason over regions rather than raw patches.</p>
+<h3>Removing Redundancy Across Overlapping Crops</h3>
+<p>Because crops overlap, some regions appear multiple times. MOLMO explicitly removes duplicate tokens corresponding to overlapping areas. The result is roughly <strong>~1100 unique visual tokens</strong> for an entire high-resolution image, with no double-counting and no fragmented evidence.</p>
+<p>From an AI research perspective, this is best understood as <strong>visual bandwidth control</strong>. The goal is not to feed the LLM more pixels, but to feed it <em>the right abstractions at the right granularity</em>.</p>
+<h2>The Connector Is Not a Projection Layer</h2>
+<p>In many VLM descriptions, the connector is dismissed in a single sentence: <em>“visual features are projected into the language embedding space.”</em> MOLMO treats this as an oversimplification—and implicitly argues that this framing is one reason many VLMs underperform at grounding and reasoning.</p>
+<p>The connector is not just about dimensionality alignment. It is about <strong>making visual structure legible to a language model</strong>.</p>
+<h3>The Common Misconception</h3>
+<p>A naïve mental model of VLMs looks like this:</p>
+<div class="highlight"><pre><span></span><code><span class="n">flowchart</span><span class="w"> </span><span class="n">LR</span>
+<span class="w">    </span><span class="n">V</span><span class="p">[</span><span class="n">Visual</span><span class="w"> </span><span class="n">Tokens</span><span class="p">]</span><span class="w"> </span><span class="o">--&gt;</span><span class="w"> </span><span class="n">P</span><span class="p">[</span><span class="n">Linear</span><span class="w"> </span><span class="n">Projection</span><span class="p">]</span>
+<span class="w">    </span><span class="n">P</span><span class="w"> </span><span class="o">--&gt;</span><span class="w"> </span><span class="n">L</span><span class="p">[</span><span class="n">LLM</span><span class="w"> </span><span class="n">Token</span><span class="w"> </span><span class="n">Space</span><span class="p">]</span>
+</code></pre></div>
+
+<p>If this were sufficient, most VLMs would reason well about space, count objects reliably, and ground references precisely. They do not. The reason is simple:</p>
+<blockquote>
+<p>Language models do not natively understand spatial structure. If spatial information is not explicitly encoded, it is effectively invisible.</p>
+</blockquote>
+<h3>Layout Tokens: Giving Vision a Coordinate System</h3>
+<p>MOLMO distinguishes between <strong>alignment</strong> (tokens live in the same embedding space) and <strong>accessibility</strong> (the LLM can reliably use visual information). To bridge this gap, MOLMO augments each visual token with <strong>explicit layout information</strong>:
+*   Token position within the image grid
+*   Which crop it originated from
+*   Relative spatial location</p>
+<p>This information is encoded using <strong>layout embeddings</strong>, which are injected alongside visual features before entering the LLM. Conceptually, layout injection looks like this:</p>
+<p><img alt="MOLMO Spatial Tokens and Layout" src="../../images/molmo_spatial.png"></p>
+<p>The key idea is not positional encoding in the transformer sense—it is <em>semantic spatial grounding</em>. To the LLM, these tokens are no longer anonymous vectors. They are “this region,” “over here,” or “adjacent to that other region.”</p>
+<h3>Why This Matters for Reasoning</h3>
+<p>From a researcher’s perspective, this section is where MOLMO’s architectural philosophy becomes clear: <strong>multimodal reasoning is not just about fusing modalities—it is about preserving the <em>structure</em> of each modality through fusion</strong>.</p>
+<p>Without layout-aware connectors, counting degenerates into guesswork and spatial explanations collapse into generic captions. MOLMO’s connector ensures that visual tokens behave less like “extra words” and more like <strong>persistent, structured memory</strong>.</p>
+<h2>Decoding With Vision: How MOLMO Actually Reasons Over Images</h2>
+<p>Up to this point, MOLMO has preserved visual information, compressed it without destroying structure, and aligned it with language in a spatially meaningful way. The final question is whether this information is actually <em>used</em> during reasoning.</p>
+<p>A VLM can have excellent visual representations and still behave like a captioning model if its decoder treats vision as a static prefix rather than an active source of evidence. MOLMO is explicit about avoiding this failure mode.</p>
+<h3>Decoder-Only, But Not Vision-Blind</h3>
+<p>MOLMO uses a <strong>decoder-only language model</strong>. This choice is deliberate. During generation:
+*   <strong>Visual tokens are fully visible at every decoding step</strong>
+*   <strong>Text tokens are causally masked</strong></p>
+<p>This creates an asymmetric attention pattern:</p>
+<div class="highlight"><pre><span></span><code><span class="n">flowchart</span><span class="w"> </span><span class="n">LR</span>
+<span class="w">    </span><span class="n">VT</span><span class="p">[</span><span class="n">Visual</span><span class="w"> </span><span class="n">Tokens</span><span class="err">\</span><span class="n">nPersistent</span><span class="w"> </span><span class="n">Context</span><span class="p">]</span>
+<span class="w">    </span><span class="n">TT1</span><span class="p">[</span><span class="n">Text</span><span class="w"> </span><span class="kt">Token</span><span class="w"> </span><span class="n">t</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+<span class="w">    </span><span class="n">TT2</span><span class="p">[</span><span class="n">Text</span><span class="w"> </span><span class="kt">Token</span><span class="w"> </span><span class="n">t</span><span class="p">]</span>
+<span class="w">    </span><span class="n">VT</span><span class="w"> </span><span class="o">--&gt;</span><span class="w"> </span><span class="n">TT2</span>
+<span class="w">    </span><span class="n">TT1</span><span class="w"> </span><span class="o">--&gt;</span><span class="w"> </span><span class="n">TT2</span>
+</code></pre></div>
+
+<p>The implication is subtle but critical: <strong>the model can always re-attend to the entire visual scene while generating each new word.</strong> Vision is not something the model “reads once and forgets.” It functions as a <strong>persistent external memory</strong>.</p>
+<h3>Why This Matters for Reasoning</h3>
+<p>Many VLM failures arise because vision is treated as a compressed hint—a short prefix or limited attention window. In such setups, early decoding decisions lock in interpretations that cannot be revised. MOLMO’s decoding strategy enables:
+*   Re-checking spatial relationships mid-generation
+*   Revisiting visual evidence when resolving ambiguity
+*   Maintaining consistency between earlier and later claims</p>
+<p>This is especially important for tasks like counting (“there are three cups, not two”) or referring expressions (“the object on the left, not the center”), where the answer depends on constant verification against visual evidence.</p>
+<h2>Why Data Still Matters — But Only If Architecture Lets It</h2>
+<p>Up to this point, the discussion has focused almost entirely on architecture. This is intentional. MOLMO makes a strong implicit claim:</p>
+<blockquote>
+<p>Data does not create capabilities by itself. It only reveals the capabilities that the architecture already permits.</p>
+</blockquote>
+<p>PixMo, MOLMO’s data suite, is best understood through this lens—not as a collection of large datasets, but as <strong>capability probes</strong> designed to exercise specific architectural affordances.</p>
+<h3>PixMo as Capability Supervision, Not Scale</h3>
+<p>Rather than enumerating PixMo datasets individually, it is more useful to group them by <em>what they are trying to teach the model to do</em>:</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Capability</th>
+<th style="text-align: left;">PixMo Subset</th>
+<th style="text-align: left;">Architectural Dependency</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">Dense visual grounding</td>
+<td style="text-align: left;">PixMo-CAP</td>
+<td style="text-align: left;">Persistent visual memory</td>
+</tr>
+<tr>
+<td style="text-align: left;">Counting &amp; enumeration</td>
+<td style="text-align: left;">PixMo-Count</td>
+<td style="text-align: left;">Spatially structured tokens</td>
+</tr>
+<tr>
+<td style="text-align: left;">Pointing &amp; localization</td>
+<td style="text-align: left;">PixMo-Points</td>
+<td style="text-align: left;">Layout-aware connectors</td>
+</tr>
+<tr>
+<td style="text-align: left;">Document understanding</td>
+<td style="text-align: left;">PixMo-Docs</td>
+<td style="text-align: left;">Multi-scale preprocessing</td>
+</tr>
+<tr>
+<td style="text-align: left;">Geometric reasoning</td>
+<td style="text-align: left;">PixMo-Clocks</td>
+<td style="text-align: left;">Region-level attention</td>
+</tr>
+</tbody>
+</table>
+<p>The important observation is that <strong>none of these capabilities would emerge reliably</strong> if MOLMO used single-resolution resizing, aggressive early pooling, or vision-as-prefix decoding. In other words, PixMo does not compensate for architectural weaknesses—it <em>assumes they have already been addressed</em>.</p>
+<h3>A Common Failure Pattern in VLM Training</h3>
+<p>Many VLMs follow an implicit strategy: collect diverse multimodal data, mix everything into instruction tuning, and hope scale smooths over inconsistencies. This often leads to models that caption fluently but hallucinate spatial facts or perform poorly at grounding.</p>
+<p>MOLMO avoids this by enforcing a clean separation:
+*   <strong>Architecture</strong> defines <em>what is possible</em>.
+*   <strong>Data</strong> teaches the model <em>when to use it</em>.</p>
+<h3>The Broader Lesson</h3>
+<p>A useful mental model is to think in terms of ceilings: a weak architecture creates a low ceiling, no matter how much data is added. PixMo pushes MOLMO toward its architectural limits, but it does not redefine those limits.</p>
+<p>The takeaway is not “data matters less,” but something more precise: <strong>in VLMs, architecture determines <em>which datasets are even learnable</em></strong>.</p>
+<p>With this in mind, we can step back and ask a final, forward-looking question: what does MOLMO teach us about the future design of vision-language systems? It teaches us that distinct architectural choices—not just scale—will define the limits of what our models can truly understand.</p>
+    </div>
+</article>
+        </main>
+
+        <footer>
+            <div class="footer-content">
+                <div class="footer-icons">
+                    <a href="https://github.com/Vedaang-Chopra" target="_blank" class="footer-icon-btn" aria-label="GitHub">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg>
+                    </a>
+                    <a href="https://linkedin.com/in/vedaang-chopra/" target="_blank" class="footer-icon-btn" aria-label="LinkedIn">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path><rect x="2" y="9" width="4" height="12"></rect><circle cx="4" cy="4" r="2"></circle></svg>
+                    </a>
+                    <a href="mailto:vedaangchopra1009@gmail.com" class="footer-icon-btn" aria-label="Email">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
+                    </a>
+                </div>
+                <div class="footer-links">
+                    <p>&copy; 2026 Vedaang Chopra</p>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <script>
+        const toggleBtn = document.getElementById('theme-toggle');
+        const body = document.body;
+        const icon = toggleBtn.querySelector('.icon');
+
+        // Theme Definitions
+        const themes = ['', 'mint-theme', 'dark-theme', 'sepia-theme'];
+        const icons = ['☀', '🌿', '🌙', '☕'];
+
+        // Load saved theme
+        let currentThemeIndex = 0;
+        const savedTheme = localStorage.getItem('theme');
+        
+        if (savedTheme) {
+            const savedIndex = themes.indexOf(savedTheme);
+            if (savedIndex !== -1) {
+                currentThemeIndex = savedIndex;
+                if (themes[currentThemeIndex]) {
+                    body.classList.add(themes[currentThemeIndex]);
+                }
+                icon.textContent = icons[currentThemeIndex];
+            }
+        }
+
+        toggleBtn.addEventListener('click', () => {
+            // Remove current theme class if it exists
+            if (themes[currentThemeIndex]) {
+                body.classList.remove(themes[currentThemeIndex]);
+            }
+
+            // Cycle to next theme
+            currentThemeIndex = (currentThemeIndex + 1) % themes.length;
+
+            // Add new theme class if it exists (not empty string)
+            if (themes[currentThemeIndex]) {
+                body.classList.add(themes[currentThemeIndex]);
+                localStorage.setItem('theme', themes[currentThemeIndex]);
+            } else {
+                localStorage.removeItem('theme');
+            }
+
+            // Update icon
+            icon.textContent = icons[currentThemeIndex];
+        });
+    </script>
+</body>
+</html>
