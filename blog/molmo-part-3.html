@@ -256,26 +256,37 @@
         mermaid.initialize({ startOnLoad: false });
 
         document.addEventListener('DOMContentLoaded', () => {
-            const mermaidBlocks = document.querySelectorAll('code.language-mermaid, .highlight .mermaid, .codehilite .mermaid');
+            // Mermaid diagram keywords to detect
+            const mermaidKeywords = ['flowchart ', 'graph ', 'sequenceDiagram', 'classDiagram', 'stateDiagram', 'erDiagram', 'gantt', 'pie ', 'journey', 'gitGraph'];
+            
+            // Find all code blocks and check content for mermaid syntax
+            const codeBlocks = document.querySelectorAll('code');
+            const mermaidBlocks = Array.from(codeBlocks).filter(block => {
+                const text = block.textContent.trim();
+                return mermaidKeywords.some(keyword => text.startsWith(keyword));
+            });
+            
             mermaidBlocks.forEach(block => {
                 const div = document.createElement('div');
                 div.className = 'mermaid';
                 div.textContent = block.textContent;
                 
-                // Handle different nesting structures
+                // Handle different nesting: code > pre > .highlight
                 let target = block;
-                if (block.tagName === 'CODE' && block.parentElement.tagName === 'PRE') {
+                if (block.parentElement && block.parentElement.tagName === 'PRE') {
                     target = block.parentElement;
-                    if (target.parentElement.classList.contains('highlight') || target.parentElement.classList.contains('codehilite')) {
+                    if (target.parentElement && (target.parentElement.classList.contains('highlight') || target.parentElement.classList.contains('codehilite'))) {
                         target = target.parentElement;
                     }
                 }
                 target.replaceWith(div);
             });
 
-            mermaid.run({
-                nodes: document.querySelectorAll('.mermaid')
-            });
+            if (mermaidBlocks.length > 0) {
+                mermaid.run({
+                    nodes: document.querySelectorAll('.mermaid')
+                });
+            }
         });
     </script>
 </body>
