@@ -556,3 +556,21 @@ footer {
     color: var(--btn-hover-text);
     border-color: var(--btn-hover-bg);
 }
+
+/* Blog Content Images */
+.content img {
+    display: block;
+    margin: 2rem auto;
+    max-width: 100%;
+    height: auto;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+@media (min-width: 768px) {
+    .content img {
+        max-width: 85%; /* Limit width on larger screens for better reading experience */
+        max-height: 650px; /* Prevent overly tall images */
+        object-fit: contain;
+    }
+}
