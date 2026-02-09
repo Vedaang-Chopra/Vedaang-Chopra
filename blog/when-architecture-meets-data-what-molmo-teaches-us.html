@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>"When Architecture Meets Data: What MOLMO Teaches Us" - Vedaang Chopra</title>
+    <link rel="stylesheet" href="https://vedaangchopra.live/theme/css/style.css" />
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <nav>
+                <a href="https://vedaangchopra.live/" class="profile-brand">
+                    <img src="https://vedaangchopra.live/images/profile.png" alt="Profile" class="profile-circle">
+                </a>
+                <a href="https://vedaangchopra.live/" class="brand">Home</a>
+                <a href="https://vedaangchopra.live/projects.html">Projects</a>
+                <a href="/resume.html">Resume</a>
+                <a href="/blog.html">Writing</a>
+                <a href="/uses.html">Uses</a>
+                <button id="theme-toggle" aria-label="Toggle Theme">
+                    <span class="icon">☀</span>
+                </button>
+            </nav>
+        </header>
+
+        <main>
+<article>
+    <header>
+        <h1>"When Architecture Meets Data: What MOLMO Teaches Us"</h1>
+        <div class="meta">
+            <span class="date">2024-10-27</span>
+        </div>
+    </header>
+    
+    <div class="content">
+        <p><strong>Part 4 of a 4-part series on Vision-Language Model design.</strong><br>
+<a href="/blog/molmo-part-3">← Previous</a> | Next →</p>
+<hr>
+<h1>When Architecture Meets Data: What MOLMO Teaches Us</h1>
+<p>Up to this point, MOLMO has preserved visual information, compressed it without destroying structure, and aligned it with language in a spatially meaningful way. The final question is whether this information is actually <em>used</em> during reasoning.</p>
+<p>A VLM can have excellent visual representations and still behave like a captioning model if its decoder treats vision as a static prefix rather than an active source of evidence. MOLMO is explicit about avoiding this failure mode.</p>
+<hr>
+<h2>Decoder-Only, But Not Vision-Blind</h2>
+<p>MOLMO uses a <strong>decoder-only language model</strong>. This choice is deliberate. During generation:
+* <strong>Visual tokens are fully visible at every decoding step</strong>
+* <strong>Text tokens are causally masked</strong></p>
+<p>This creates an asymmetric attention pattern:</p>
+<div class="highlight"><pre><span></span><code><span class="n">flowchart</span><span class="w"> </span><span class="n">LR</span>
+<span class="w">    </span><span class="n">VT</span><span class="p">[</span><span class="n">Visual</span><span class="w"> </span><span class="n">Tokens</span><span class="err">\</span><span class="n">nPersistent</span><span class="w"> </span><span class="n">Context</span><span class="p">]</span>
+<span class="w">    </span><span class="n">TT1</span><span class="p">[</span><span class="n">Text</span><span class="w"> </span><span class="kt">Token</span><span class="w"> </span><span class="n">t</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+<span class="w">    </span><span class="n">TT2</span><span class="p">[</span><span class="n">Text</span><span class="w"> </span><span class="kt">Token</span><span class="w"> </span><span class="n">t</span><span class="p">]</span>
+<span class="w">    </span><span class="n">VT</span><span class="w"> </span><span class="o">--&gt;</span><span class="w"> </span><span class="n">TT2</span>
+<span class="w">    </span><span class="n">TT1</span><span class="w"> </span><span class="o">--&gt;</span><span class="w"> </span><span class="n">TT2</span>
+</code></pre></div>
+
+<p>The implication is subtle but critical: <strong>the model can always re-attend to the entire visual scene while generating each new word.</strong> Vision is not something the model "reads once and forgets." It functions as a <strong>persistent external memory</strong>.</p>
+<hr>
+<h2>Vision as Persistent Memory</h2>
+<p>Many VLM failures arise because vision is treated as a compressed hint—a short prefix or limited attention window. In such setups, early decoding decisions lock in interpretations that cannot be revised. MOLMO's decoding strategy enables:</p>
+<ul>
+<li>Re-checking spatial relationships mid-generation</li>
+<li>Revisiting visual evidence when resolving ambiguity</li>
+<li>Maintaining consistency between earlier and later claims</li>
+</ul>
+<p>This is especially important for tasks like counting ("there are three cups, not two") or referring expressions ("the object on the left, not the center"), where the answer depends on constant verification against visual evidence.</p>
+<hr>
+<h2>Why Data Still Matters — But Only If Architecture Lets It</h2>
+<p>Up to this point, the discussion has focused almost entirely on architecture. This is intentional. MOLMO makes a strong implicit claim:</p>
+<blockquote>
+<p>Data does not create capabilities by itself. It only reveals the capabilities that the architecture already permits.</p>
+</blockquote>
+<p>PixMo, MOLMO's data suite, is best understood through this lens—not as a collection of large datasets, but as <strong>capability probes</strong> designed to exercise specific architectural affordances.</p>
+<hr>
+<h2>PixMo as Capability Supervision, Not Scale</h2>
+<p>Rather than enumerating PixMo datasets individually, it is more useful to group them by <em>what they are trying to teach the model to do</em>:</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Capability</th>
+<th style="text-align: left;">PixMo Subset</th>
+<th style="text-align: left;">Architectural Dependency</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">Dense visual grounding</td>
+<td style="text-align: left;">PixMo-CAP</td>
+<td style="text-align: left;">Persistent visual memory</td>
+</tr>
+<tr>
+<td style="text-align: left;">Counting &amp; enumeration</td>
+<td style="text-align: left;">PixMo-Count</td>
+<td style="text-align: left;">Spatially structured tokens</td>
+</tr>
+<tr>
+<td style="text-align: left;">Pointing &amp; localization</td>
+<td style="text-align: left;">PixMo-Points</td>
+<td style="text-align: left;">Layout-aware connectors</td>
+</tr>
+<tr>
+<td style="text-align: left;">Document understanding</td>
+<td style="text-align: left;">PixMo-Docs</td>
+<td style="text-align: left;">Multi-scale preprocessing</td>
+</tr>
+<tr>
+<td style="text-align: left;">Geometric reasoning</td>
+<td style="text-align: left;">PixMo-Clocks</td>
+<td style="text-align: left;">Region-level attention</td>
+</tr>
+</tbody>
+</table>
+<p>The important observation is that <strong>none of these capabilities would emerge reliably</strong> if MOLMO used single-resolution resizing, aggressive early pooling, or vision-as-prefix decoding. In other words, PixMo does not compensate for architectural weaknesses—it <em>assumes they have already been addressed</em>.</p>
+<p>Figure 1 from the paper shows how PixMo datasets map to MOLMO's capabilities:</p>
+<p><img alt="PixMo datasets and the capabilities they enable in MOLMO." src="/images/molmo_pixmo_datasets.png"></p>
+<p><em>Figure 1: PixMo (left) consists of three annotated datasets and four synthetic datasets, all constructed without the use of VLMs. Each dataset enables specific capabilities in MOLMO (right), from fine-grained understanding to pointing and visual skills.</em></p>
+<hr>
+<h2>A Common Failure Pattern in VLM Training</h2>
+<p>Many VLMs follow an implicit strategy: collect diverse multimodal data, mix everything into instruction tuning, and hope scale smooths over inconsistencies. This often leads to models that caption fluently but hallucinate spatial facts or perform poorly at grounding.</p>
+<p>MOLMO avoids this by enforcing a clean separation:
+* <strong>Architecture</strong> defines <em>what is possible</em>.
+* <strong>Data</strong> teaches the model <em>when to use it</em>.</p>
+<hr>
+<h2>The Broader Lesson</h2>
+<p>A useful mental model is to think in terms of ceilings: a weak architecture creates a low ceiling, no matter how much data is added. PixMo pushes MOLMO toward its architectural limits, but it does not redefine those limits.</p>
+<p>The takeaway is not "data matters less," but something more precise: <strong>in VLMs, architecture determines <em>which datasets are even learnable</em></strong>.</p>
+<hr>
+<h2>What MOLMO Teaches Us About VLM Design</h2>
+<p>With this in mind, we can step back and ask a final, forward-looking question: what does MOLMO teach us about the future design of vision-language systems?</p>
+<ol>
+<li>
+<p><strong>Preprocessing is modeling.</strong> The image preprocessor is not infrastructure—it is the first layer of representation learning.</p>
+</li>
+<li>
+<p><strong>Compression must be semantically aware.</strong> Token reduction should happen after, not before, semantic features are extracted.</p>
+</li>
+<li>
+<p><strong>Connectors must preserve structure.</strong> Dimensionality alignment is necessary but not sufficient.</p>
+</li>
+<li>
+<p><strong>Vision must remain accessible.</strong> The decoder should treat visual tokens as persistent context, not a one-time input.</p>
+</li>
+<li>
+<p><strong>Data reveals architecture.</strong> Training data can only teach capabilities that the architecture already permits.</p>
+</li>
+</ol>
+<p>MOLMO demonstrates that distinct architectural choices—not just scale—will define the limits of what our models can truly understand.</p>
+<hr>
+<h2>Acknowledgments</h2>
+<p>This blog series was created with assistance from:</p>
+<ul>
+<li><strong><a href="https://arxiv.org/abs/2409.17146">MOLMO Paper</a></strong> — Deitke et al., "Molmo and PixMo: Open Weights and Open Data for State-of-the-Art Multimodal Models" (2024)</li>
+<li><strong><a href="https://openai.com/chatgpt">ChatGPT</a></strong> — OpenAI's language model, used for drafting and editing</li>
+<li><strong><a href="https://deepmind.google/">Antigravity</a></strong> — Google DeepMind's agentic coding assistant, used for structuring and publishing</li>
+</ul>
+<hr>
+<p><strong>Part 4 of a 4-part series on Vision-Language Model design.</strong><br>
+<a href="/blog/molmo-part-3">← Previous</a> | Next →</p>
+    </div>
+</article>
+        </main>
+
+        <footer>
+            <div class="footer-content">
+                <div class="footer-icons">
+                    <a href="https://github.com/Vedaang-Chopra" target="_blank" class="footer-icon-btn" aria-label="GitHub">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg>
+                    </a>
+                    <a href="https://linkedin.com/in/vedaang-chopra/" target="_blank" class="footer-icon-btn" aria-label="LinkedIn">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path><rect x="2" y="9" width="4" height="12"></rect><circle cx="4" cy="4" r="2"></circle></svg>
+                    </a>
+                    <a href="mailto:vedaangchopra1009@gmail.com" class="footer-icon-btn" aria-label="Email">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
+                    </a>
+                </div>
+                <div class="footer-links">
+                    <p>&copy; 2026 Vedaang Chopra</p>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <script>
+        const toggleBtn = document.getElementById('theme-toggle');
+        const body = document.body;
+        const icon = toggleBtn.querySelector('.icon');
+
+        // Theme Definitions
+        const themes = ['', 'mint-theme', 'dark-theme', 'sepia-theme'];
+        const icons = ['☀', '🌿', '🌙', '☕'];
+
+        // Load saved theme
+        let currentThemeIndex = 0;
+        const savedTheme = localStorage.getItem('theme');
+        
+        if (savedTheme) {
+            const savedIndex = themes.indexOf(savedTheme);
+            if (savedIndex !== -1) {
+                currentThemeIndex = savedIndex;
+                if (themes[currentThemeIndex]) {
+                    body.classList.add(themes[currentThemeIndex]);
+                }
+                icon.textContent = icons[currentThemeIndex];
+            }
+        }
+
+        toggleBtn.addEventListener('click', () => {
+            // Remove current theme class if it exists
+            if (themes[currentThemeIndex]) {
+                body.classList.remove(themes[currentThemeIndex]);
+            }
+
+            // Cycle to next theme
+            currentThemeIndex = (currentThemeIndex + 1) % themes.length;
+
+            // Add new theme class if it exists (not empty string)
+            if (themes[currentThemeIndex]) {
+                body.classList.add(themes[currentThemeIndex]);
+                localStorage.setItem('theme', themes[currentThemeIndex]);
+            } else {
+                localStorage.removeItem('theme');
+            }
+
+            // Update icon
+            icon.textContent = icons[currentThemeIndex];
+        });
+    </script>
+</body>
+</html>
