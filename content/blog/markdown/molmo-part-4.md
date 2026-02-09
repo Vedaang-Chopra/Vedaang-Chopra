@@ -124,11 +124,13 @@ MOLMO demonstrates that distinct architectural choices—not just scale—will d
 
 ## Acknowledgments
 
+> **Disclosure:** Parts of this blog series were generated with the assistance of AI tools. The content has been reviewed and curated for technical accuracy.
+
 This blog series was created with assistance from:
 
-- **[MOLMO Paper](https://arxiv.org/abs/2409.17146)** — Deitke et al., "Molmo and PixMo: Open Weights and Open Data for State-of-the-Art Multimodal Models" (2024)
-- **[ChatGPT](https://openai.com/chatgpt)** — OpenAI's language model, used for drafting and editing
-- **[Antigravity](https://deepmind.google/)** — Google DeepMind's agentic coding assistant, used for structuring and publishing
+* **[MOLMO Paper](https://arxiv.org/abs/2409.17146)** — Deitke et al., "Molmo and PixMo: Open Weights and Open Data for State-of-the-Art Multimodal Models" (2024)
+* **[ChatGPT](https://openai.com/chatgpt)** — OpenAI's language model, used for drafting and editing
+* **[Antigravity](https://deepmind.google/)** — Google DeepMind's agentic coding assistant, used for structuring and publishing
 
 ---
 
