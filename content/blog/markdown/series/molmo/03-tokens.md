@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "Part 3: From Patches to Reasoning: Tokens, Bandwidth, and Connectors"
-date: 2024-10-26
+date: 2024-10-24 10:02
 categories: [Research Blog]
 tags: [MOLMO, PixMo, VLM]
 series: "MOLMO and the Anatomy of Modern Vision-Language Models"
