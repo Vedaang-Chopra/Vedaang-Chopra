@@ -77,6 +77,28 @@ From an AI research perspective, this is best understood as **visual bandwidth c
 
 ---
 
+## Putting It Together: A Walkthrough
+
+To make this concrete, consider a 1920×1080 image of a busy café street:
+
+| Step | Operation                 | Result                                            |
+| ---- | ------------------------- | ------------------------------------------------- |
+| 1    | Input image               | 1920×1080×3 RGB                                   |
+| 2    | Create global view        | 336×336 (entire scene, scaled down)               |
+| 3    | Create high-res crops     | ~8 overlapping 336×336 tiles with 56px overlap    |
+| 4    | Patchify each crop        | 24×24 = 576 patches per crop (14×14px patches)    |
+| 5    | ViT encoding              | Each patch → 1024-D vector                        |
+| 6    | Multi-layer extraction    | Mid + late layer features combined                |
+| 7    | 2×2 attention pooling     | 576 → 144 tokens per crop                         |
+| 8    | Remove overlap duplicates | ~9 crops × 144 ≈ 1,296 → **~1,100 unique tokens** |
+| 9    | Connector projection      | 1,100 × 1024-D → 1,100 × 4096-D                   |
+| 10   | Add layout tokens         | `<img_start_lowres>`, `<row_end>`, etc.           |
+| 11   | Concatenate with text     | [1,100 visual] + [~8 text tokens] → LLM           |
+
+The LLM then generates text autoregressively, attending to all visual tokens at each step. When asked *"What color is the car near the café?"*, it can localize "car" to specific visual tokens and verify "near the café" spatially—because the architecture preserved this structure throughout.
+
+---
+
 ## The Connector Is Not a Projection Layer
 
 In many VLM descriptions, the connector is dismissed in a single sentence: *"visual features are projected into the language embedding space."* MOLMO treats this as an oversimplification—and implicitly argues that this framing is one reason many VLMs underperform at grounding and reasoning.

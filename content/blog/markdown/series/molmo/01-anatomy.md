@@ -28,6 +28,16 @@ The central argument is simple but often overlooked:
 
 MOLMO is valuable because it makes these constraints explicit—and largely gets them right.
 
+### Why "Open" Actually Matters Here
+
+Many VLMs claim openness but fall short in practice:
+
+* **API-only** (GPT-4o, Gemini): No weights, no data, no reproducibility.
+* **Open weights, closed data** (Qwen-VL, InternVL): You can run it, but you cannot study *why* it works.
+* **Open weights + distilled data** (LLaVA, Cambrian): Trained on synthetic captions from proprietary VLMs—meaning reproducibility still depends on closed systems.
+
+MOLMO occupies a different position: **open weights, open data (PixMo), and open training code**. This means the entire system—from data collection decisions to architectural choices—can be audited, reproduced, and extended. For researchers, this is not a marketing distinction; it is the difference between a benchmark result and a research artifact.
+
 ---
 
 ## The Core VLM Abstraction

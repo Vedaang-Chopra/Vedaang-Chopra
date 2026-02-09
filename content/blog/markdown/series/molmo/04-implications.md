@@ -69,21 +69,38 @@ PixMo, MOLMO's data suite, is best understood through this lens—not as a colle
 
 Rather than enumerating PixMo datasets individually, it is more useful to group them by *what they are trying to teach the model to do*:
 
-| Capability              | PixMo Subset | Architectural Dependency    |
-| :---------------------- | :----------- | :-------------------------- |
-| Dense visual grounding  | PixMo-CAP    | Persistent visual memory    |
-| Counting & enumeration  | PixMo-Count  | Spatially structured tokens |
-| Pointing & localization | PixMo-Points | Layout-aware connectors     |
-| Document understanding  | PixMo-Docs   | Multi-scale preprocessing   |
-| Geometric reasoning     | PixMo-Clocks | Region-level attention      |
+| Capability              | PixMo Subset     | Scale                          | Key Feature                                                                           |
+| :---------------------- | :--------------- | :----------------------------- | :------------------------------------------------------------------------------------ |
+| Dense captioning        | PixMo-CAP        | 712K images, 1.3M captions     | **Voice-first**: annotators speak 60-90s descriptions (~196 words avg vs. 11 in COCO) |
+| Visual Q&A              | AskModelAnything | 162K QA pairs / 73K images     | Human-in-the-loop with text-only LLM (no VLM supervision)                             |
+| Pointing & grounding    | PixMo-Points     | 2.3M expressions / 229K images | 10× larger than RefCOCO; enables "count-by-pointing"                                  |
+| Caption-based reasoning | PixMo-CapQA      | 214K QA / 165K images          | Caption → QA conversion via text LLM                                                  |
+| Document understanding  | PixMo-Docs       | 255K images, 2.3M QA           | Code-generated charts (Matplotlib, LaTeX, Mermaid, etc.)                              |
+| Visual numeracy         | PixMo-Clocks     | 826K images                    | Synthetic watch faces; teaches geometric → numeric reasoning                          |
+| Grounded counting       | PixMo-Count      | 36K train / 540 val            | Point-based counting supervision; harder than CountBenchQA                            |
 
-The important observation is that **none of these capabilities would emerge reliably** if MOLMO used single-resolution resizing, aggressive early pooling, or vision-as-prefix decoding. In other words, PixMo does not compensate for architectural weaknesses—it *assumes they have already been addressed*.
+The key insight is that **none of these capabilities would emerge reliably** if MOLMO used single-resolution resizing, aggressive early pooling, or vision-as-prefix decoding. PixMo does not compensate for architectural weaknesses—it *assumes they have already been addressed*.
 
 Figure 1 from the paper shows how PixMo datasets map to MOLMO's capabilities:
 
 ![PixMo datasets and the capabilities they enable in MOLMO.](/images/molmo_pixmo_datasets.png)
 
 *Figure 1: PixMo (left) consists of three annotated datasets and four synthetic datasets, all constructed without the use of VLMs. Each dataset enables specific capabilities in MOLMO (right), from fine-grained understanding to pointing and visual skills.*
+
+---
+
+## How Well Does It Work?
+
+MOLMO's results validate the architectural philosophy:
+
+| Metric                   | Result                                                                                                                                                 |
+| ------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| **Overall ranking**      | Molmo-72B ranks **#2** (behind only GPT-4o), beating Gemini 1.5 Pro and Claude 3.5 Sonnet                                                              |
+| **Counting & grounding** | Best-in-class due to point-then-count reasoning and 2D pointing data                                                                                   |
+| **cap-F1 correlation**   | Strong 0.82 correlation between captioning quality and benchmark performance—suggesting dense captioning is a reliable proxy for multimodal capability |
+| **Openness**             | First fully open VLM (weights, data, code) to reach this performance tier                                                                              |
+
+Where MOLMO is weaker: reasoning-heavy tasks (MathVista) and fine OCR, which require more structured reasoning data.
 
 ---
 
