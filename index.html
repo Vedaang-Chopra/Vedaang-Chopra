@@ -121,5 +121,32 @@
             icon.textContent = icons[currentThemeIndex];
         });
     </script>
+    <script type="module">
+        import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+        mermaid.initialize({ startOnLoad: false });
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const mermaidBlocks = document.querySelectorAll('code.language-mermaid, .highlight .mermaid, .codehilite .mermaid');
+            mermaidBlocks.forEach(block => {
+                const div = document.createElement('div');
+                div.className = 'mermaid';
+                div.textContent = block.textContent;
+                
+                // Handle different nesting structures
+                let target = block;
+                if (block.tagName === 'CODE' && block.parentElement.tagName === 'PRE') {
+                    target = block.parentElement;
+                    if (target.parentElement.classList.contains('highlight') || target.parentElement.classList.contains('codehilite')) {
+                        target = target.parentElement;
+                    }
+                }
+                target.replaceWith(div);
+            });
+
+            mermaid.run({
+                nodes: document.querySelectorAll('.mermaid')
+            });
+        });
+    </script>
 </body>
 </html>
