@@ -81,6 +81,76 @@
 <p>Because crops overlap, some regions appear multiple times. MOLMO explicitly removes duplicate tokens corresponding to overlapping areas. The result is roughly <strong>~1100 unique visual tokens</strong> for an entire high-resolution image, with no double-counting and no fragmented evidence.</p>
 <p>From an AI research perspective, this is best understood as <strong>visual bandwidth control</strong>. The goal is not to feed the LLM more pixels, but to feed it <em>the right abstractions at the right granularity</em>.</p>
 <hr>
+<h2>Putting It Together: A Walkthrough</h2>
+<p>To make this concrete, consider a 1920×1080 image of a busy café street:</p>
+<table>
+<thead>
+<tr>
+<th>Step</th>
+<th>Operation</th>
+<th>Result</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>Input image</td>
+<td>1920×1080×3 RGB</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Create global view</td>
+<td>336×336 (entire scene, scaled down)</td>
+</tr>
+<tr>
+<td>3</td>
+<td>Create high-res crops</td>
+<td>~8 overlapping 336×336 tiles with 56px overlap</td>
+</tr>
+<tr>
+<td>4</td>
+<td>Patchify each crop</td>
+<td>24×24 = 576 patches per crop (14×14px patches)</td>
+</tr>
+<tr>
+<td>5</td>
+<td>ViT encoding</td>
+<td>Each patch → 1024-D vector</td>
+</tr>
+<tr>
+<td>6</td>
+<td>Multi-layer extraction</td>
+<td>Mid + late layer features combined</td>
+</tr>
+<tr>
+<td>7</td>
+<td>2×2 attention pooling</td>
+<td>576 → 144 tokens per crop</td>
+</tr>
+<tr>
+<td>8</td>
+<td>Remove overlap duplicates</td>
+<td>~9 crops × 144 ≈ 1,296 → <strong>~1,100 unique tokens</strong></td>
+</tr>
+<tr>
+<td>9</td>
+<td>Connector projection</td>
+<td>1,100 × 1024-D → 1,100 × 4096-D</td>
+</tr>
+<tr>
+<td>10</td>
+<td>Add layout tokens</td>
+<td><code>&lt;img_start_lowres&gt;</code>, <code>&lt;row_end&gt;</code>, etc.</td>
+</tr>
+<tr>
+<td>11</td>
+<td>Concatenate with text</td>
+<td>[1,100 visual] + [~8 text tokens] → LLM</td>
+</tr>
+</tbody>
+</table>
+<p>The LLM then generates text autoregressively, attending to all visual tokens at each step. When asked <em>"What color is the car near the café?"</em>, it can localize "car" to specific visual tokens and verify "near the café" spatially—because the architecture preserved this structure throughout.</p>
+<hr>
 <h2>The Connector Is Not a Projection Layer</h2>
 <p>In many VLM descriptions, the connector is dismissed in a single sentence: <em>"visual features are projected into the language embedding space."</em> MOLMO treats this as an oversimplification—and implicitly argues that this framing is one reason many VLMs underperform at grounding and reasoning.</p>
 <p>The connector is not just about dimensionality alignment. It is about <strong>making visual structure legible to a language model</strong>.</p>

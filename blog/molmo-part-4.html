@@ -83,41 +83,89 @@
 <tr>
 <th style="text-align: left;">Capability</th>
 <th style="text-align: left;">PixMo Subset</th>
-<th style="text-align: left;">Architectural Dependency</th>
+<th style="text-align: left;">Scale</th>
+<th style="text-align: left;">Key Feature</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td style="text-align: left;">Dense visual grounding</td>
+<td style="text-align: left;">Dense captioning</td>
 <td style="text-align: left;">PixMo-CAP</td>
-<td style="text-align: left;">Persistent visual memory</td>
+<td style="text-align: left;">712K images, 1.3M captions</td>
+<td style="text-align: left;"><strong>Voice-first</strong>: annotators speak 60-90s descriptions (~196 words avg vs. 11 in COCO)</td>
 </tr>
 <tr>
-<td style="text-align: left;">Counting &amp; enumeration</td>
-<td style="text-align: left;">PixMo-Count</td>
-<td style="text-align: left;">Spatially structured tokens</td>
+<td style="text-align: left;">Visual Q&amp;A</td>
+<td style="text-align: left;">AskModelAnything</td>
+<td style="text-align: left;">162K QA pairs / 73K images</td>
+<td style="text-align: left;">Human-in-the-loop with text-only LLM (no VLM supervision)</td>
 </tr>
 <tr>
-<td style="text-align: left;">Pointing &amp; localization</td>
+<td style="text-align: left;">Pointing &amp; grounding</td>
 <td style="text-align: left;">PixMo-Points</td>
-<td style="text-align: left;">Layout-aware connectors</td>
+<td style="text-align: left;">2.3M expressions / 229K images</td>
+<td style="text-align: left;">10× larger than RefCOCO; enables "count-by-pointing"</td>
+</tr>
+<tr>
+<td style="text-align: left;">Caption-based reasoning</td>
+<td style="text-align: left;">PixMo-CapQA</td>
+<td style="text-align: left;">214K QA / 165K images</td>
+<td style="text-align: left;">Caption → QA conversion via text LLM</td>
 </tr>
 <tr>
 <td style="text-align: left;">Document understanding</td>
 <td style="text-align: left;">PixMo-Docs</td>
-<td style="text-align: left;">Multi-scale preprocessing</td>
+<td style="text-align: left;">255K images, 2.3M QA</td>
+<td style="text-align: left;">Code-generated charts (Matplotlib, LaTeX, Mermaid, etc.)</td>
 </tr>
 <tr>
-<td style="text-align: left;">Geometric reasoning</td>
+<td style="text-align: left;">Visual numeracy</td>
 <td style="text-align: left;">PixMo-Clocks</td>
-<td style="text-align: left;">Region-level attention</td>
+<td style="text-align: left;">826K images</td>
+<td style="text-align: left;">Synthetic watch faces; teaches geometric → numeric reasoning</td>
+</tr>
+<tr>
+<td style="text-align: left;">Grounded counting</td>
+<td style="text-align: left;">PixMo-Count</td>
+<td style="text-align: left;">36K train / 540 val</td>
+<td style="text-align: left;">Point-based counting supervision; harder than CountBenchQA</td>
 </tr>
 </tbody>
 </table>
-<p>The important observation is that <strong>none of these capabilities would emerge reliably</strong> if MOLMO used single-resolution resizing, aggressive early pooling, or vision-as-prefix decoding. In other words, PixMo does not compensate for architectural weaknesses—it <em>assumes they have already been addressed</em>.</p>
+<p>The key insight is that <strong>none of these capabilities would emerge reliably</strong> if MOLMO used single-resolution resizing, aggressive early pooling, or vision-as-prefix decoding. PixMo does not compensate for architectural weaknesses—it <em>assumes they have already been addressed</em>.</p>
 <p>Figure 1 from the paper shows how PixMo datasets map to MOLMO's capabilities:</p>
 <p><img alt="PixMo datasets and the capabilities they enable in MOLMO." src="/images/molmo_pixmo_datasets.png"></p>
 <p><em>Figure 1: PixMo (left) consists of three annotated datasets and four synthetic datasets, all constructed without the use of VLMs. Each dataset enables specific capabilities in MOLMO (right), from fine-grained understanding to pointing and visual skills.</em></p>
+<hr>
+<h2>How Well Does It Work?</h2>
+<p>MOLMO's results validate the architectural philosophy:</p>
+<table>
+<thead>
+<tr>
+<th>Metric</th>
+<th>Result</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Overall ranking</strong></td>
+<td>Molmo-72B ranks <strong>#2</strong> (behind only GPT-4o), beating Gemini 1.5 Pro and Claude 3.5 Sonnet</td>
+</tr>
+<tr>
+<td><strong>Counting &amp; grounding</strong></td>
+<td>Best-in-class due to point-then-count reasoning and 2D pointing data</td>
+</tr>
+<tr>
+<td><strong>cap-F1 correlation</strong></td>
+<td>Strong 0.82 correlation between captioning quality and benchmark performance—suggesting dense captioning is a reliable proxy for multimodal capability</td>
+</tr>
+<tr>
+<td><strong>Openness</strong></td>
+<td>First fully open VLM (weights, data, code) to reach this performance tier</td>
+</tr>
+</tbody>
+</table>
+<p>Where MOLMO is weaker: reasoning-heavy tasks (MathVista) and fine OCR, which require more structured reasoning data.</p>
 <hr>
 <h2>A Common Failure Pattern in VLM Training</h2>
 <p>Many VLMs follow an implicit strategy: collect diverse multimodal data, mix everything into instruction tuning, and hope scale smooths over inconsistencies. This often leads to models that caption fluently but hallucinate spatial facts or perform poorly at grounding.</p>
