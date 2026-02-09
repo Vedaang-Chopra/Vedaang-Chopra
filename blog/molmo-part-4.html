@@ -46,9 +46,11 @@
 <p>A VLM can have excellent visual representations and still behave like a captioning model if its decoder treats vision as a static prefix rather than an active source of evidence. MOLMO is explicit about avoiding this failure mode.</p>
 <hr>
 <h2>Decoder-Only, But Not Vision-Blind</h2>
-<p>MOLMO uses a <strong>decoder-only language model</strong>. This choice is deliberate. During generation:
-* <strong>Visual tokens are fully visible at every decoding step</strong>
-* <strong>Text tokens are causally masked</strong></p>
+<p>MOLMO uses a <strong>decoder-only language model</strong>. This choice is deliberate. During generation:</p>
+<ul>
+<li><strong>Visual tokens are fully visible at every decoding step</strong></li>
+<li><strong>Text tokens are causally masked</strong></li>
+</ul>
 <p>This creates an asymmetric attention pattern:</p>
 <div class="highlight"><pre><span></span><code><span class="n">flowchart</span><span class="w"> </span><span class="n">LR</span>
 <span class="w">    </span><span class="n">VT</span><span class="p">[</span><span class="n">Visual</span><span class="w"> </span><span class="n">Tokens</span><span class="err">\</span><span class="n">nPersistent</span><span class="w"> </span><span class="n">Context</span><span class="p">]</span>
@@ -169,9 +171,11 @@
 <hr>
 <h2>A Common Failure Pattern in VLM Training</h2>
 <p>Many VLMs follow an implicit strategy: collect diverse multimodal data, mix everything into instruction tuning, and hope scale smooths over inconsistencies. This often leads to models that caption fluently but hallucinate spatial facts or perform poorly at grounding.</p>
-<p>MOLMO avoids this by enforcing a clean separation:
-* <strong>Architecture</strong> defines <em>what is possible</em>.
-* <strong>Data</strong> teaches the model <em>when to use it</em>.</p>
+<p>MOLMO avoids this by enforcing a clean separation:</p>
+<ul>
+<li><strong>Architecture</strong> defines <em>what is possible</em>.</li>
+<li><strong>Data</strong> teaches the model <em>when to use it</em>.</li>
+</ul>
 <hr>
 <h2>The Broader Lesson</h2>
 <p>A useful mental model is to think in terms of ceilings: a weak architecture creates a low ceiling, no matter how much data is added. PixMo pushes MOLMO toward its architectural limits, but it does not redefine those limits.</p>

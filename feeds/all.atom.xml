@@ -11,9 +11,11 @@
 &lt;p&gt;A VLM can have excellent visual representations and still behave like a captioning model if its decoder treats vision as a static prefix rather than an active source of evidence. MOLMO is explicit about avoiding this failure mode.&lt;/p&gt;
 &lt;hr&gt;
 &lt;h2&gt;Decoder-Only, But Not Vision-Blind&lt;/h2&gt;
-&lt;p&gt;MOLMO uses a &lt;strong&gt;decoder-only language model&lt;/strong&gt;. This choice is deliberate. During generation:
-* &lt;strong&gt;Visual tokens are fully visible at every decoding step&lt;/strong&gt;
-* &lt;strong&gt;Text tokens are causally masked&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;MOLMO uses a &lt;strong&gt;decoder-only language model&lt;/strong&gt;. This choice is deliberate. During generation:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Visual tokens are fully visible at every decoding step&lt;/strong&gt;&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Text tokens are causally masked&lt;/strong&gt;&lt;/li&gt;
+&lt;/ul&gt;
 &lt;p&gt;This creates an asymmetric attention pattern:&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="n"&gt;flowchart&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;LR&lt;/span&gt;
 &lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="n"&gt;VT&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;Visual&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;Tokens&lt;/span&gt;&lt;span class="err"&gt;\&lt;/span&gt;&lt;span class="n"&gt;nPersistent&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;Context&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;
@@ -134,9 +136,11 @@
 &lt;hr&gt;
 &lt;h2&gt;A Common Failure Pattern in VLM Training&lt;/h2&gt;
 &lt;p&gt;Many VLMs follow an implicit strategy: collect diverse multimodal data, mix everything into instruction tuning, and hope scale smooths over inconsistencies. This often leads to models that caption fluently but hallucinate spatial facts or perform poorly at grounding.&lt;/p&gt;
-&lt;p&gt;MOLMO avoids this by enforcing a clean separation:
-* &lt;strong&gt;Architecture&lt;/strong&gt; defines &lt;em&gt;what is possible&lt;/em&gt;.
-* &lt;strong&gt;Data&lt;/strong&gt; teaches the model &lt;em&gt;when to use it&lt;/em&gt;.&lt;/p&gt;
+&lt;p&gt;MOLMO avoids this by enforcing a clean separation:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Architecture&lt;/strong&gt; defines &lt;em&gt;what is possible&lt;/em&gt;.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Data&lt;/strong&gt; teaches the model &lt;em&gt;when to use it&lt;/em&gt;.&lt;/li&gt;
+&lt;/ul&gt;
 &lt;hr&gt;
 &lt;h2&gt;The Broader Lesson&lt;/h2&gt;
 &lt;p&gt;A useful mental model is to think in terms of ceilings: a weak architecture creates a low ceiling, no matter how much data is added. PixMo pushes MOLMO toward its architectural limits, but it does not redefine those limits.&lt;/p&gt;
@@ -194,23 +198,29 @@
 &lt;p&gt;MOLMO's answer is to &lt;strong&gt;compress intelligently after semantic extraction&lt;/strong&gt;, preserving resolution through the encoding stage.&lt;/p&gt;
 &lt;hr&gt;
 &lt;h2&gt;Patchification: Where Token Explosion Begins&lt;/h2&gt;
-&lt;p&gt;Each 336×336 image (global view or crop) is divided into 14×14 pixel patches.
-* 336 / 14 = 24 patches per side
-* Total per image: &lt;strong&gt;24 × 24 = 576 patches&lt;/strong&gt;
-* If MOLMO processed 9 crops + 1 global image naively, this would result in &lt;strong&gt;~5,760 visual tokens&lt;/strong&gt;.&lt;/p&gt;
+&lt;p&gt;Each 336×336 image (global view or crop) is divided into 14×14 pixel patches.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;336 / 14 = 24 patches per side&lt;/li&gt;
+&lt;li&gt;Total per image: &lt;strong&gt;24 × 24 = 576 patches&lt;/strong&gt;&lt;/li&gt;
+&lt;li&gt;If MOLMO processed 9 crops + 1 global image naively, this would result in &lt;strong&gt;~5,760 visual tokens&lt;/strong&gt;.&lt;/li&gt;
+&lt;/ul&gt;
 &lt;p&gt;This is not just inefficient—it is unusable for a decoder-only LLM that must attend over all tokens during generation.&lt;/p&gt;
 &lt;hr&gt;
 &lt;h2&gt;Multi-Layer Feature Extraction: Texture Meets Semantics&lt;/h2&gt;
-&lt;p&gt;Before compression, MOLMO makes one important modeling decision: it extracts features from &lt;strong&gt;two internal ViT layers&lt;/strong&gt;:
-* A mid-level layer → captures textures, edges, local patterns
-* A late layer → captures object-level and semantic information&lt;/p&gt;
+&lt;p&gt;Before compression, MOLMO makes one important modeling decision: it extracts features from &lt;strong&gt;two internal ViT layers&lt;/strong&gt;:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;A mid-level layer → captures textures, edges, local patterns&lt;/li&gt;
+&lt;li&gt;A late layer → captures object-level and semantic information&lt;/li&gt;
+&lt;/ul&gt;
 &lt;p&gt;These are combined before pooling. This reflects a researcher's intuition: fine-grained visual reasoning often depends on &lt;em&gt;both&lt;/em&gt; texture-level evidence and semantic abstraction. Discarding either prematurely harms downstream grounding.&lt;/p&gt;
 &lt;hr&gt;
 &lt;h2&gt;2×2 Attention Pooling: Semantic Compression&lt;/h2&gt;
-&lt;p&gt;Instead of uniform pooling or token dropping, MOLMO applies &lt;strong&gt;2×2 attention pooling&lt;/strong&gt;:
-* Every 2×2 group of neighboring patches → one pooled token
-* Spatial resolution per image: 24×24 → 12×12
-* 576 tokens → &lt;strong&gt;144 tokens&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;Instead of uniform pooling or token dropping, MOLMO applies &lt;strong&gt;2×2 attention pooling&lt;/strong&gt;:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Every 2×2 group of neighboring patches → one pooled token&lt;/li&gt;
+&lt;li&gt;Spatial resolution per image: 24×24 → 12×12&lt;/li&gt;
+&lt;li&gt;576 tokens → &lt;strong&gt;144 tokens&lt;/strong&gt;&lt;/li&gt;
+&lt;/ul&gt;
 &lt;p&gt;This pooling uses &lt;em&gt;learned attention weights&lt;/em&gt;, enabling content-aware compression:&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="n"&gt;flowchart&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;LR&lt;/span&gt;
 &lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="n"&gt;P&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;24&lt;/span&gt;&lt;span class="err"&gt;×&lt;/span&gt;&lt;span class="mi"&gt;24&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;Patch&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;Tokens&lt;/span&gt;&lt;span class="err"&gt;\&lt;/span&gt;&lt;span class="n"&gt;n576&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;tokens&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;
@@ -370,10 +380,12 @@
 &lt;p&gt;This is not a data augmentation trick. It is a &lt;strong&gt;deliberate representational decomposition&lt;/strong&gt;. Figure 5 from the MOLMO paper illustrates this process:&lt;/p&gt;
 &lt;p&gt;&lt;img alt="Converting an image into tokens. The image is turned into a single low-res and several overlapping high-res crops." src="/images/molmo_tokens_sequence.png"&gt;&lt;/p&gt;
 &lt;p&gt;&lt;em&gt;Figure 5: Image-to-token conversion. The original image (top left) produces a low-resolution global view and multiple high-resolution crops (bottom left). Special tokens mark image start, end, and row boundaries.&lt;/em&gt;&lt;/p&gt;
-&lt;p&gt;Each crop answers a different question:
-* &lt;em&gt;What is happening overall?&lt;/em&gt;
-* &lt;em&gt;What fine details exist here?&lt;/em&gt;
-* &lt;em&gt;What text or small objects would be lost otherwise?&lt;/em&gt;&lt;/p&gt;
+&lt;p&gt;Each crop answers a different question:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;em&gt;What is happening overall?&lt;/em&gt;&lt;/li&gt;
+&lt;li&gt;&lt;em&gt;What fine details exist here?&lt;/em&gt;&lt;/li&gt;
+&lt;li&gt;&lt;em&gt;What text or small objects would be lost otherwise?&lt;/em&gt;&lt;/li&gt;
+&lt;/ul&gt;
 &lt;hr&gt;
 &lt;h2&gt;Why Overlap Matters (More Than It Seems)&lt;/h2&gt;
 &lt;p&gt;The overlapping region between crops is not incidental. Without overlap, objects near crop boundaries get split, text gets truncated, and spatial continuity breaks. By overlapping crops, MOLMO ensures that &lt;strong&gt;any visually meaningful region appears fully in at least one crop&lt;/strong&gt;. This guarantees that the vision encoder never sees "half an object" as its best view.&lt;/p&gt;

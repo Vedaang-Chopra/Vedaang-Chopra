@@ -79,10 +79,12 @@
 <p>This is not a data augmentation trick. It is a <strong>deliberate representational decomposition</strong>. Figure 5 from the MOLMO paper illustrates this process:</p>
 <p><img alt="Converting an image into tokens. The image is turned into a single low-res and several overlapping high-res crops." src="/images/molmo_tokens_sequence.png"></p>
 <p><em>Figure 5: Image-to-token conversion. The original image (top left) produces a low-resolution global view and multiple high-resolution crops (bottom left). Special tokens mark image start, end, and row boundaries.</em></p>
-<p>Each crop answers a different question:
-* <em>What is happening overall?</em>
-* <em>What fine details exist here?</em>
-* <em>What text or small objects would be lost otherwise?</em></p>
+<p>Each crop answers a different question:</p>
+<ul>
+<li><em>What is happening overall?</em></li>
+<li><em>What fine details exist here?</em></li>
+<li><em>What text or small objects would be lost otherwise?</em></li>
+</ul>
 <hr>
 <h2>Why Overlap Matters (More Than It Seems)</h2>
 <p>The overlapping region between crops is not incidental. Without overlap, objects near crop boundaries get split, text gets truncated, and spatial continuity breaks. By overlapping crops, MOLMO ensures that <strong>any visually meaningful region appears fully in at least one crop</strong>. This guarantees that the vision encoder never sees "half an object" as its best view.</p>

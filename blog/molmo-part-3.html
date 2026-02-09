@@ -51,23 +51,29 @@
 <p>MOLMO's answer is to <strong>compress intelligently after semantic extraction</strong>, preserving resolution through the encoding stage.</p>
 <hr>
 <h2>Patchification: Where Token Explosion Begins</h2>
-<p>Each 336×336 image (global view or crop) is divided into 14×14 pixel patches.
-* 336 / 14 = 24 patches per side
-* Total per image: <strong>24 × 24 = 576 patches</strong>
-* If MOLMO processed 9 crops + 1 global image naively, this would result in <strong>~5,760 visual tokens</strong>.</p>
+<p>Each 336×336 image (global view or crop) is divided into 14×14 pixel patches.</p>
+<ul>
+<li>336 / 14 = 24 patches per side</li>
+<li>Total per image: <strong>24 × 24 = 576 patches</strong></li>
+<li>If MOLMO processed 9 crops + 1 global image naively, this would result in <strong>~5,760 visual tokens</strong>.</li>
+</ul>
 <p>This is not just inefficient—it is unusable for a decoder-only LLM that must attend over all tokens during generation.</p>
 <hr>
 <h2>Multi-Layer Feature Extraction: Texture Meets Semantics</h2>
-<p>Before compression, MOLMO makes one important modeling decision: it extracts features from <strong>two internal ViT layers</strong>:
-* A mid-level layer → captures textures, edges, local patterns
-* A late layer → captures object-level and semantic information</p>
+<p>Before compression, MOLMO makes one important modeling decision: it extracts features from <strong>two internal ViT layers</strong>:</p>
+<ul>
+<li>A mid-level layer → captures textures, edges, local patterns</li>
+<li>A late layer → captures object-level and semantic information</li>
+</ul>
 <p>These are combined before pooling. This reflects a researcher's intuition: fine-grained visual reasoning often depends on <em>both</em> texture-level evidence and semantic abstraction. Discarding either prematurely harms downstream grounding.</p>
 <hr>
 <h2>2×2 Attention Pooling: Semantic Compression</h2>
-<p>Instead of uniform pooling or token dropping, MOLMO applies <strong>2×2 attention pooling</strong>:
-* Every 2×2 group of neighboring patches → one pooled token
-* Spatial resolution per image: 24×24 → 12×12
-* 576 tokens → <strong>144 tokens</strong></p>
+<p>Instead of uniform pooling or token dropping, MOLMO applies <strong>2×2 attention pooling</strong>:</p>
+<ul>
+<li>Every 2×2 group of neighboring patches → one pooled token</li>
+<li>Spatial resolution per image: 24×24 → 12×12</li>
+<li>576 tokens → <strong>144 tokens</strong></li>
+</ul>
 <p>This pooling uses <em>learned attention weights</em>, enabling content-aware compression:</p>
 <div class="highlight"><pre><span></span><code><span class="n">flowchart</span><span class="w"> </span><span class="n">LR</span>
 <span class="w">    </span><span class="n">P</span><span class="p">[</span><span class="mi">24</span><span class="err">×</span><span class="mi">24</span><span class="w"> </span><span class="n">Patch</span><span class="w"> </span><span class="n">Tokens</span><span class="err">\</span><span class="n">n576</span><span class="w"> </span><span class="n">tokens</span><span class="p">]</span>
