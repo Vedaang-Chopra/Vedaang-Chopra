@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>Vedaang Chopra - molmo</title><link href="https://vedaangchopra.live/" rel="alternate"/><link href="https://vedaangchopra.live/feeds/molmo.atom.xml" rel="self"/><id>https://vedaangchopra.live/</id><updated>2026-02-09T10:03:00-05:00</updated><entry><title>"Part 4: When Architecture Meets Data: What MOLMO Teaches Us"</title><link href="https://vedaangchopra.live/blog/molmo-part-4.html" rel="alternate"/><published>2026-02-09T10:03:00-05:00</published><updated>2026-02-09T10:03:00-05:00</updated><author><name>Vedaang Chopra</name></author><id>tag:vedaangchopra.live,2026-02-09:/blog/molmo-part-4.html</id><summary type="html">&lt;p&gt;&lt;strong&gt;Part 4 of a 4-part series on Vision-Language Model design.&lt;/strong&gt;&lt;br&gt;
+<feed xmlns="http://www.w3.org/2005/Atom"><title>Vedaang Chopra - molmo</title><link href="https://vedaangchopra.live/" rel="alternate"/><link href="https://vedaangchopra.live/feeds/molmo.atom.xml" rel="self"/><id>https://vedaangchopra.live/</id><updated>2026-02-09T10:03:00-05:00</updated><entry><title>Part 4 - When Architecture Meets Data - What MOLMO Teaches Us</title><link href="https://vedaangchopra.live/blog/molmo-part-4.html" rel="alternate"/><published>2026-02-09T10:03:00-05:00</published><updated>2026-02-09T10:03:00-05:00</updated><author><name>Vedaang Chopra</name></author><id>tag:vedaangchopra.live,2026-02-09:/blog/molmo-part-4.html</id><summary type="html">&lt;p&gt;&lt;strong&gt;Part 4 of a 4-part series on Vision-Language Model design.&lt;/strong&gt;&lt;br&gt;
 &lt;a href="/blog/molmo-part-3"&gt;← Previous&lt;/a&gt; | Next →&lt;/p&gt;
 &lt;hr&gt;
 &lt;h1&gt;When Architecture Meets Data: What MOLMO Teaches Us&lt;/h1&gt;
@@ -32,14 +32,14 @@
 &lt;li&gt;Revisiting visual evidence when resolving ambiguity&lt;/li&gt;
 &lt;li&gt;Maintaining consistency between earlier and later claims&lt;/li&gt;
 &lt;/ul&gt;
-&lt;p&gt;This is especially important for tasks like counting ("there are three cups, not two") or referring expressions ("the object on the left, not the center"), where the answer depends on constant verification against visual evidence.&lt;/p&gt;
+&lt;p&gt;This is especially important for tasks like counting ("are there three cups or two?") or referring expressions ("the object on the left versus the center"), where the answer depends on constant verification against visual evidence.&lt;/p&gt;
 &lt;hr&gt;
 &lt;h2&gt;Why Data Still Matters — But Only If Architecture Lets It&lt;/h2&gt;
 &lt;p&gt;Up to this point, the discussion has focused almost entirely on architecture. This is intentional. MOLMO makes a strong implicit claim:&lt;/p&gt;
 &lt;blockquote&gt;
 &lt;p&gt;Data does not create capabilities by itself. It only reveals the capabilities that the architecture already permits.&lt;/p&gt;
 &lt;/blockquote&gt;
-&lt;p&gt;PixMo, MOLMO's data suite, is best understood through this lens—not as a collection of large datasets, but as &lt;strong&gt;capability probes&lt;/strong&gt; designed to exercise specific architectural affordances.&lt;/p&gt;
+&lt;p&gt;PixMo, MOLMO's data suite, is best understood through this lens—as &lt;strong&gt;capability probes&lt;/strong&gt; designed to exercise specific architectural affordances, rather than merely a collection of large datasets.&lt;/p&gt;
 &lt;hr&gt;
 &lt;h2&gt;PixMo as Capability Supervision, Not Scale&lt;/h2&gt;
 &lt;p&gt;Rather than enumerating PixMo datasets individually, it is more useful to group them by &lt;em&gt;what they are trying to teach the model to do&lt;/em&gt;:&lt;/p&gt;
@@ -176,7 +176,7 @@
 &lt;/ul&gt;
 &lt;hr&gt;
 &lt;p&gt;&lt;strong&gt;Part 4 of a 4-part series on Vision-Language Model design.&lt;/strong&gt;&lt;br&gt;
-&lt;a href="/blog/molmo-part-3"&gt;← Previous&lt;/a&gt; | Next →&lt;/p&gt;</content><category term="molmo"/><category term="[MOLMO"/><category term="PixMo"/><category term="VLM]"/></entry><entry><title>"Part 3: From Patches to Reasoning: Tokens, Bandwidth, and Connectors"</title><link href="https://vedaangchopra.live/blog/molmo-part-3.html" rel="alternate"/><published>2026-02-09T10:02:00-05:00</published><updated>2026-02-09T10:02:00-05:00</updated><author><name>Vedaang Chopra</name></author><id>tag:vedaangchopra.live,2026-02-09:/blog/molmo-part-3.html</id><summary type="html">&lt;p&gt;&lt;strong&gt;Part 3 of a 4-part series on Vision-Language Model design.&lt;/strong&gt;&lt;br&gt;
+&lt;a href="/blog/molmo-part-3"&gt;← Previous&lt;/a&gt; | Next →&lt;/p&gt;</content><category term="molmo"/><category term="[MOLMO"/><category term="PixMo"/><category term="VLM]"/></entry><entry><title>Part 3 - From Patches to Reasoning - Tokens, Bandwidth, and Connectors</title><link href="https://vedaangchopra.live/blog/molmo-part-3.html" rel="alternate"/><published>2026-02-09T10:02:00-05:00</published><updated>2026-02-09T10:02:00-05:00</updated><author><name>Vedaang Chopra</name></author><id>tag:vedaangchopra.live,2026-02-09:/blog/molmo-part-3.html</id><summary type="html">&lt;p&gt;&lt;strong&gt;Part 3 of a 4-part series on Vision-Language Model design.&lt;/strong&gt;&lt;br&gt;
 &lt;a href="/blog/molmo-part-2"&gt;← Previous&lt;/a&gt; | &lt;a href="/blog/molmo-part-4"&gt;Next →&lt;/a&gt;&lt;/p&gt;
 &lt;hr&gt;
 &lt;h1&gt;From Patches to Reasoning: Tokens, Bandwidth, and Connectors&lt;/h1&gt;
@@ -191,7 +191,7 @@
 &lt;blockquote&gt;
 &lt;p&gt;How do we aggressively compress visual information &lt;strong&gt;without destroying the very fine-grained details we preserved&lt;/strong&gt;?&lt;/p&gt;
 &lt;/blockquote&gt;
-&lt;p&gt;MOLMO's answer is not to reduce input resolution, but to &lt;strong&gt;compress intelligently after semantic extraction&lt;/strong&gt;.&lt;/p&gt;
+&lt;p&gt;MOLMO's answer is to &lt;strong&gt;compress intelligently after semantic extraction&lt;/strong&gt;, preserving resolution through the encoding stage.&lt;/p&gt;
 &lt;hr&gt;
 &lt;h2&gt;Patchification: Where Token Explosion Begins&lt;/h2&gt;
 &lt;p&gt;Each 336×336 image (global view or crop) is divided into 14×14 pixel patches.
@@ -211,18 +211,18 @@
 * Every 2×2 group of neighboring patches → one pooled token
 * Spatial resolution per image: 24×24 → 12×12
 * 576 tokens → &lt;strong&gt;144 tokens&lt;/strong&gt;&lt;/p&gt;
-&lt;p&gt;This pooling is &lt;em&gt;attention-based&lt;/em&gt;, not average pooling:&lt;/p&gt;
+&lt;p&gt;This pooling uses &lt;em&gt;learned attention weights&lt;/em&gt;, enabling content-aware compression:&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="n"&gt;flowchart&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;LR&lt;/span&gt;
 &lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="n"&gt;P&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;24&lt;/span&gt;&lt;span class="err"&gt;×&lt;/span&gt;&lt;span class="mi"&gt;24&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;Patch&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;Tokens&lt;/span&gt;&lt;span class="err"&gt;\&lt;/span&gt;&lt;span class="n"&gt;n576&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;tokens&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;
 &lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="n"&gt;P&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;--&amp;gt;&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;AP&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;2&lt;/span&gt;&lt;span class="err"&gt;×&lt;/span&gt;&lt;span class="mi"&gt;2&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;Attention&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;Pooling&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;
 &lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="n"&gt;AP&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;--&amp;gt;&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;T&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;12&lt;/span&gt;&lt;span class="err"&gt;×&lt;/span&gt;&lt;span class="mi"&gt;12&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;Tokens&lt;/span&gt;&lt;span class="err"&gt;\&lt;/span&gt;&lt;span class="n"&gt;n144&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;tokens&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
-&lt;p&gt;From a modeling perspective, this is critical: tokens now represent &lt;em&gt;regions&lt;/em&gt;, not pixels. Each token still corresponds to a localized part of the image, allowing the LLM to reason over regions rather than raw patches.&lt;/p&gt;
+&lt;p&gt;From a modeling perspective, this is critical: tokens now represent &lt;em&gt;regions&lt;/em&gt; rather than individual pixels. Each token still corresponds to a localized part of the image, allowing the LLM to reason over regions rather than raw patches.&lt;/p&gt;
 &lt;hr&gt;
 &lt;h2&gt;Removing Redundancy Across Overlapping Crops&lt;/h2&gt;
 &lt;p&gt;Because crops overlap, some regions appear multiple times. MOLMO explicitly removes duplicate tokens corresponding to overlapping areas. The result is roughly &lt;strong&gt;~1100 unique visual tokens&lt;/strong&gt; for an entire high-resolution image, with no double-counting and no fragmented evidence.&lt;/p&gt;
-&lt;p&gt;From an AI research perspective, this is best understood as &lt;strong&gt;visual bandwidth control&lt;/strong&gt;. The goal is not to feed the LLM more pixels, but to feed it &lt;em&gt;the right abstractions at the right granularity&lt;/em&gt;.&lt;/p&gt;
+&lt;p&gt;From an AI research perspective, this is best understood as &lt;strong&gt;visual bandwidth control&lt;/strong&gt;. The goal is to feed the LLM &lt;em&gt;the right abstractions at the right granularity&lt;/em&gt;, rather than simply more pixels.&lt;/p&gt;
 &lt;hr&gt;
 &lt;h2&gt;Putting It Together: A Walkthrough&lt;/h2&gt;
 &lt;p&gt;To make this concrete, consider a 1920×1080 image of a busy café street:&lt;/p&gt;
@@ -324,7 +324,7 @@
 &lt;p&gt;Without layout-aware connectors, counting degenerates into guesswork and spatial explanations collapse into generic captions. MOLMO's connector ensures that visual tokens behave less like "extra words" and more like &lt;strong&gt;persistent, structured memory&lt;/strong&gt;.&lt;/p&gt;
 &lt;hr&gt;
 &lt;p&gt;&lt;strong&gt;Part 3 of a 4-part series on Vision-Language Model design.&lt;/strong&gt;&lt;br&gt;
-&lt;a href="/blog/molmo-part-2"&gt;← Previous&lt;/a&gt; | &lt;a href="/blog/molmo-part-4"&gt;Next →&lt;/a&gt;&lt;/p&gt;</content><category term="molmo"/><category term="[MOLMO"/><category term="PixMo"/><category term="VLM]"/></entry><entry><title>"Part 2: Seeing Is the Bottleneck: MOLMO's Image Preprocessing"</title><link href="https://vedaangchopra.live/blog/molmo-part-2.html" rel="alternate"/><published>2026-02-09T10:01:00-05:00</published><updated>2026-02-09T10:01:00-05:00</updated><author><name>Vedaang Chopra</name></author><id>tag:vedaangchopra.live,2026-02-09:/blog/molmo-part-2.html</id><summary type="html">&lt;p&gt;&lt;strong&gt;Part 2 of a 4-part series on Vision-Language Model design.&lt;/strong&gt;&lt;br&gt;
+&lt;a href="/blog/molmo-part-2"&gt;← Previous&lt;/a&gt; | &lt;a href="/blog/molmo-part-4"&gt;Next →&lt;/a&gt;&lt;/p&gt;</content><category term="molmo"/><category term="[MOLMO"/><category term="PixMo"/><category term="VLM]"/></entry><entry><title>Part 2 - Seeing Is the Bottleneck - MOLMO's Image Preprocessing</title><link href="https://vedaangchopra.live/blog/molmo-part-2.html" rel="alternate"/><published>2026-02-09T10:01:00-05:00</published><updated>2026-02-09T10:01:00-05:00</updated><author><name>Vedaang Chopra</name></author><id>tag:vedaangchopra.live,2026-02-09:/blog/molmo-part-2.html</id><summary type="html">&lt;p&gt;&lt;strong&gt;Part 2 of a 4-part series on Vision-Language Model design.&lt;/strong&gt;&lt;br&gt;
 &lt;a href="/blog/molmo-part-1"&gt;← Previous&lt;/a&gt; | &lt;a href="/blog/molmo-part-3"&gt;Next →&lt;/a&gt;&lt;/p&gt;
 &lt;hr&gt;
 &lt;h1&gt;Seeing Is the Bottleneck: MOLMO's Image Preprocessing&lt;/h1&gt;
@@ -335,7 +335,7 @@
 &lt;h1&gt;Seeing Is the Bottleneck: MOLMO's Image Preprocessing&lt;/h1&gt;
 &lt;h2&gt;Why MOLMO's Architecture Is Quietly Radical&lt;/h2&gt;
 &lt;p&gt;At first glance, MOLMO's architecture looks almost conservative. There is no novel transformer variant, no exotic fusion module, and no end-to-end multimodal pretraining trick that fundamentally alters the standard VLM recipe. This is intentional.&lt;/p&gt;
-&lt;p&gt;MOLMO's architectural contribution is not about &lt;em&gt;inventing new components&lt;/em&gt;, but about &lt;strong&gt;treating known constraints as immovable facts&lt;/strong&gt; and designing around them. In particular, it takes seriously a constraint that many VLMs implicitly ignore:&lt;/p&gt;
+&lt;p&gt;MOLMO's architectural contribution centers on &lt;strong&gt;treating known constraints as immovable facts&lt;/strong&gt; and designing around them. In particular, it takes seriously a constraint that many VLMs implicitly ignore:&lt;/p&gt;
 &lt;blockquote&gt;
 &lt;p&gt;Vision Transformers are square, resolution-limited models operating on patchified images—while real-world visual reasoning is neither square nor low-resolution.&lt;/p&gt;
 &lt;/blockquote&gt;
@@ -380,7 +380,7 @@
 &lt;p&gt;Figure 3 from the paper demonstrates the difference clearly:&lt;/p&gt;
 &lt;p&gt;&lt;img alt="An image cropped without and with overlap. Overlapping crops ensure that central patches are encoded with neighboring context." src="/images/molmo_overlap_comparison.png"&gt;&lt;/p&gt;
 &lt;p&gt;&lt;em&gt;Figure 3: Overlap vs. no-overlap cropping. Highlighted regions show areas used by the LLM. With overlap, the bike's brand name is always fully visible in at least one crop.&lt;/em&gt;&lt;/p&gt;
-&lt;p&gt;From a reasoning perspective, this is crucial. The LLM can only reason over &lt;em&gt;complete visual evidence&lt;/em&gt;, not fragmented patches.&lt;/p&gt;
+&lt;p&gt;From a reasoning perspective, this is crucial. The LLM requires &lt;em&gt;complete visual evidence&lt;/em&gt; to reason effectively—fragmented patches undermine this.&lt;/p&gt;
 &lt;hr&gt;
 &lt;h2&gt;Padding Is Also a Modeling Choice&lt;/h2&gt;
 &lt;p&gt;Real images rarely tile perfectly. MOLMO pads edge crops when needed, but does so explicitly:
@@ -389,12 +389,12 @@
 &lt;p&gt;This avoids a subtle but common failure mode where models confuse black padding with visual content—particularly harmful in low-light or nighttime scenes.&lt;/p&gt;
 &lt;hr&gt;
 &lt;h2&gt;The Key Insight&lt;/h2&gt;
-&lt;p&gt;The key insight here is not multi-scale cropping itself, but what it represents: &lt;strong&gt;visual reasoning is scale-sensitive&lt;/strong&gt;. A single resolution cannot support both perception and interpretation. MOLMO treats scale as a &lt;strong&gt;first-class axis of representation&lt;/strong&gt;, rather than something the model is expected to infer implicitly.&lt;/p&gt;
-&lt;p&gt;MOLMO reframes where architectural novelty should live: not necessarily in deeper encoders or larger language models, but in &lt;strong&gt;how visual evidence is preserved, structured, and made accessible to reasoning mechanisms&lt;/strong&gt;.&lt;/p&gt;
+&lt;p&gt;The key insight here is what multi-scale cropping represents: &lt;strong&gt;visual reasoning is scale-sensitive&lt;/strong&gt;. A single resolution cannot support both perception and interpretation. MOLMO treats scale as a &lt;strong&gt;first-class axis of representation&lt;/strong&gt;, rather than something the model is expected to infer implicitly.&lt;/p&gt;
+&lt;p&gt;MOLMO reframes where architectural novelty should live: &lt;strong&gt;in how visual evidence is preserved, structured, and made accessible to reasoning mechanisms&lt;/strong&gt;—rather than simply in deeper encoders or larger language models.&lt;/p&gt;
 &lt;p&gt;This is why MOLMO is better understood as an architectural &lt;em&gt;correction&lt;/em&gt; rather than an architectural &lt;em&gt;innovation&lt;/em&gt;. It does not add complexity; it removes implicit assumptions that were never justified.&lt;/p&gt;
 &lt;hr&gt;
 &lt;p&gt;&lt;strong&gt;Part 2 of a 4-part series on Vision-Language Model design.&lt;/strong&gt;&lt;br&gt;
-&lt;a href="/blog/molmo-part-1"&gt;← Previous&lt;/a&gt; | &lt;a href="/blog/molmo-part-3"&gt;Next →&lt;/a&gt;&lt;/p&gt;</content><category term="molmo"/><category term="[MOLMO"/><category term="PixMo"/><category term="VLM]"/></entry><entry><title>"Part 1: Where Multimodal Reasoning Actually Lives"</title><link href="https://vedaangchopra.live/blog/molmo-part-1.html" rel="alternate"/><published>2026-02-09T10:00:00-05:00</published><updated>2026-02-09T10:00:00-05:00</updated><author><name>Vedaang Chopra</name></author><id>tag:vedaangchopra.live,2026-02-09:/blog/molmo-part-1.html</id><summary type="html">&lt;p&gt;&lt;strong&gt;Part 1 of a 4-part series on Vision-Language Model design.&lt;/strong&gt;&lt;br&gt;
+&lt;a href="/blog/molmo-part-1"&gt;← Previous&lt;/a&gt; | &lt;a href="/blog/molmo-part-3"&gt;Next →&lt;/a&gt;&lt;/p&gt;</content><category term="molmo"/><category term="[MOLMO"/><category term="PixMo"/><category term="VLM]"/></entry><entry><title>Part 1 - Where Multimodal Reasoning Actually Lives</title><link href="https://vedaangchopra.live/blog/molmo-part-1.html" rel="alternate"/><published>2026-02-09T10:00:00-05:00</published><updated>2026-02-09T10:00:00-05:00</updated><author><name>Vedaang Chopra</name></author><id>tag:vedaangchopra.live,2026-02-09:/blog/molmo-part-1.html</id><summary type="html">&lt;p&gt;&lt;strong&gt;Part 1 of a 4-part series on Vision-Language Model design.&lt;/strong&gt;&lt;br&gt;
 ← Previous | &lt;a href="/blog/molmo-part-2"&gt;Next →&lt;/a&gt;&lt;/p&gt;
 &lt;hr&gt;
 &lt;h1&gt;Where Multimodal Reasoning Actually Lives&lt;/h1&gt;
@@ -471,7 +471,7 @@
 &lt;li&gt;The vision encoder produces tokens that are already missing critical information.&lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;At this point, &lt;strong&gt;the LLM has already lost&lt;/strong&gt;, regardless of how powerful it is.&lt;/p&gt;
-&lt;p&gt;MOLMO's contribution is not that it invents new components, but that it treats these transitions as first-class design problems rather than implementation details. In the parts that follow, we will progressively zoom in on how MOLMO addresses each of these failure modes—starting with the most underestimated part of VLMs: how images are prepared &lt;em&gt;before&lt;/em&gt; any transformer ever sees them.&lt;/p&gt;
+&lt;p&gt;MOLMO's contribution lies in treating these transitions as first-class design problems rather than implementation details. In the parts that follow, we will progressively zoom in on how MOLMO addresses each of these failure modes—starting with the most underestimated part of VLMs: how images are prepared &lt;em&gt;before&lt;/em&gt; any transformer ever sees them.&lt;/p&gt;
 &lt;hr&gt;
 &lt;p&gt;&lt;strong&gt;Part 1 of a 4-part series on Vision-Language Model design.&lt;/strong&gt;&lt;br&gt;
 ← Previous | &lt;a href="/blog/molmo-part-2"&gt;Next →&lt;/a&gt;&lt;/p&gt;</content><category term="molmo"/><category term="[MOLMO"/><category term="PixMo"/><category term="VLM]"/></entry></feed>

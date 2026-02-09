@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>"Part 3: From Patches to Reasoning: Tokens, Bandwidth, and Connectors" - Vedaang Chopra</title>
+    <title>Part 3 - From Patches to Reasoning - Tokens, Bandwidth, and Connectors - Vedaang Chopra</title>
     <link rel="stylesheet" href="https://vedaangchopra.live/theme/css/style.css" />
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -31,7 +31,7 @@
         <main>
 <article>
     <header>
-        <h1>"Part 3: From Patches to Reasoning: Tokens, Bandwidth, and Connectors"</h1>
+        <h1>Part 3 - From Patches to Reasoning - Tokens, Bandwidth, and Connectors</h1>
         <div class="meta">
             <span class="date">2026-02-09</span>
         </div>
@@ -48,7 +48,7 @@
 <blockquote>
 <p>How do we aggressively compress visual information <strong>without destroying the very fine-grained details we preserved</strong>?</p>
 </blockquote>
-<p>MOLMO's answer is not to reduce input resolution, but to <strong>compress intelligently after semantic extraction</strong>.</p>
+<p>MOLMO's answer is to <strong>compress intelligently after semantic extraction</strong>, preserving resolution through the encoding stage.</p>
 <hr>
 <h2>Patchification: Where Token Explosion Begins</h2>
 <p>Each 336×336 image (global view or crop) is divided into 14×14 pixel patches.
@@ -68,18 +68,18 @@
 * Every 2×2 group of neighboring patches → one pooled token
 * Spatial resolution per image: 24×24 → 12×12
 * 576 tokens → <strong>144 tokens</strong></p>
-<p>This pooling is <em>attention-based</em>, not average pooling:</p>
+<p>This pooling uses <em>learned attention weights</em>, enabling content-aware compression:</p>
 <div class="highlight"><pre><span></span><code><span class="n">flowchart</span><span class="w"> </span><span class="n">LR</span>
 <span class="w">    </span><span class="n">P</span><span class="p">[</span><span class="mi">24</span><span class="err">×</span><span class="mi">24</span><span class="w"> </span><span class="n">Patch</span><span class="w"> </span><span class="n">Tokens</span><span class="err">\</span><span class="n">n576</span><span class="w"> </span><span class="n">tokens</span><span class="p">]</span>
 <span class="w">    </span><span class="n">P</span><span class="w"> </span><span class="o">--&gt;</span><span class="w"> </span><span class="n">AP</span><span class="p">[</span><span class="mi">2</span><span class="err">×</span><span class="mi">2</span><span class="w"> </span><span class="n">Attention</span><span class="w"> </span><span class="n">Pooling</span><span class="p">]</span>
 <span class="w">    </span><span class="n">AP</span><span class="w"> </span><span class="o">--&gt;</span><span class="w"> </span><span class="n">T</span><span class="p">[</span><span class="mi">12</span><span class="err">×</span><span class="mi">12</span><span class="w"> </span><span class="n">Tokens</span><span class="err">\</span><span class="n">n144</span><span class="w"> </span><span class="n">tokens</span><span class="p">]</span>
 </code></pre></div>
 
-<p>From a modeling perspective, this is critical: tokens now represent <em>regions</em>, not pixels. Each token still corresponds to a localized part of the image, allowing the LLM to reason over regions rather than raw patches.</p>
+<p>From a modeling perspective, this is critical: tokens now represent <em>regions</em> rather than individual pixels. Each token still corresponds to a localized part of the image, allowing the LLM to reason over regions rather than raw patches.</p>
 <hr>
 <h2>Removing Redundancy Across Overlapping Crops</h2>
 <p>Because crops overlap, some regions appear multiple times. MOLMO explicitly removes duplicate tokens corresponding to overlapping areas. The result is roughly <strong>~1100 unique visual tokens</strong> for an entire high-resolution image, with no double-counting and no fragmented evidence.</p>
-<p>From an AI research perspective, this is best understood as <strong>visual bandwidth control</strong>. The goal is not to feed the LLM more pixels, but to feed it <em>the right abstractions at the right granularity</em>.</p>
+<p>From an AI research perspective, this is best understood as <strong>visual bandwidth control</strong>. The goal is to feed the LLM <em>the right abstractions at the right granularity</em>, rather than simply more pixels.</p>
 <hr>
 <h2>Putting It Together: A Walkthrough</h2>
 <p>To make this concrete, consider a 1920×1080 image of a busy café street:</p>

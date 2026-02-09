@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>"Part 2: Seeing Is the Bottleneck: MOLMO's Image Preprocessing" - Vedaang Chopra</title>
+    <title>Part 2 - Seeing Is the Bottleneck - MOLMO's Image Preprocessing - Vedaang Chopra</title>
     <link rel="stylesheet" href="https://vedaangchopra.live/theme/css/style.css" />
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -31,7 +31,7 @@
         <main>
 <article>
     <header>
-        <h1>"Part 2: Seeing Is the Bottleneck: MOLMO's Image Preprocessing"</h1>
+        <h1>Part 2 - Seeing Is the Bottleneck - MOLMO's Image Preprocessing</h1>
         <div class="meta">
             <span class="date">2026-02-09</span>
         </div>
@@ -44,7 +44,7 @@
 <h1>Seeing Is the Bottleneck: MOLMO's Image Preprocessing</h1>
 <h2>Why MOLMO's Architecture Is Quietly Radical</h2>
 <p>At first glance, MOLMO's architecture looks almost conservative. There is no novel transformer variant, no exotic fusion module, and no end-to-end multimodal pretraining trick that fundamentally alters the standard VLM recipe. This is intentional.</p>
-<p>MOLMO's architectural contribution is not about <em>inventing new components</em>, but about <strong>treating known constraints as immovable facts</strong> and designing around them. In particular, it takes seriously a constraint that many VLMs implicitly ignore:</p>
+<p>MOLMO's architectural contribution centers on <strong>treating known constraints as immovable facts</strong> and designing around them. In particular, it takes seriously a constraint that many VLMs implicitly ignore:</p>
 <blockquote>
 <p>Vision Transformers are square, resolution-limited models operating on patchified images—while real-world visual reasoning is neither square nor low-resolution.</p>
 </blockquote>
@@ -89,7 +89,7 @@
 <p>Figure 3 from the paper demonstrates the difference clearly:</p>
 <p><img alt="An image cropped without and with overlap. Overlapping crops ensure that central patches are encoded with neighboring context." src="/images/molmo_overlap_comparison.png"></p>
 <p><em>Figure 3: Overlap vs. no-overlap cropping. Highlighted regions show areas used by the LLM. With overlap, the bike's brand name is always fully visible in at least one crop.</em></p>
-<p>From a reasoning perspective, this is crucial. The LLM can only reason over <em>complete visual evidence</em>, not fragmented patches.</p>
+<p>From a reasoning perspective, this is crucial. The LLM requires <em>complete visual evidence</em> to reason effectively—fragmented patches undermine this.</p>
 <hr>
 <h2>Padding Is Also a Modeling Choice</h2>
 <p>Real images rarely tile perfectly. MOLMO pads edge crops when needed, but does so explicitly:
@@ -98,8 +98,8 @@
 <p>This avoids a subtle but common failure mode where models confuse black padding with visual content—particularly harmful in low-light or nighttime scenes.</p>
 <hr>
 <h2>The Key Insight</h2>
-<p>The key insight here is not multi-scale cropping itself, but what it represents: <strong>visual reasoning is scale-sensitive</strong>. A single resolution cannot support both perception and interpretation. MOLMO treats scale as a <strong>first-class axis of representation</strong>, rather than something the model is expected to infer implicitly.</p>
-<p>MOLMO reframes where architectural novelty should live: not necessarily in deeper encoders or larger language models, but in <strong>how visual evidence is preserved, structured, and made accessible to reasoning mechanisms</strong>.</p>
+<p>The key insight here is what multi-scale cropping represents: <strong>visual reasoning is scale-sensitive</strong>. A single resolution cannot support both perception and interpretation. MOLMO treats scale as a <strong>first-class axis of representation</strong>, rather than something the model is expected to infer implicitly.</p>
+<p>MOLMO reframes where architectural novelty should live: <strong>in how visual evidence is preserved, structured, and made accessible to reasoning mechanisms</strong>—rather than simply in deeper encoders or larger language models.</p>
 <p>This is why MOLMO is better understood as an architectural <em>correction</em> rather than an architectural <em>innovation</em>. It does not add complexity; it removes implicit assumptions that were never justified.</p>
 <hr>
 <p><strong>Part 2 of a 4-part series on Vision-Language Model design.</strong><br>
