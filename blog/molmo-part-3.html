@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>"Part 3: From Patches to Reasoning: Tokens, Bandwidth, and Connectors" - Vedaang Chopra</title>
+    <link rel="stylesheet" href="https://vedaangchopra.live/theme/css/style.css" />
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <nav>
+                <a href="https://vedaangchopra.live/" class="profile-brand">
+                    <img src="https://vedaangchopra.live/images/profile.png" alt="Profile" class="profile-circle">
+                </a>
+                <a href="https://vedaangchopra.live/" class="brand">Home</a>
+                <a href="https://vedaangchopra.live/projects.html">Projects</a>
+                <a href="/resume.html">Resume</a>
+                <a href="/blog.html">Writing</a>
+                <a href="/uses.html">Uses</a>
+                <button id="theme-toggle" aria-label="Toggle Theme">
+                    <span class="icon">☀</span>
+                </button>
+            </nav>
+        </header>
+
+        <main>
+<article>
+    <header>
+        <h1>"Part 3: From Patches to Reasoning: Tokens, Bandwidth, and Connectors"</h1>
+        <div class="meta">
+            <span class="date">2024-10-26</span>
+        </div>
+    </header>
+    
+    <div class="content">
+        <p><strong>Part 3 of a 4-part series on Vision-Language Model design.</strong><br>
+<a href="/blog/molmo-part-2">← Previous</a> | <a href="/blog/molmo-part-4">Next →</a></p>
+<hr>
+<h1>From Patches to Reasoning: Tokens, Bandwidth, and Connectors</h1>
+<p>Once MOLMO has preserved visual information through multi-scale preprocessing, it faces the next architectural bottleneck: <strong>token explosion</strong>.</p>
+<p>Vision Transformers do not reason over images directly—they reason over <em>patch tokens</em>. If left unchecked, MOLMO's careful preprocessing would overwhelm the language model with far more visual tokens than it can meaningfully attend to.</p>
+<p>The challenge here is subtle:</p>
+<blockquote>
+<p>How do we aggressively compress visual information <strong>without destroying the very fine-grained details we preserved</strong>?</p>
+</blockquote>
+<p>MOLMO's answer is not to reduce input resolution, but to <strong>compress intelligently after semantic extraction</strong>.</p>
+<hr>
+<h2>Patchification: Where Token Explosion Begins</h2>
+<p>Each 336×336 image (global view or crop) is divided into 14×14 pixel patches.
+* 336 / 14 = 24 patches per side
+* Total per image: <strong>24 × 24 = 576 patches</strong>
+* If MOLMO processed 9 crops + 1 global image naively, this would result in <strong>~5,760 visual tokens</strong>.</p>
+<p>This is not just inefficient—it is unusable for a decoder-only LLM that must attend over all tokens during generation.</p>
+<hr>
+<h2>Multi-Layer Feature Extraction: Texture Meets Semantics</h2>
+<p>Before compression, MOLMO makes one important modeling decision: it extracts features from <strong>two internal ViT layers</strong>:
+* A mid-level layer → captures textures, edges, local patterns
+* A late layer → captures object-level and semantic information</p>
+<p>These are combined before pooling. This reflects a researcher's intuition: fine-grained visual reasoning often depends on <em>both</em> texture-level evidence and semantic abstraction. Discarding either prematurely harms downstream grounding.</p>
+<hr>
+<h2>2×2 Attention Pooling: Semantic Compression</h2>
+<p>Instead of uniform pooling or token dropping, MOLMO applies <strong>2×2 attention pooling</strong>:
+* Every 2×2 group of neighboring patches → one pooled token
+* Spatial resolution per image: 24×24 → 12×12
+* 576 tokens → <strong>144 tokens</strong></p>
+<p>This pooling is <em>attention-based</em>, not average pooling:</p>
+<div class="highlight"><pre><span></span><code><span class="n">flowchart</span><span class="w"> </span><span class="n">LR</span>
+<span class="w">    </span><span class="n">P</span><span class="p">[</span><span class="mi">24</span><span class="err">×</span><span class="mi">24</span><span class="w"> </span><span class="n">Patch</span><span class="w"> </span><span class="n">Tokens</span><span class="err">\</span><span class="n">n576</span><span class="w"> </span><span class="n">tokens</span><span class="p">]</span>
+<span class="w">    </span><span class="n">P</span><span class="w"> </span><span class="o">--&gt;</span><span class="w"> </span><span class="n">AP</span><span class="p">[</span><span class="mi">2</span><span class="err">×</span><span class="mi">2</span><span class="w"> </span><span class="n">Attention</span><span class="w"> </span><span class="n">Pooling</span><span class="p">]</span>
+<span class="w">    </span><span class="n">AP</span><span class="w"> </span><span class="o">--&gt;</span><span class="w"> </span><span class="n">T</span><span class="p">[</span><span class="mi">12</span><span class="err">×</span><span class="mi">12</span><span class="w"> </span><span class="n">Tokens</span><span class="err">\</span><span class="n">n144</span><span class="w"> </span><span class="n">tokens</span><span class="p">]</span>
+</code></pre></div>
+
+<p>From a modeling perspective, this is critical: tokens now represent <em>regions</em>, not pixels. Each token still corresponds to a localized part of the image, allowing the LLM to reason over regions rather than raw patches.</p>
+<hr>
+<h2>Removing Redundancy Across Overlapping Crops</h2>
+<p>Because crops overlap, some regions appear multiple times. MOLMO explicitly removes duplicate tokens corresponding to overlapping areas. The result is roughly <strong>~1100 unique visual tokens</strong> for an entire high-resolution image, with no double-counting and no fragmented evidence.</p>
+<p>From an AI research perspective, this is best understood as <strong>visual bandwidth control</strong>. The goal is not to feed the LLM more pixels, but to feed it <em>the right abstractions at the right granularity</em>.</p>
+<hr>
+<h2>The Connector Is Not a Projection Layer</h2>
+<p>In many VLM descriptions, the connector is dismissed in a single sentence: <em>"visual features are projected into the language embedding space."</em> MOLMO treats this as an oversimplification—and implicitly argues that this framing is one reason many VLMs underperform at grounding and reasoning.</p>
+<p>The connector is not just about dimensionality alignment. It is about <strong>making visual structure legible to a language model</strong>.</p>
+<h3>The Common Misconception</h3>
+<p>A naïve mental model of VLMs looks like this:</p>
+<div class="highlight"><pre><span></span><code><span class="n">flowchart</span><span class="w"> </span><span class="n">LR</span>
+<span class="w">    </span><span class="n">V</span><span class="p">[</span><span class="n">Visual</span><span class="w"> </span><span class="n">Tokens</span><span class="p">]</span><span class="w"> </span><span class="o">--&gt;</span><span class="w"> </span><span class="n">P</span><span class="p">[</span><span class="n">Linear</span><span class="w"> </span><span class="n">Projection</span><span class="p">]</span>
+<span class="w">    </span><span class="n">P</span><span class="w"> </span><span class="o">--&gt;</span><span class="w"> </span><span class="n">L</span><span class="p">[</span><span class="n">LLM</span><span class="w"> </span><span class="n">Token</span><span class="w"> </span><span class="n">Space</span><span class="p">]</span>
+</code></pre></div>
+
+<p>If this were sufficient, most VLMs would reason well about space, count objects reliably, and ground references precisely. They do not. The reason is simple:</p>
+<blockquote>
+<p>Language models do not natively understand spatial structure. If spatial information is not explicitly encoded, it is effectively invisible.</p>
+</blockquote>
+<hr>
+<h2>Layout Tokens: Giving Vision a Coordinate System</h2>
+<p>MOLMO distinguishes between <strong>alignment</strong> (tokens live in the same embedding space) and <strong>accessibility</strong> (the LLM can reliably use visual information). To bridge this gap, MOLMO augments each visual token with <strong>explicit layout information</strong>:
+* Token position within the image grid
+* Which crop it originated from
+* Relative spatial location</p>
+<p>This information is encoded using <strong>layout embeddings</strong>, which are injected alongside visual features before entering the LLM.</p>
+<p><img alt="MOLMO Spatial Tokens and Layout" src="/images/molmo_spatial.png"></p>
+<p><em>Layout injection adds positional context to each visual token, enabling the LLM to understand spatial relationships.</em></p>
+<p>The key idea is not positional encoding in the transformer sense—it is <em>semantic spatial grounding</em>. To the LLM, these tokens are no longer anonymous vectors. They are "this region," "over here," or "adjacent to that other region."</p>
+<hr>
+<h2>Why This Matters for Reasoning</h2>
+<p>From a researcher's perspective, this section is where MOLMO's architectural philosophy becomes clear: <strong>multimodal reasoning is not just about fusing modalities—it is about preserving the <em>structure</em> of each modality through fusion</strong>.</p>
+<p>Without layout-aware connectors, counting degenerates into guesswork and spatial explanations collapse into generic captions. MOLMO's connector ensures that visual tokens behave less like "extra words" and more like <strong>persistent, structured memory</strong>.</p>
+<hr>
+<p><strong>Part 3 of a 4-part series on Vision-Language Model design.</strong><br>
+<a href="/blog/molmo-part-2">← Previous</a> | <a href="/blog/molmo-part-4">Next →</a></p>
+    </div>
+</article>
+        </main>
+
+        <footer>
+            <div class="footer-content">
+                <div class="footer-icons">
+                    <a href="https://github.com/Vedaang-Chopra" target="_blank" class="footer-icon-btn" aria-label="GitHub">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg>
+                    </a>
+                    <a href="https://linkedin.com/in/vedaang-chopra/" target="_blank" class="footer-icon-btn" aria-label="LinkedIn">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path><rect x="2" y="9" width="4" height="12"></rect><circle cx="4" cy="4" r="2"></circle></svg>
+                    </a>
+                    <a href="mailto:vedaangchopra1009@gmail.com" class="footer-icon-btn" aria-label="Email">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
+                    </a>
+                </div>
+                <div class="footer-links">
+                    <p>&copy; 2026 Vedaang Chopra</p>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <script>
+        const toggleBtn = document.getElementById('theme-toggle');
+        const body = document.body;
+        const icon = toggleBtn.querySelector('.icon');
+
+        // Theme Definitions
+        const themes = ['', 'mint-theme', 'dark-theme', 'sepia-theme'];
+        const icons = ['☀', '🌿', '🌙', '☕'];
+
+        // Load saved theme
+        let currentThemeIndex = 0;
+        const savedTheme = localStorage.getItem('theme');
+        
+        if (savedTheme) {
+            const savedIndex = themes.indexOf(savedTheme);
+            if (savedIndex !== -1) {
+                currentThemeIndex = savedIndex;
+                if (themes[currentThemeIndex]) {
+                    body.classList.add(themes[currentThemeIndex]);
+                }
+                icon.textContent = icons[currentThemeIndex];
+            }
+        }
+
+        toggleBtn.addEventListener('click', () => {
+            // Remove current theme class if it exists
+            if (themes[currentThemeIndex]) {
+                body.classList.remove(themes[currentThemeIndex]);
+            }
+
+            // Cycle to next theme
+            currentThemeIndex = (currentThemeIndex + 1) % themes.length;
+
+            // Add new theme class if it exists (not empty string)
+            if (themes[currentThemeIndex]) {
+                body.classList.add(themes[currentThemeIndex]);
+                localStorage.setItem('theme', themes[currentThemeIndex]);
+            } else {
+                localStorage.removeItem('theme');
+            }
+
+            // Update icon
+            icon.textContent = icons[currentThemeIndex];
+        });
+    </script>
+</body>
+</html>
