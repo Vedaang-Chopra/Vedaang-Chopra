@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "Part 4: When Architecture Meets Data: What MOLMO Teaches Us"
+title: Part 4 - When Architecture Meets Data - What MOLMO Teaches Us
 date: 2026-02-09 10:03
 categories: [Research Blog]
 tags: [MOLMO, PixMo, VLM]
@@ -51,7 +51,7 @@ Many VLM failures arise because vision is treated as a compressed hint—a short
 * Revisiting visual evidence when resolving ambiguity
 * Maintaining consistency between earlier and later claims
 
-This is especially important for tasks like counting ("there are three cups, not two") or referring expressions ("the object on the left, not the center"), where the answer depends on constant verification against visual evidence.
+This is especially important for tasks like counting ("are there three cups or two?") or referring expressions ("the object on the left versus the center"), where the answer depends on constant verification against visual evidence.
 
 ---
 
@@ -61,7 +61,7 @@ Up to this point, the discussion has focused almost entirely on architecture. Th
 
 > Data does not create capabilities by itself. It only reveals the capabilities that the architecture already permits.
 
-PixMo, MOLMO's data suite, is best understood through this lens—not as a collection of large datasets, but as **capability probes** designed to exercise specific architectural affordances.
+PixMo, MOLMO's data suite, is best understood through this lens—as **capability probes** designed to exercise specific architectural affordances, rather than merely a collection of large datasets.
 
 ---
 

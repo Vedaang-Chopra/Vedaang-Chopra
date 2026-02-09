@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "Part 3: From Patches to Reasoning: Tokens, Bandwidth, and Connectors"
+title: Part 3 - From Patches to Reasoning - Tokens, Bandwidth, and Connectors
 date: 2026-02-09 10:02
 categories: [Research Blog]
 tags: [MOLMO, PixMo, VLM]
@@ -24,7 +24,7 @@ The challenge here is subtle:
 
 > How do we aggressively compress visual information **without destroying the very fine-grained details we preserved**?
 
-MOLMO's answer is not to reduce input resolution, but to **compress intelligently after semantic extraction**.
+MOLMO's answer is to **compress intelligently after semantic extraction**, preserving resolution through the encoding stage.
 
 ---
 
@@ -56,7 +56,7 @@ Instead of uniform pooling or token dropping, MOLMO applies **2×2 attention poo
 * Spatial resolution per image: 24×24 → 12×12
 * 576 tokens → **144 tokens**
 
-This pooling is *attention-based*, not average pooling:
+This pooling uses *learned attention weights*, enabling content-aware compression:
 
 ```mermaid
 flowchart LR
@@ -65,7 +65,7 @@ flowchart LR
     AP --> T[12×12 Tokens\n144 tokens]
 ```
 
-From a modeling perspective, this is critical: tokens now represent *regions*, not pixels. Each token still corresponds to a localized part of the image, allowing the LLM to reason over regions rather than raw patches.
+From a modeling perspective, this is critical: tokens now represent *regions* rather than individual pixels. Each token still corresponds to a localized part of the image, allowing the LLM to reason over regions rather than raw patches.
 
 ---
 
@@ -73,7 +73,7 @@ From a modeling perspective, this is critical: tokens now represent *regions*, n
 
 Because crops overlap, some regions appear multiple times. MOLMO explicitly removes duplicate tokens corresponding to overlapping areas. The result is roughly **~1100 unique visual tokens** for an entire high-resolution image, with no double-counting and no fragmented evidence.
 
-From an AI research perspective, this is best understood as **visual bandwidth control**. The goal is not to feed the LLM more pixels, but to feed it *the right abstractions at the right granularity*.
+From an AI research perspective, this is best understood as **visual bandwidth control**. The goal is to feed the LLM *the right abstractions at the right granularity*, rather than simply more pixels.
 
 ---
 

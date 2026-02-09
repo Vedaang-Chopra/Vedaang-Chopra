@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "Part 1: Where Multimodal Reasoning Actually Lives"
+title: Part 1 - Where Multimodal Reasoning Actually Lives
 date: 2026-02-09 10:00
 categories: [Research Blog]
 tags: [MOLMO, PixMo, VLM]
@@ -100,7 +100,7 @@ Consider what happens in a typical VLM pipeline:
 
 At this point, **the LLM has already lost**, regardless of how powerful it is.
 
-MOLMO's contribution is not that it invents new components, but that it treats these transitions as first-class design problems rather than implementation details. In the parts that follow, we will progressively zoom in on how MOLMO addresses each of these failure modes—starting with the most underestimated part of VLMs: how images are prepared *before* any transformer ever sees them.
+MOLMO's contribution lies in treating these transitions as first-class design problems rather than implementation details. In the parts that follow, we will progressively zoom in on how MOLMO addresses each of these failure modes—starting with the most underestimated part of VLMs: how images are prepared *before* any transformer ever sees them.
 
 ---
 
