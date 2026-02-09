@@ -410,11 +410,20 @@
 ← Previous | &lt;a href="/blog/molmo-part-2"&gt;Next →&lt;/a&gt;&lt;/p&gt;
 &lt;hr&gt;
 &lt;h1&gt;Where Multimodal Reasoning Actually Lives&lt;/h1&gt;
-&lt;h2&gt;Why MOLMO Is Worth Studying&lt;/h2&gt;
-&lt;p&gt;Most recent discussions around Vision-Language Models (VLMs) revolve around benchmarks, scale, or whether a model is "open" in name. MOLMO is interesting for a different reason. It is …&lt;/p&gt;</summary><content type="html">&lt;p&gt;&lt;strong&gt;Part 1 of a 4-part series on Vision-Language Model design.&lt;/strong&gt;&lt;br&gt;
+&lt;blockquote&gt;
+&lt;p&gt;[!NOTE]
+&lt;strong&gt;What this article is (and is not)&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;This is not a benchmark comparison, reproduction, or implementation guide for MOLMO. All quantitative results, ablations, and evaluations are in the original paper.&lt;/p&gt;
+&lt;p&gt;This article …&lt;/p&gt;&lt;/blockquote&gt;</summary><content type="html">&lt;p&gt;&lt;strong&gt;Part 1 of a 4-part series on Vision-Language Model design.&lt;/strong&gt;&lt;br&gt;
 ← Previous | &lt;a href="/blog/molmo-part-2"&gt;Next →&lt;/a&gt;&lt;/p&gt;
 &lt;hr&gt;
 &lt;h1&gt;Where Multimodal Reasoning Actually Lives&lt;/h1&gt;
+&lt;blockquote&gt;
+&lt;p&gt;[!NOTE]
+&lt;strong&gt;What this article is (and is not)&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;This is not a benchmark comparison, reproduction, or implementation guide for MOLMO. All quantitative results, ablations, and evaluations are in the original paper.&lt;/p&gt;
+&lt;p&gt;This article is a researcher's interpretation of what MOLMO is actually saying about VLM design: which constraints it treats as fundamental, which failure modes it prioritizes, and where it chooses architectural clarity over convenience. The focus is on design reasoning, not performance deltas.&lt;/p&gt;
+&lt;/blockquote&gt;
 &lt;h2&gt;Why MOLMO Is Worth Studying&lt;/h2&gt;
 &lt;p&gt;Most recent discussions around Vision-Language Models (VLMs) revolve around benchmarks, scale, or whether a model is "open" in name. MOLMO is interesting for a different reason. It is one of the few recent VLMs that can be treated as a &lt;strong&gt;complete research artifact&lt;/strong&gt;—one where data construction, architectural decisions, training choices, and evaluation all form a coherent story.&lt;/p&gt;
 &lt;p&gt;This article is not a leaderboard-driven summary of MOLMO. Instead, it uses MOLMO as a &lt;strong&gt;lens to reason about VLM design itself&lt;/strong&gt;: where multimodal reasoning actually happens, why many VLMs fail silently, and how architectural decisions upstream of the language model determine what kind of intelligence is even possible downstream.&lt;/p&gt;

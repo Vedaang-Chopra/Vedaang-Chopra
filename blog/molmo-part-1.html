@@ -42,6 +42,12 @@
 ← Previous | <a href="/blog/molmo-part-2">Next →</a></p>
 <hr>
 <h1>Where Multimodal Reasoning Actually Lives</h1>
+<blockquote>
+<p>[!NOTE]
+<strong>What this article is (and is not)</strong></p>
+<p>This is not a benchmark comparison, reproduction, or implementation guide for MOLMO. All quantitative results, ablations, and evaluations are in the original paper.</p>
+<p>This article is a researcher's interpretation of what MOLMO is actually saying about VLM design: which constraints it treats as fundamental, which failure modes it prioritizes, and where it chooses architectural clarity over convenience. The focus is on design reasoning, not performance deltas.</p>
+</blockquote>
 <h2>Why MOLMO Is Worth Studying</h2>
 <p>Most recent discussions around Vision-Language Models (VLMs) revolve around benchmarks, scale, or whether a model is "open" in name. MOLMO is interesting for a different reason. It is one of the few recent VLMs that can be treated as a <strong>complete research artifact</strong>—one where data construction, architectural decisions, training choices, and evaluation all form a coherent story.</p>
 <p>This article is not a leaderboard-driven summary of MOLMO. Instead, it uses MOLMO as a <strong>lens to reason about VLM design itself</strong>: where multimodal reasoning actually happens, why many VLMs fail silently, and how architectural decisions upstream of the language model determine what kind of intelligence is even possible downstream.</p>
