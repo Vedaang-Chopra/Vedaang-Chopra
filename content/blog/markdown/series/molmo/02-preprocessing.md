@@ -61,6 +61,7 @@ This is not a data augmentation trick. It is a **deliberate representational dec
 *Figure 5: Image-to-token conversion. The original image (top left) produces a low-resolution global view and multiple high-resolution crops (bottom left). Special tokens mark image start, end, and row boundaries.*
 
 Each crop answers a different question:
+
 * *What is happening overall?*
 * *What fine details exist here?*
 * *What text or small objects would be lost otherwise?*

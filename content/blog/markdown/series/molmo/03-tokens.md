@@ -31,6 +31,7 @@ MOLMO's answer is to **compress intelligently after semantic extraction**, prese
 ## Patchification: Where Token Explosion Begins
 
 Each 336×336 image (global view or crop) is divided into 14×14 pixel patches.
+
 * 336 / 14 = 24 patches per side
 * Total per image: **24 × 24 = 576 patches**
 * If MOLMO processed 9 crops + 1 global image naively, this would result in **~5,760 visual tokens**.
@@ -42,6 +43,7 @@ This is not just inefficient—it is unusable for a decoder-only LLM that must a
 ## Multi-Layer Feature Extraction: Texture Meets Semantics
 
 Before compression, MOLMO makes one important modeling decision: it extracts features from **two internal ViT layers**:
+
 * A mid-level layer → captures textures, edges, local patterns
 * A late layer → captures object-level and semantic information
 
@@ -52,6 +54,7 @@ These are combined before pooling. This reflects a researcher's intuition: fine-
 ## 2×2 Attention Pooling: Semantic Compression
 
 Instead of uniform pooling or token dropping, MOLMO applies **2×2 attention pooling**:
+
 * Every 2×2 group of neighboring patches → one pooled token
 * Spatial resolution per image: 24×24 → 12×12
 * 576 tokens → **144 tokens**

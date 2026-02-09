@@ -25,6 +25,7 @@ A VLM can have excellent visual representations and still behave like a captioni
 ## Decoder-Only, But Not Vision-Blind
 
 MOLMO uses a **decoder-only language model**. This choice is deliberate. During generation:
+
 * **Visual tokens are fully visible at every decoding step**
 * **Text tokens are causally masked**
 
@@ -109,6 +110,7 @@ Where MOLMO is weaker: reasoning-heavy tasks (MathVista) and fine OCR, which req
 Many VLMs follow an implicit strategy: collect diverse multimodal data, mix everything into instruction tuning, and hope scale smooths over inconsistencies. This often leads to models that caption fluently but hallucinate spatial facts or perform poorly at grounding.
 
 MOLMO avoids this by enforcing a clean separation:
+
 * **Architecture** defines *what is possible*.
 * **Data** teaches the model *when to use it*.
 
