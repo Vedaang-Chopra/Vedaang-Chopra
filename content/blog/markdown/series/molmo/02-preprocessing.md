@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "Part 2: Seeing Is the Bottleneck: MOLMO's Image Preprocessing"
-date: 2024-10-24 10:01
+date: 2026-02-09 10:01
 categories: [Research Blog]
 tags: [MOLMO, PixMo, VLM]
 series: "MOLMO and the Anatomy of Modern Vision-Language Models"

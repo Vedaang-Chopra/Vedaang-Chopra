@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "Part 4: When Architecture Meets Data: What MOLMO Teaches Us"
-date: 2024-10-24 10:03
+date: 2026-02-09 10:03
 categories: [Research Blog]
 tags: [MOLMO, PixMo, VLM]
 series: "MOLMO and the Anatomy of Modern Vision-Language Models"
