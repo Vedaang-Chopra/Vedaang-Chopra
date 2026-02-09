@@ -2,7 +2,7 @@
 layout: post
 title: "Part 1: Where Multimodal Reasoning Actually Lives"
 date: 2024-10-24
-categories: [Research Paper Analysis]
+categories: [Research Blog]
 tags: [MOLMO, PixMo, VLM]
 series: "MOLMO and the Anatomy of Modern Vision-Language Models"
 slug: molmo-part-1
