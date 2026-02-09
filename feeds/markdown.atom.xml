@@ -116,6 +116,9 @@
 &lt;p&gt;MOLMO demonstrates that distinct architectural choices—not just scale—will define the limits of what our models can truly understand.&lt;/p&gt;
 &lt;hr&gt;
 &lt;h2&gt;Acknowledgments&lt;/h2&gt;
+&lt;blockquote&gt;
+&lt;p&gt;&lt;strong&gt;Disclosure:&lt;/strong&gt; Parts of this blog series were generated with the assistance of AI tools. The content has been reviewed and curated for technical accuracy.&lt;/p&gt;
+&lt;/blockquote&gt;
 &lt;p&gt;This blog series was created with assistance from:&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;&lt;strong&gt;&lt;a href="https://arxiv.org/abs/2409.17146"&gt;MOLMO Paper&lt;/a&gt;&lt;/strong&gt; — Deitke et al., "Molmo and PixMo: Open Weights and Open Data for State-of-the-Art Multimodal Models" (2024)&lt;/li&gt;
