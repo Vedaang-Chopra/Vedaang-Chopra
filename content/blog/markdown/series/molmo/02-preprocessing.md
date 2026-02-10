@@ -22,7 +22,7 @@ At first glance, MOLMO's architecture looks almost conservative. There is no nov
 
 MOLMO's architectural contribution centers on **treating known constraints as immovable facts** and designing around them. In particular, it takes seriously a constraint that many VLMs implicitly ignore:
 
-> Vision Transformers are square, resolution-limited models operating on patchified images—while real-world visual reasoning is neither square nor low-resolution.
+> Vision Transformers are square, resolution-limited models operating on patchified images-while real-world visual reasoning is neither square nor low-resolution.
 
 Most VLMs implicitly assume that resizing an image to a single fixed resolution is a harmless preprocessing step. MOLMO treats this assumption as false.
 
@@ -78,7 +78,7 @@ Figure 3 from the paper demonstrates the difference clearly:
 
 *Figure 3: Overlap vs. no-overlap cropping. Highlighted regions show areas used by the LLM. With overlap, the bike's brand name is always fully visible in at least one crop.*
 
-From a reasoning perspective, this is crucial. The LLM requires *complete visual evidence* to reason effectively—fragmented patches undermine this.
+From a reasoning perspective, this is crucial. The LLM requires *complete visual evidence* to reason effectively-fragmented patches undermine this.
 
 ---
 
@@ -88,7 +88,7 @@ Real images rarely tile perfectly. MOLMO pads edge crops when needed, but does s
 * Each patch is tagged as real image, partial padding, or full padding.
 * Padding-type embeddings tell the model what is *absence* versus *dark pixels*.
 
-This avoids a subtle but common failure mode where models confuse black padding with visual content—particularly harmful in low-light or nighttime scenes.
+This avoids a subtle but common failure mode where models confuse black padding with visual content-particularly harmful in low-light or nighttime scenes.
 
 ---
 
@@ -96,7 +96,7 @@ This avoids a subtle but common failure mode where models confuse black padding 
 
 The key insight here is what multi-scale cropping represents: **visual reasoning is scale-sensitive**. A single resolution cannot support both perception and interpretation. MOLMO treats scale as a **first-class axis of representation**, rather than something the model is expected to infer implicitly.
 
-MOLMO reframes where architectural novelty should live: **in how visual evidence is preserved, structured, and made accessible to reasoning mechanisms**—rather than simply in deeper encoders or larger language models.
+MOLMO reframes where architectural novelty should live: **in how visual evidence is preserved, structured, and made accessible to reasoning mechanisms**-rather than simply in deeper encoders or larger language models.
 
 This is why MOLMO is better understood as an architectural *correction* rather than an architectural *innovation*. It does not add complexity; it removes implicit assumptions that were never justified.
 

@@ -18,7 +18,7 @@ part: 3
 
 Once MOLMO has preserved visual information through multi-scale preprocessing, it faces the next architectural bottleneck: **token explosion**.
 
-Vision Transformers do not reason over images directly—they reason over *patch tokens*. If left unchecked, MOLMO's careful preprocessing would overwhelm the language model with far more visual tokens than it can meaningfully attend to.
+Vision Transformers do not reason over images directly-they reason over *patch tokens*. If left unchecked, MOLMO's careful preprocessing would overwhelm the language model with far more visual tokens than it can meaningfully attend to.
 
 The challenge here is subtle:
 
@@ -36,7 +36,7 @@ Each 336×336 image (global view or crop) is divided into 14×14 pixel patches.
 * Total per image: **24 × 24 = 576 patches**
 * If MOLMO processed 9 crops + 1 global image naively, this would result in **~5,760 visual tokens**.
 
-This is not just inefficient—it is unusable for a decoder-only LLM that must attend over all tokens during generation.
+This is not just inefficient-it is unusable for a decoder-only LLM that must attend over all tokens during generation.
 
 ---
 
@@ -98,13 +98,13 @@ To make this concrete, consider a 1920×1080 image of a busy café street:
 | 10   | Add layout tokens         | `<img_start_lowres>`, `<row_end>`, etc.           |
 | 11   | Concatenate with text     | [1,100 visual] + [~8 text tokens] → LLM           |
 
-The LLM then generates text autoregressively, attending to all visual tokens at each step. When asked *"What color is the car near the café?"*, it can localize "car" to specific visual tokens and verify "near the café" spatially—because the architecture preserved this structure throughout.
+The LLM then generates text autoregressively, attending to all visual tokens at each step. When asked *"What color is the car near the café?"*, it can localize "car" to specific visual tokens and verify "near the café" spatially-because the architecture preserved this structure throughout.
 
 ---
 
 ## The Connector Is Not a Projection Layer
 
-In many VLM descriptions, the connector is dismissed in a single sentence: *"visual features are projected into the language embedding space."* MOLMO treats this as an oversimplification—and implicitly argues that this framing is one reason many VLMs underperform at grounding and reasoning.
+In many VLM descriptions, the connector is dismissed in a single sentence: *"visual features are projected into the language embedding space."* MOLMO treats this as an oversimplification-and implicitly argues that this framing is one reason many VLMs underperform at grounding and reasoning.
 
 The connector is not just about dimensionality alignment. It is about **making visual structure legible to a language model**.
 
@@ -137,13 +137,13 @@ This information is encoded using **layout embeddings**, which are injected alon
 
 *Layout injection adds positional context to each visual token, enabling the LLM to understand spatial relationships.*
 
-The key idea is not positional encoding in the transformer sense—it is *semantic spatial grounding*. To the LLM, these tokens are no longer anonymous vectors. They are "this region," "over here," or "adjacent to that other region."
+The key idea is not positional encoding in the transformer sense-it is *semantic spatial grounding*. To the LLM, these tokens are no longer anonymous vectors. They are "this region," "over here," or "adjacent to that other region."
 
 ---
 
 ## Why This Matters for Reasoning
 
-From a researcher's perspective, this section is where MOLMO's architectural philosophy becomes clear: **multimodal reasoning is not just about fusing modalities—it is about preserving the *structure* of each modality through fusion**.
+From a researcher's perspective, this section is where MOLMO's architectural philosophy becomes clear: **multimodal reasoning is not just about fusing modalities-it is about preserving the *structure* of each modality through fusion**.
 
 Without layout-aware connectors, counting degenerates into guesswork and spatial explanations collapse into generic captions. MOLMO's connector ensures that visual tokens behave less like "extra words" and more like **persistent, structured memory**.
 

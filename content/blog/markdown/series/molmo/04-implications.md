@@ -46,7 +46,7 @@ The implication is subtle but critical: **the model can always re-attend to the 
 
 ## Vision as Persistent Memory
 
-Many VLM failures arise because vision is treated as a compressed hint—a short prefix or limited attention window. In such setups, early decoding decisions lock in interpretations that cannot be revised. MOLMO's decoding strategy enables:
+Many VLM failures arise because vision is treated as a compressed hint-a short prefix or limited attention window. In such setups, early decoding decisions lock in interpretations that cannot be revised. MOLMO's decoding strategy enables:
 
 * Re-checking spatial relationships mid-generation
 * Revisiting visual evidence when resolving ambiguity
@@ -56,13 +56,13 @@ This is especially important for tasks like counting ("are there three cups or t
 
 ---
 
-## Why Data Still Matters — But Only If Architecture Lets It
+## Why Data Still Matters - But Only If Architecture Lets It
 
 Up to this point, the discussion has focused almost entirely on architecture. This is intentional. MOLMO makes a strong implicit claim:
 
 > Data does not create capabilities by itself. It only reveals the capabilities that the architecture already permits.
 
-PixMo, MOLMO's data suite, is best understood through this lens—as **capability probes** designed to exercise specific architectural affordances, rather than merely a collection of large datasets.
+PixMo, MOLMO's data suite, is best understood through this lens-as **capability probes** designed to exercise specific architectural affordances, rather than merely a collection of large datasets.
 
 ---
 
@@ -80,7 +80,7 @@ Rather than enumerating PixMo datasets individually, it is more useful to group 
 | Visual numeracy         | PixMo-Clocks     | 826K images                    | Synthetic watch faces; teaches geometric → numeric reasoning                          |
 | Grounded counting       | PixMo-Count      | 36K train / 540 val            | Point-based counting supervision; harder than CountBenchQA                            |
 
-The key insight is that **none of these capabilities would emerge reliably** if MOLMO used single-resolution resizing, aggressive early pooling, or vision-as-prefix decoding. PixMo does not compensate for architectural weaknesses—it *assumes they have already been addressed*.
+The key insight is that **none of these capabilities would emerge reliably** if MOLMO used single-resolution resizing, aggressive early pooling, or vision-as-prefix decoding. PixMo does not compensate for architectural weaknesses-it *assumes they have already been addressed*.
 
 Figure 1 from the paper shows how PixMo datasets map to MOLMO's capabilities:
 
@@ -98,7 +98,7 @@ MOLMO's results validate the architectural philosophy:
 | ------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------ |
 | **Overall ranking**      | Molmo-72B ranks **#2** (behind only GPT-4o), beating Gemini 1.5 Pro and Claude 3.5 Sonnet                                                              |
 | **Counting & grounding** | Best-in-class due to point-then-count reasoning and 2D pointing data                                                                                   |
-| **cap-F1 correlation**   | Strong 0.82 correlation between captioning quality and benchmark performance—suggesting dense captioning is a reliable proxy for multimodal capability |
+| **cap-F1 correlation**   | Strong 0.82 correlation between captioning quality and benchmark performance-suggesting dense captioning is a reliable proxy for multimodal capability |
 | **Openness**             | First fully open VLM (weights, data, code) to reach this performance tier                                                                              |
 
 Where MOLMO is weaker: reasoning-heavy tasks (MathVista) and fine OCR, which require more structured reasoning data.
@@ -128,7 +128,7 @@ The takeaway is not "data matters less," but something more precise: **in VLMs, 
 
 With this in mind, we can step back and ask a final, forward-looking question: what does MOLMO teach us about the future design of vision-language systems?
 
-1. **Preprocessing is modeling.** The image preprocessor is not infrastructure—it is the first layer of representation learning.
+1. **Preprocessing is modeling.** The image preprocessor is not infrastructure-it is the first layer of representation learning.
 
 2. **Compression must be semantically aware.** Token reduction should happen after, not before, semantic features are extracted.
 
@@ -138,7 +138,7 @@ With this in mind, we can step back and ask a final, forward-looking question: w
 
 5. **Data reveals architecture.** Training data can only teach capabilities that the architecture already permits.
 
-MOLMO demonstrates that distinct architectural choices—not just scale—will define the limits of what our models can truly understand.
+MOLMO demonstrates that distinct architectural choices-not just scale-will define the limits of what our models can truly understand.
 
 ---
 
@@ -148,10 +148,10 @@ MOLMO demonstrates that distinct architectural choices—not just scale—will d
 
 This blog series was created with assistance from:
 
-* **[MOLMO Paper](https://arxiv.org/abs/2409.17146)** — Deitke et al., "Molmo and PixMo: Open Weights and Open Data for State-of-the-Art Multimodal Models" (2024)
-* **[Original Presentation Slides](/blog/cs8803-vlm---molmo-and-pixmo)** — CS8803 VLM course presentation with detailed speaker notes
-* **[ChatGPT](https://openai.com/chatgpt)** — OpenAI's language model, used for drafting and editing
-* **[Antigravity](https://deepmind.google/)** — Google DeepMind's agentic coding assistant, used for structuring and publishing
+* **[MOLMO Paper](https://arxiv.org/abs/2409.17146)** - Deitke et al., "Molmo and PixMo: Open Weights and Open Data for State-of-the-Art Multimodal Models" (2024)
+* **[Original Presentation Slides](/blog/cs8803-vlm---molmo-and-pixmo)** - CS8803 VLM course presentation with detailed speaker notes
+* **[ChatGPT](https://openai.com/chatgpt)** - OpenAI's language model, used for drafting and editing
+* **[Antigravity](https://deepmind.google/)** - Google DeepMind's agentic coding assistant, used for structuring and publishing
 
 ---
 
