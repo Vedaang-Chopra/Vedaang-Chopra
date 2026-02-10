@@ -49,21 +49,21 @@
 <p>This article is a researcher's interpretation of what MOLMO is actually saying about VLM design: which constraints it treats as fundamental, which failure modes it prioritizes, and where it chooses architectural clarity over convenience. The focus is on design reasoning, not performance deltas.</p>
 </blockquote>
 <h2>Why MOLMO Is Worth Studying</h2>
-<p>Most recent discussions around Vision-Language Models (VLMs) revolve around benchmarks, scale, or whether a model is "open" in name. MOLMO is interesting for a different reason. It is one of the few recent VLMs that can be treated as a <strong>complete research artifact</strong>—one where data construction, architectural decisions, training choices, and evaluation all form a coherent story.</p>
+<p>Most recent discussions around Vision-Language Models (VLMs) revolve around benchmarks, scale, or whether a model is "open" in name. MOLMO is interesting for a different reason. It is one of the few recent VLMs that can be treated as a <strong>complete research artifact</strong>-one where data construction, architectural decisions, training choices, and evaluation all form a coherent story.</p>
 <p>This article is not a leaderboard-driven summary of MOLMO. Instead, it uses MOLMO as a <strong>lens to reason about VLM design itself</strong>: where multimodal reasoning actually happens, why many VLMs fail silently, and how architectural decisions upstream of the language model determine what kind of intelligence is even possible downstream.</p>
 <p>The central argument is simple but often overlooked:</p>
 <blockquote>
 <p>Multimodal reasoning does not emerge inside the LLM by default. It emerges only if the architecture preserves, aligns, and exposes visual information in a form the LLM can actually reason over.</p>
 </blockquote>
-<p>MOLMO is valuable because it makes these constraints explicit—and largely gets them right.</p>
+<p>MOLMO is valuable because it makes these constraints explicit-and largely gets them right.</p>
 <h3>Why "Open" Actually Matters Here</h3>
 <p>Many VLMs claim openness but fall short in practice:</p>
 <ul>
 <li><strong>API-only</strong> (GPT-4o, Gemini): No weights, no data, no reproducibility.</li>
 <li><strong>Open weights, closed data</strong> (Qwen-VL, InternVL): You can run it, but you cannot study <em>why</em> it works.</li>
-<li><strong>Open weights + distilled data</strong> (LLaVA, Cambrian): Trained on synthetic captions from proprietary VLMs—meaning reproducibility still depends on closed systems.</li>
+<li><strong>Open weights + distilled data</strong> (LLaVA, Cambrian): Trained on synthetic captions from proprietary VLMs-meaning reproducibility still depends on closed systems.</li>
 </ul>
-<p>MOLMO occupies a different position: <strong>open weights, open data (PixMo), and open training code</strong>. This means the entire system—from data collection decisions to architectural choices—can be audited, reproduced, and extended. For researchers, this is not a marketing distinction; it is the difference between a benchmark result and a research artifact.</p>
+<p>MOLMO occupies a different position: <strong>open weights, open data (PixMo), and open training code</strong>. This means the entire system-from data collection decisions to architectural choices-can be audited, reproduced, and extended. For researchers, this is not a marketing distinction; it is the difference between a benchmark result and a research artifact.</p>
 <hr>
 <h2>The Core VLM Abstraction</h2>
 <p>At a high level, most VLMs look deceptively similar: an image encoder, a connector, and a language model. This simplicity hides a deeper question that determines success or failure:</p>
@@ -76,7 +76,7 @@
 </li>
 <li>
 <p><strong>Visual tokens are aligned, not merely projected</strong><br>
-   The connector must preserve structure, locality, and layout—not just match embedding dimensions.</p>
+   The connector must preserve structure, locality, and layout-not just match embedding dimensions.</p>
 </li>
 <li>
 <p><strong>The decoder has unrestricted access to vision during generation</strong><br>
@@ -99,7 +99,7 @@
 <li>The <strong>Encoder → Connector</strong> step determines what structure survives compression.</li>
 <li>The <strong>Connector → LLM</strong> step determines whether vision is accessible during reasoning or merely appended as context.</li>
 </ul>
-<p>MOLMO's architecture follows this standard design—connecting a vision encoder to a language model—as shown in Figure 2 from the paper:</p>
+<p>MOLMO's architecture follows this standard design-connecting a vision encoder to a language model-as shown in Figure 2 from the paper:</p>
 <p><img alt="MOLMO follows the simple and standard design of connecting a vision encoder and a language model." src="/images/molmo_inference_flow.png"></p>
 <p><em>Figure 2: MOLMO's end-to-end inference flow. An image is tiled into crops, encoded, and fused with tokenized text. The LLM outputs an answer with optional pointing coordinates.</em></p>
 <hr>
@@ -116,7 +116,7 @@
 <li>The vision encoder produces tokens that are already missing critical information.</li>
 </ul>
 <p>At this point, <strong>the LLM has already lost</strong>, regardless of how powerful it is.</p>
-<p>MOLMO's contribution lies in treating these transitions as first-class design problems rather than implementation details. In the parts that follow, we will progressively zoom in on how MOLMO addresses each of these failure modes—starting with the most underestimated part of VLMs: how images are prepared <em>before</em> any transformer ever sees them.</p>
+<p>MOLMO's contribution lies in treating these transitions as first-class design problems rather than implementation details. In the parts that follow, we will progressively zoom in on how MOLMO addresses each of these failure modes-starting with the most underestimated part of VLMs: how images are prepared <em>before</em> any transformer ever sees them.</p>
 <hr>
 <p><strong>Part 1 of a 4-part series on Vision-Language Model design.</strong><br>
 ← Previous | <a href="/blog/molmo-part-2">Next →</a></p>

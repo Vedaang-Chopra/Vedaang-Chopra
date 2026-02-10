@@ -43,7 +43,7 @@
 <hr>
 <h1>From Patches to Reasoning: Tokens, Bandwidth, and Connectors</h1>
 <p>Once MOLMO has preserved visual information through multi-scale preprocessing, it faces the next architectural bottleneck: <strong>token explosion</strong>.</p>
-<p>Vision Transformers do not reason over images directly—they reason over <em>patch tokens</em>. If left unchecked, MOLMO's careful preprocessing would overwhelm the language model with far more visual tokens than it can meaningfully attend to.</p>
+<p>Vision Transformers do not reason over images directly-they reason over <em>patch tokens</em>. If left unchecked, MOLMO's careful preprocessing would overwhelm the language model with far more visual tokens than it can meaningfully attend to.</p>
 <p>The challenge here is subtle:</p>
 <blockquote>
 <p>How do we aggressively compress visual information <strong>without destroying the very fine-grained details we preserved</strong>?</p>
@@ -57,7 +57,7 @@
 <li>Total per image: <strong>24 × 24 = 576 patches</strong></li>
 <li>If MOLMO processed 9 crops + 1 global image naively, this would result in <strong>~5,760 visual tokens</strong>.</li>
 </ul>
-<p>This is not just inefficient—it is unusable for a decoder-only LLM that must attend over all tokens during generation.</p>
+<p>This is not just inefficient-it is unusable for a decoder-only LLM that must attend over all tokens during generation.</p>
 <hr>
 <h2>Multi-Layer Feature Extraction: Texture Meets Semantics</h2>
 <p>Before compression, MOLMO makes one important modeling decision: it extracts features from <strong>two internal ViT layers</strong>:</p>
@@ -155,10 +155,10 @@
 </tr>
 </tbody>
 </table>
-<p>The LLM then generates text autoregressively, attending to all visual tokens at each step. When asked <em>"What color is the car near the café?"</em>, it can localize "car" to specific visual tokens and verify "near the café" spatially—because the architecture preserved this structure throughout.</p>
+<p>The LLM then generates text autoregressively, attending to all visual tokens at each step. When asked <em>"What color is the car near the café?"</em>, it can localize "car" to specific visual tokens and verify "near the café" spatially-because the architecture preserved this structure throughout.</p>
 <hr>
 <h2>The Connector Is Not a Projection Layer</h2>
-<p>In many VLM descriptions, the connector is dismissed in a single sentence: <em>"visual features are projected into the language embedding space."</em> MOLMO treats this as an oversimplification—and implicitly argues that this framing is one reason many VLMs underperform at grounding and reasoning.</p>
+<p>In many VLM descriptions, the connector is dismissed in a single sentence: <em>"visual features are projected into the language embedding space."</em> MOLMO treats this as an oversimplification-and implicitly argues that this framing is one reason many VLMs underperform at grounding and reasoning.</p>
 <p>The connector is not just about dimensionality alignment. It is about <strong>making visual structure legible to a language model</strong>.</p>
 <h3>The Common Misconception</h3>
 <p>A naïve mental model of VLMs looks like this:</p>
@@ -180,10 +180,10 @@
 <p>This information is encoded using <strong>layout embeddings</strong>, which are injected alongside visual features before entering the LLM.</p>
 <p><img alt="MOLMO Spatial Tokens and Layout" src="/images/molmo_spatial.png"></p>
 <p><em>Layout injection adds positional context to each visual token, enabling the LLM to understand spatial relationships.</em></p>
-<p>The key idea is not positional encoding in the transformer sense—it is <em>semantic spatial grounding</em>. To the LLM, these tokens are no longer anonymous vectors. They are "this region," "over here," or "adjacent to that other region."</p>
+<p>The key idea is not positional encoding in the transformer sense-it is <em>semantic spatial grounding</em>. To the LLM, these tokens are no longer anonymous vectors. They are "this region," "over here," or "adjacent to that other region."</p>
 <hr>
 <h2>Why This Matters for Reasoning</h2>
-<p>From a researcher's perspective, this section is where MOLMO's architectural philosophy becomes clear: <strong>multimodal reasoning is not just about fusing modalities—it is about preserving the <em>structure</em> of each modality through fusion</strong>.</p>
+<p>From a researcher's perspective, this section is where MOLMO's architectural philosophy becomes clear: <strong>multimodal reasoning is not just about fusing modalities-it is about preserving the <em>structure</em> of each modality through fusion</strong>.</p>
 <p>Without layout-aware connectors, counting degenerates into guesswork and spatial explanations collapse into generic captions. MOLMO's connector ensures that visual tokens behave less like "extra words" and more like <strong>persistent, structured memory</strong>.</p>
 <hr>
 <p><strong>Part 3 of a 4-part series on Vision-Language Model design.</strong><br>
