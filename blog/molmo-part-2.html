@@ -77,7 +77,7 @@
 <li>Overlaps adjacent crops to avoid boundary artifacts.</li>
 </ol>
 <p>This is not a data augmentation trick. It is a <strong>deliberate representational decomposition</strong>. Figure 5 from the MOLMO paper illustrates this process:</p>
-<p><img alt="Converting an image into tokens. The image is turned into a single low-res and several overlapping high-res crops." src="/images/molmo_tokens_sequence.png"></p>
+<p><img alt="Converting an image into tokens. The image is turned into a single low-res and several overlapping high-res crops." src="/images/molmo/molmo_tokens_sequence.png"></p>
 <p><em>Figure 5: Image-to-token conversion. The original image (top left) produces a low-resolution global view and multiple high-resolution crops (bottom left). Special tokens mark image start, end, and row boundaries.</em></p>
 <p>Each crop answers a different question:</p>
 <ul>
@@ -89,7 +89,7 @@
 <h2>Why Overlap Matters (More Than It Seems)</h2>
 <p>The overlapping region between crops is not incidental. Without overlap, objects near crop boundaries get split, text gets truncated, and spatial continuity breaks. By overlapping crops, MOLMO ensures that <strong>any visually meaningful region appears fully in at least one crop</strong>. This guarantees that the vision encoder never sees "half an object" as its best view.</p>
 <p>Figure 3 from the paper demonstrates the difference clearly:</p>
-<p><img alt="An image cropped without and with overlap. Overlapping crops ensure that central patches are encoded with neighboring context." src="/images/molmo_overlap_comparison.png"></p>
+<p><img alt="An image cropped without and with overlap. Overlapping crops ensure that central patches are encoded with neighboring context." src="/images/molmo/molmo_overlap_comparison.png"></p>
 <p><em>Figure 3: Overlap vs. no-overlap cropping. Highlighted regions show areas used by the LLM. With overlap, the bike's brand name is always fully visible in at least one crop.</em></p>
 <p>From a reasoning perspective, this is crucial. The LLM requires <em>complete visual evidence</em> to reason effectively-fragmented patches undermine this.</p>
 <hr>
