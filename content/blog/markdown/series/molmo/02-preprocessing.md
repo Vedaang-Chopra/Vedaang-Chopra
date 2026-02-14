@@ -56,7 +56,7 @@ MOLMO's preprocessor produces **two complementary visual representations** from 
 
 This is not a data augmentation trick. It is a **deliberate representational decomposition**. Figure 5 from the MOLMO paper illustrates this process:
 
-![Converting an image into tokens. The image is turned into a single low-res and several overlapping high-res crops.](/images/molmo_tokens_sequence.png)
+![Converting an image into tokens. The image is turned into a single low-res and several overlapping high-res crops.](/images/molmo/molmo_tokens_sequence.png)
 
 *Figure 5: Image-to-token conversion. The original image (top left) produces a low-resolution global view and multiple high-resolution crops (bottom left). Special tokens mark image start, end, and row boundaries.*
 
@@ -74,7 +74,7 @@ The overlapping region between crops is not incidental. Without overlap, objects
 
 Figure 3 from the paper demonstrates the difference clearly:
 
-![An image cropped without and with overlap. Overlapping crops ensure that central patches are encoded with neighboring context.](/images/molmo_overlap_comparison.png)
+![An image cropped without and with overlap. Overlapping crops ensure that central patches are encoded with neighboring context.](/images/molmo/molmo_overlap_comparison.png)
 
 *Figure 3: Overlap vs. no-overlap cropping. Highlighted regions show areas used by the LLM. With overlap, the bike's brand name is always fully visible in at least one crop.*
 

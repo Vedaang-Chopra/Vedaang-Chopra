@@ -133,7 +133,7 @@ MOLMO distinguishes between **alignment** (tokens live in the same embedding spa
 
 This information is encoded using **layout embeddings**, which are injected alongside visual features before entering the LLM.
 
-![MOLMO Spatial Tokens and Layout](/images/molmo_spatial.png)
+![MOLMO Spatial Tokens and Layout](/images/molmo/molmo_spatial.png)
 
 *Layout injection adds positional context to each visual token, enabling the LLM to understand spatial relationships.*
 

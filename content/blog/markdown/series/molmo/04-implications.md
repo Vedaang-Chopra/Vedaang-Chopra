@@ -84,7 +84,7 @@ The key insight is that **none of these capabilities would emerge reliably** if 
 
 Figure 1 from the paper shows how PixMo datasets map to MOLMO's capabilities:
 
-![PixMo datasets and the capabilities they enable in MOLMO.](/images/molmo_pixmo_datasets.png)
+![PixMo datasets and the capabilities they enable in MOLMO.](/images/molmo/molmo_pixmo_datasets.png)
 
 *Figure 1: PixMo (left) consists of three annotated datasets and four synthetic datasets, all constructed without the use of VLMs. Each dataset enables specific capabilities in MOLMO (right), from fine-grained understanding to pointing and visual skills.*
 

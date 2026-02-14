@@ -9,6 +9,8 @@ slug: molmo-part-1
 part: 1
 ---
 
+![MOLMO Poster Presentation](/images/molmo/Molmo_poster.png)
+
 **Part 1 of a 4-part series on Vision-Language Model design.**  
 ← Previous | [Next →](/blog/molmo-part-2)
 
@@ -16,12 +18,9 @@ part: 1
 
 # Where Multimodal Reasoning Actually Lives
 
-> [!NOTE]
-> **What this article is (and is not)**
->
-> This is not a benchmark comparison, reproduction, or implementation guide for MOLMO. All quantitative results, ablations, and evaluations are in the original paper.
->
-> This article is a researcher's interpretation of what MOLMO is actually saying about VLM design: which constraints it treats as fundamental, which failure modes it prioritizes, and where it chooses architectural clarity over convenience. The focus is on design reasoning, not performance deltas.
+<p style="font-size: 0.9em; font-style: italic; color: #666; margin-bottom: 2rem;">
+  <strong>Note:</strong> This article is a researcher's interpretation of what MOLMO is actually saying about VLM design: which constraints it treats as fundamental, which failure modes it prioritizes, and where it chooses architectural clarity over convenience. The focus is on design reasoning, not performance deltas. It is not a benchmark comparison, reproduction, or implementation guide.
+</p>
 
 ## Why MOLMO Is Worth Studying
 
@@ -86,7 +85,7 @@ This diagram is misleadingly clean. The real complexity lies in what happens *in
 
 MOLMO's architecture follows this standard design-connecting a vision encoder to a language model-as shown in Figure 2 from the paper:
 
-![MOLMO follows the simple and standard design of connecting a vision encoder and a language model.](/images/molmo_inference_flow.png)
+![MOLMO follows the simple and standard design of connecting a vision encoder and a language model.](/images/molmo/molmo_inference_flow.png)
 
 *Figure 2: MOLMO's end-to-end inference flow. An image is tiled into crops, encoded, and fused with tokenized text. The LLM outputs an answer with optional pointing coordinates.*
 

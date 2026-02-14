@@ -106,6 +106,16 @@ img {
     display: block;
 }
 
+/* Responsive Table Wrapper */
+table {
+    display: block;
+    width: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    border-collapse: collapse;
+    margin-bottom: 1.5rem;
+}
+
 /* Global Link Styles */
 a {
     color: var(--link-color);
@@ -340,6 +350,24 @@ h3 {
 
     .blog-header {
         margin-bottom: 2rem;
+    }
+
+    /* Better Code Block Scrolling */
+    .highlight {
+        padding: 1rem;
+        margin: 1.5rem -1rem; /* Extend to edges on small screens */
+        border-radius: 0;
+        font-size: 0.85rem;
+    }
+
+    /* Improved Typography */
+    h1 { font-size: 1.75rem; }
+    h2 { font-size: 1.5rem; }
+    h3 { font-size: 1.25rem; }
+
+    /* Fix image margins */
+    .content img {
+        margin: 1.5rem auto;
     }
 }
 
