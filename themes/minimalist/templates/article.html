@@ -7,7 +7,11 @@
     <header>
         <h1>{{ article.title }}</h1>
         <div class="meta">
-            <span class="date">{{ article.date|strftime('%Y-%m-%d') }}</span>
+            <span class="date">{{ article.date|strftime('%b %d, %Y') }}</span>
+            <span class="category-tag">{{ article.category }}</span>
+            {% if article.series %}
+            <span class="series-tag">Series: {{ article.series }}</span>
+            {% endif %}
         </div>
     </header>
     

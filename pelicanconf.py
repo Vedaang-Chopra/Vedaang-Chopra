@@ -3,6 +3,8 @@ SITENAME = 'Vedaang Chopra'
 SITEURL = ''
 
 PATH = 'content'
+ARTICLE_PATHS = ['blog/markdown']
+USE_FOLDER_AS_CATEGORY = True
 THEME = 'themes/minimalist'
 
 TIMEZONE = 'America/New_York'

@@ -1,6 +1,5 @@
 Title: SAI   METIS Presentation
 Date: 2025-12-12
-Category: Research Paper Analysis
 Slug: sai---metis-presentation
 Summary: Detailed analysis and presentation notes for SAI   METIS Presentation.
 

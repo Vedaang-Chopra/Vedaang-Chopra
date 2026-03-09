@@ -1,6 +1,5 @@
 Title: MLS  Paper Presentation
 Date: 2025-12-12
-Category: Research Paper Analysis
 Slug: mls--paper-presentation
 Summary: Detailed analysis and presentation notes for MLS  Paper Presentation.
 

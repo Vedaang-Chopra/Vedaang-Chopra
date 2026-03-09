@@ -1,6 +1,5 @@
 Title: cs8803 VLM   MOLMO & PIXMO
 Date: 2025-12-12
-Category: Research Paper Analysis
 Slug: cs8803-vlm---molmo-and-pixmo
 Summary: Detailed analysis and presentation notes for cs8803 VLM   MOLMO & PIXMO.
 
