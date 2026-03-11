@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom"><title>Vedaang Chopra</title><link href="https://vedaangchopra.live/" rel="alternate"/><link href="https://vedaangchopra.live/feeds/all.atom.xml" rel="self"/><id>https://vedaangchopra.live/</id><updated>2026-02-09T10:03:00-05:00</updated><entry><title>Part 4 - When Architecture Meets Data - What MOLMO Teaches Us</title><link href="https://vedaangchopra.live/writing/molmo-part-4.html" rel="alternate"/><published>2026-02-09T10:03:00-05:00</published><updated>2026-02-09T10:03:00-05:00</updated><author><name>Vedaang Chopra</name></author><id>tag:vedaangchopra.live,2026-02-09:/writing/molmo-part-4.html</id><summary type="html">&lt;p&gt;&lt;strong&gt;Part 4 of a 4-part series on Vision-Language Model design.&lt;/strong&gt;&lt;br&gt;
-&lt;a href="/blog/molmo-part-3"&gt;← Previous&lt;/a&gt; | Next →&lt;/p&gt;
+&lt;a href="/writing/molmo-part-3"&gt;← Previous&lt;/a&gt; | Next →&lt;/p&gt;
 &lt;hr&gt;
 &lt;h1&gt;When Architecture Meets Data: What MOLMO Teaches Us&lt;/h1&gt;
 &lt;p&gt;Up to this point, MOLMO has preserved visual information, compressed it without destroying structure, and aligned it with language in a spatially meaningful way. The final question is whether this …&lt;/p&gt;</summary><content type="html">&lt;p&gt;&lt;strong&gt;Part 4 of a 4-part series on Vision-Language Model design.&lt;/strong&gt;&lt;br&gt;
-&lt;a href="/blog/molmo-part-3"&gt;← Previous&lt;/a&gt; | Next →&lt;/p&gt;
+&lt;a href="/writing/molmo-part-3"&gt;← Previous&lt;/a&gt; | Next →&lt;/p&gt;
 &lt;hr&gt;
 &lt;h1&gt;When Architecture Meets Data: What MOLMO Teaches Us&lt;/h1&gt;
 &lt;p&gt;Up to this point, MOLMO has preserved visual information, compressed it without destroying structure, and aligned it with language in a spatially meaningful way. The final question is whether this information is actually &lt;em&gt;used&lt;/em&gt; during reasoning.&lt;/p&gt;
@@ -180,13 +180,13 @@
 &lt;/ul&gt;
 &lt;hr&gt;
 &lt;p&gt;&lt;strong&gt;Part 4 of a 4-part series on Vision-Language Model design.&lt;/strong&gt;&lt;br&gt;
-&lt;a href="/blog/molmo-part-3"&gt;← Previous&lt;/a&gt; | Next →&lt;/p&gt;</content><category term="molmo"/><category term="[MOLMO"/><category term="PixMo"/><category term="VLM]"/></entry><entry><title>Part 3 - From Patches to Reasoning - Tokens, Bandwidth, and Connectors</title><link href="https://vedaangchopra.live/writing/molmo-part-3.html" rel="alternate"/><published>2026-02-09T10:02:00-05:00</published><updated>2026-02-09T10:02:00-05:00</updated><author><name>Vedaang Chopra</name></author><id>tag:vedaangchopra.live,2026-02-09:/writing/molmo-part-3.html</id><summary type="html">&lt;p&gt;&lt;strong&gt;Part 3 of a 4-part series on Vision-Language Model design.&lt;/strong&gt;&lt;br&gt;
-&lt;a href="/blog/molmo-part-2"&gt;← Previous&lt;/a&gt; | &lt;a href="/blog/molmo-part-4"&gt;Next →&lt;/a&gt;&lt;/p&gt;
+&lt;a href="/writing/molmo-part-3"&gt;← Previous&lt;/a&gt; | Next →&lt;/p&gt;</content><category term="molmo"/><category term="[MOLMO"/><category term="PixMo"/><category term="VLM]"/></entry><entry><title>Part 3 - From Patches to Reasoning - Tokens, Bandwidth, and Connectors</title><link href="https://vedaangchopra.live/writing/molmo-part-3.html" rel="alternate"/><published>2026-02-09T10:02:00-05:00</published><updated>2026-02-09T10:02:00-05:00</updated><author><name>Vedaang Chopra</name></author><id>tag:vedaangchopra.live,2026-02-09:/writing/molmo-part-3.html</id><summary type="html">&lt;p&gt;&lt;strong&gt;Part 3 of a 4-part series on Vision-Language Model design.&lt;/strong&gt;&lt;br&gt;
+&lt;a href="/writing/molmo-part-2"&gt;← Previous&lt;/a&gt; | &lt;a href="/writing/molmo-part-4"&gt;Next →&lt;/a&gt;&lt;/p&gt;
 &lt;hr&gt;
 &lt;h1&gt;From Patches to Reasoning: Tokens, Bandwidth, and Connectors&lt;/h1&gt;
 &lt;p&gt;Once MOLMO has preserved visual information through multi-scale preprocessing, it faces the next architectural bottleneck: &lt;strong&gt;token explosion&lt;/strong&gt;.&lt;/p&gt;
 &lt;p&gt;Vision Transformers do not reason over images directly-they reason over &lt;em&gt;patch tokens&lt;/em&gt;. If …&lt;/p&gt;</summary><content type="html">&lt;p&gt;&lt;strong&gt;Part 3 of a 4-part series on Vision-Language Model design.&lt;/strong&gt;&lt;br&gt;
-&lt;a href="/blog/molmo-part-2"&gt;← Previous&lt;/a&gt; | &lt;a href="/blog/molmo-part-4"&gt;Next →&lt;/a&gt;&lt;/p&gt;
+&lt;a href="/writing/molmo-part-2"&gt;← Previous&lt;/a&gt; | &lt;a href="/writing/molmo-part-4"&gt;Next →&lt;/a&gt;&lt;/p&gt;
 &lt;hr&gt;
 &lt;h1&gt;From Patches to Reasoning: Tokens, Bandwidth, and Connectors&lt;/h1&gt;
 &lt;p&gt;Once MOLMO has preserved visual information through multi-scale preprocessing, it faces the next architectural bottleneck: &lt;strong&gt;token explosion&lt;/strong&gt;.&lt;/p&gt;
@@ -334,13 +334,13 @@
 &lt;p&gt;Without layout-aware connectors, counting degenerates into guesswork and spatial explanations collapse into generic captions. MOLMO's connector ensures that visual tokens behave less like "extra words" and more like &lt;strong&gt;persistent, structured memory&lt;/strong&gt;.&lt;/p&gt;
 &lt;hr&gt;
 &lt;p&gt;&lt;strong&gt;Part 3 of a 4-part series on Vision-Language Model design.&lt;/strong&gt;&lt;br&gt;
-&lt;a href="/blog/molmo-part-2"&gt;← Previous&lt;/a&gt; | &lt;a href="/blog/molmo-part-4"&gt;Next →&lt;/a&gt;&lt;/p&gt;</content><category term="molmo"/><category term="[MOLMO"/><category term="PixMo"/><category term="VLM]"/></entry><entry><title>Part 2 - Seeing Is the Bottleneck - MOLMO's Image Preprocessing</title><link href="https://vedaangchopra.live/writing/molmo-part-2.html" rel="alternate"/><published>2026-02-09T10:01:00-05:00</published><updated>2026-02-09T10:01:00-05:00</updated><author><name>Vedaang Chopra</name></author><id>tag:vedaangchopra.live,2026-02-09:/writing/molmo-part-2.html</id><summary type="html">&lt;p&gt;&lt;strong&gt;Part 2 of a 4-part series on Vision-Language Model design.&lt;/strong&gt;&lt;br&gt;
-&lt;a href="/blog/molmo-part-1"&gt;← Previous&lt;/a&gt; | &lt;a href="/blog/molmo-part-3"&gt;Next →&lt;/a&gt;&lt;/p&gt;
+&lt;a href="/writing/molmo-part-2"&gt;← Previous&lt;/a&gt; | &lt;a href="/writing/molmo-part-4"&gt;Next →&lt;/a&gt;&lt;/p&gt;</content><category term="molmo"/><category term="[MOLMO"/><category term="PixMo"/><category term="VLM]"/></entry><entry><title>Part 2 - Seeing Is the Bottleneck - MOLMO's Image Preprocessing</title><link href="https://vedaangchopra.live/writing/molmo-part-2.html" rel="alternate"/><published>2026-02-09T10:01:00-05:00</published><updated>2026-02-09T10:01:00-05:00</updated><author><name>Vedaang Chopra</name></author><id>tag:vedaangchopra.live,2026-02-09:/writing/molmo-part-2.html</id><summary type="html">&lt;p&gt;&lt;strong&gt;Part 2 of a 4-part series on Vision-Language Model design.&lt;/strong&gt;&lt;br&gt;
+&lt;a href="/writing/molmo-part-1"&gt;← Previous&lt;/a&gt; | &lt;a href="/writing/molmo-part-3"&gt;Next →&lt;/a&gt;&lt;/p&gt;
 &lt;hr&gt;
 &lt;h1&gt;Seeing Is the Bottleneck: MOLMO's Image Preprocessing&lt;/h1&gt;
 &lt;h2&gt;Why MOLMO's Architecture Is Quietly Radical&lt;/h2&gt;
 &lt;p&gt;At first glance, MOLMO's architecture looks almost conservative. There is no novel transformer variant, no exotic fusion module, and no end-to-end multimodal pretraining trick that …&lt;/p&gt;</summary><content type="html">&lt;p&gt;&lt;strong&gt;Part 2 of a 4-part series on Vision-Language Model design.&lt;/strong&gt;&lt;br&gt;
-&lt;a href="/blog/molmo-part-1"&gt;← Previous&lt;/a&gt; | &lt;a href="/blog/molmo-part-3"&gt;Next →&lt;/a&gt;&lt;/p&gt;
+&lt;a href="/writing/molmo-part-1"&gt;← Previous&lt;/a&gt; | &lt;a href="/writing/molmo-part-3"&gt;Next →&lt;/a&gt;&lt;/p&gt;
 &lt;hr&gt;
 &lt;h1&gt;Seeing Is the Bottleneck: MOLMO's Image Preprocessing&lt;/h1&gt;
 &lt;h2&gt;Why MOLMO's Architecture Is Quietly Radical&lt;/h2&gt;
@@ -406,15 +406,15 @@
 &lt;p&gt;This is why MOLMO is better understood as an architectural &lt;em&gt;correction&lt;/em&gt; rather than an architectural &lt;em&gt;innovation&lt;/em&gt;. It does not add complexity; it removes implicit assumptions that were never justified.&lt;/p&gt;
 &lt;hr&gt;
 &lt;p&gt;&lt;strong&gt;Part 2 of a 4-part series on Vision-Language Model design.&lt;/strong&gt;&lt;br&gt;
-&lt;a href="/blog/molmo-part-1"&gt;← Previous&lt;/a&gt; | &lt;a href="/blog/molmo-part-3"&gt;Next →&lt;/a&gt;&lt;/p&gt;</content><category term="molmo"/><category term="[MOLMO"/><category term="PixMo"/><category term="VLM]"/></entry><entry><title>Part 1 - Where Multimodal Reasoning Actually Lives</title><link href="https://vedaangchopra.live/writing/molmo-part-1.html" rel="alternate"/><published>2026-02-09T10:00:00-05:00</published><updated>2026-02-09T10:00:00-05:00</updated><author><name>Vedaang Chopra</name></author><id>tag:vedaangchopra.live,2026-02-09:/writing/molmo-part-1.html</id><summary type="html">&lt;p&gt;&lt;img alt="MOLMO Poster Presentation" src="/images/molmo/Molmo_poster.png"&gt;&lt;/p&gt;
+&lt;a href="/writing/molmo-part-1"&gt;← Previous&lt;/a&gt; | &lt;a href="/writing/molmo-part-3"&gt;Next →&lt;/a&gt;&lt;/p&gt;</content><category term="molmo"/><category term="[MOLMO"/><category term="PixMo"/><category term="VLM]"/></entry><entry><title>Part 1 - Where Multimodal Reasoning Actually Lives</title><link href="https://vedaangchopra.live/writing/molmo-part-1.html" rel="alternate"/><published>2026-02-09T10:00:00-05:00</published><updated>2026-02-09T10:00:00-05:00</updated><author><name>Vedaang Chopra</name></author><id>tag:vedaangchopra.live,2026-02-09:/writing/molmo-part-1.html</id><summary type="html">&lt;p&gt;&lt;img alt="MOLMO Poster Presentation" src="/images/molmo/Molmo_poster.png"&gt;&lt;/p&gt;
 &lt;p&gt;&lt;strong&gt;Part 1 of a 4-part series on Vision-Language Model design.&lt;/strong&gt;&lt;br&gt;
-← Previous | &lt;a href="/blog/molmo-part-2"&gt;Next →&lt;/a&gt;&lt;/p&gt;
+← Previous | &lt;a href="/writing/molmo-part-2"&gt;Next →&lt;/a&gt;&lt;/p&gt;
 &lt;hr&gt;
 &lt;h1&gt;Where Multimodal Reasoning Actually Lives&lt;/h1&gt;
 &lt;p style="font-size: 0.9em; font-style: italic; color: #666; margin-bottom: 2rem;"&gt;
   &lt;strong&gt;Note:&lt;/strong&gt; This article is a researcher's interpretation of what MOLMO is actually saying about VLM design: which constraints it treats as fundamental, which failure modes it prioritizes, and where it chooses architectural clarity …&lt;/p&gt;</summary><content type="html">&lt;p&gt;&lt;img alt="MOLMO Poster Presentation" src="/images/molmo/Molmo_poster.png"&gt;&lt;/p&gt;
 &lt;p&gt;&lt;strong&gt;Part 1 of a 4-part series on Vision-Language Model design.&lt;/strong&gt;&lt;br&gt;
-← Previous | &lt;a href="/blog/molmo-part-2"&gt;Next →&lt;/a&gt;&lt;/p&gt;
+← Previous | &lt;a href="/writing/molmo-part-2"&gt;Next →&lt;/a&gt;&lt;/p&gt;
 &lt;hr&gt;
 &lt;h1&gt;Where Multimodal Reasoning Actually Lives&lt;/h1&gt;
 &lt;p style="font-size: 0.9em; font-style: italic; color: #666; margin-bottom: 2rem;"&gt;
@@ -492,7 +492,7 @@
 &lt;p&gt;MOLMO's contribution lies in treating these transitions as first-class design problems rather than implementation details. In the parts that follow, we will progressively zoom in on how MOLMO addresses each of these failure modes-starting with the most underestimated part of VLMs: how images are prepared &lt;em&gt;before&lt;/em&gt; any transformer ever sees them.&lt;/p&gt;
 &lt;hr&gt;
 &lt;p&gt;&lt;strong&gt;Part 1 of a 4-part series on Vision-Language Model design.&lt;/strong&gt;&lt;br&gt;
-← Previous | &lt;a href="/blog/molmo-part-2"&gt;Next →&lt;/a&gt;&lt;/p&gt;</content><category term="molmo"/><category term="[MOLMO"/><category term="PixMo"/><category term="VLM]"/></entry><entry><title>cs8803 VLM MOLMO &amp; PIXMO</title><link href="https://vedaangchopra.live/writing/cs8803-vlm---molmo-and-pixmo.html" rel="alternate"/><published>2025-12-12T00:00:00-05:00</published><updated>2025-12-12T00:00:00-05:00</updated><author><name>Vedaang Chopra</name></author><id>tag:vedaangchopra.live,2025-12-12:/writing/cs8803-vlm---molmo-and-pixmo.html</id><summary type="html">&lt;p&gt;Detailed analysis and presentation notes for cs8803 VLM   MOLMO &amp;amp; PIXMO.&lt;/p&gt;</summary><content type="html">&lt;div class="download-box" style="margin-bottom: 2rem; padding: 1rem; background: var(--btn-bg); border-radius: 8px; display: inline-block;"&gt;
+← Previous | &lt;a href="/writing/molmo-part-2"&gt;Next →&lt;/a&gt;&lt;/p&gt;</content><category term="molmo"/><category term="[MOLMO"/><category term="PixMo"/><category term="VLM]"/></entry><entry><title>cs8803 VLM MOLMO &amp; PIXMO</title><link href="https://vedaangchopra.live/writing/cs8803-vlm---molmo-and-pixmo.html" rel="alternate"/><published>2025-12-12T00:00:00-05:00</published><updated>2025-12-12T00:00:00-05:00</updated><author><name>Vedaang Chopra</name></author><id>tag:vedaangchopra.live,2025-12-12:/writing/cs8803-vlm---molmo-and-pixmo.html</id><summary type="html">&lt;p&gt;Detailed analysis and presentation notes for cs8803 VLM   MOLMO &amp;amp; PIXMO.&lt;/p&gt;</summary><content type="html">&lt;div class="download-box" style="margin-bottom: 2rem; padding: 1rem; background: var(--btn-bg); border-radius: 8px; display: inline-block;"&gt;
     &lt;a href="https://vedaangchopra.live/writing/cs8803-VLM - MOLMO &amp; PIXMO.pptx" style="text-decoration: none; font-weight: bold;"&gt;
         📥 Download Original Slides (PPTX)
     &lt;/a&gt;
@@ -522,7 +522,7 @@
 *   Open data (PixMo)
 *   Open training code
 *   Git Repo: - https://github.com/allenai/molmo/tree/main
-*   Website:- https://allenai.org/blog/molmo
+*   Website:- https://allenai.org/writing/molmo
 *   Problem: - Lack of open, transparent, and high-performing vision-language models
 *   Category-1: - API Based: - GPT-4o, Claude, Gemini, Groq,
 *   Category-2: - Open Weights: - Qwen, InternVL, PaliGemma
@@ -979,7 +979,7 @@
 *   ‹#›&lt;/p&gt;
 &lt;h2&gt;Thank You !!&lt;/h2&gt;
 &lt;p&gt;&lt;strong&gt;Key Takeaways:&lt;/strong&gt;
-*   ‹#›&lt;/p&gt;</content><category term="Research Paper Analysis"/></entry><entry><title>LLM Paper Presentation Slide (1)</title><link href="https://vedaangchopra.live/writing/llm-paper-presentation-slide-(1).html" rel="alternate"/><published>2025-12-12T00:00:00-05:00</published><updated>2025-12-12T00:00:00-05:00</updated><author><name>Vedaang Chopra</name></author><id>tag:vedaangchopra.live,2025-12-12:/writing/llm-paper-presentation-slide-(1).html</id><summary type="html">&lt;p&gt;Detailed analysis and presentation notes for LLM Paper Presentation Slide (1).&lt;/p&gt;</summary><content type="html">&lt;div class="download-box" style="margin-bottom: 2rem; padding: 1rem; background: var(--btn-bg); border-radius: 8px; display: inline-block;"&gt;
+*   ‹#›&lt;/p&gt;</content><category term="VLMs"/></entry><entry><title>LLM Paper Presentation Slide (1)</title><link href="https://vedaangchopra.live/writing/llm-paper-presentation-slide-(1).html" rel="alternate"/><published>2025-12-12T00:00:00-05:00</published><updated>2025-12-12T00:00:00-05:00</updated><author><name>Vedaang Chopra</name></author><id>tag:vedaangchopra.live,2025-12-12:/writing/llm-paper-presentation-slide-(1).html</id><summary type="html">&lt;p&gt;Detailed analysis and presentation notes for LLM Paper Presentation Slide (1).&lt;/p&gt;</summary><content type="html">&lt;div class="download-box" style="margin-bottom: 2rem; padding: 1rem; background: var(--btn-bg); border-radius: 8px; display: inline-block;"&gt;
     &lt;a href="https://vedaangchopra.live/writing/CS 8803 -LLM Paper Presentation Slide (1).pptx" style="text-decoration: none; font-weight: bold;"&gt;
         📥 Download Original Slides (PPTX)
     &lt;/a&gt;
@@ -1399,7 +1399,7 @@
 *   ‹#›&lt;/p&gt;
 &lt;h2&gt;Thank you and Questions!&lt;/h2&gt;
 &lt;p&gt;&lt;strong&gt;Key Takeaways:&lt;/strong&gt;
-*   ‹#›&lt;/p&gt;</content><category term="Research Paper Analysis"/></entry><entry><title>MLS Paper Presentation</title><link href="https://vedaangchopra.live/writing/mls--paper-presentation.html" rel="alternate"/><published>2025-12-12T00:00:00-05:00</published><updated>2025-12-12T00:00:00-05:00</updated><author><name>Vedaang Chopra</name></author><id>tag:vedaangchopra.live,2025-12-12:/writing/mls--paper-presentation.html</id><summary type="html">&lt;p&gt;Detailed analysis and presentation notes for MLS  Paper Presentation.&lt;/p&gt;</summary><content type="html">&lt;div class="download-box" style="margin-bottom: 2rem; padding: 1rem; background: var(--btn-bg); border-radius: 8px; display: inline-block;"&gt;
+*   ‹#›&lt;/p&gt;</content><category term="LLM's"/></entry><entry><title>MLS Paper Presentation</title><link href="https://vedaangchopra.live/writing/mls--paper-presentation.html" rel="alternate"/><published>2025-12-12T00:00:00-05:00</published><updated>2025-12-12T00:00:00-05:00</updated><author><name>Vedaang Chopra</name></author><id>tag:vedaangchopra.live,2025-12-12:/writing/mls--paper-presentation.html</id><summary type="html">&lt;p&gt;Detailed analysis and presentation notes for MLS  Paper Presentation.&lt;/p&gt;</summary><content type="html">&lt;div class="download-box" style="margin-bottom: 2rem; padding: 1rem; background: var(--btn-bg); border-radius: 8px; display: inline-block;"&gt;
     &lt;a href="https://vedaangchopra.live/writing/CS8803-MLS- Paper Presentation.pptx" style="text-decoration: none; font-weight: bold;"&gt;
         📥 Download Original Slides (PPTX)
     &lt;/a&gt;
@@ -1484,7 +1484,7 @@
 *   TODO: Face recognition, eg Celeba or VGG. We already have some code, but need expertise on producing good models (good place to contribute!).
 *   Defenses:- Input perturbation - NeuralCleanse + added evasion; Model anomalies - SentiNet + added evasion; Spectral clustering / fine-pruning + added evasion.
 *   TODO: Port Jupyter notebooks demonstrating defenses and evasions. Add new defenses and evasions (good place to contribute!).&lt;/p&gt;
-&lt;h2&gt;Q&amp;amp;A&lt;/h2&gt;</content><category term="Research Paper Analysis"/></entry><entry><title>SAI METIS Presentation</title><link href="https://vedaangchopra.live/writing/sai---metis-presentation.html" rel="alternate"/><published>2025-12-12T00:00:00-05:00</published><updated>2025-12-12T00:00:00-05:00</updated><author><name>Vedaang Chopra</name></author><id>tag:vedaangchopra.live,2025-12-12:/writing/sai---metis-presentation.html</id><summary type="html">&lt;p&gt;Detailed analysis and presentation notes for SAI   METIS Presentation.&lt;/p&gt;</summary><content type="html">&lt;div class="download-box" style="margin-bottom: 2rem; padding: 1rem; background: var(--btn-bg); border-radius: 8px; display: inline-block;"&gt;
+&lt;h2&gt;Q&amp;amp;A&lt;/h2&gt;</content><category term="AI Security"/></entry><entry><title>SAI METIS Presentation</title><link href="https://vedaangchopra.live/writing/sai---metis-presentation.html" rel="alternate"/><published>2025-12-12T00:00:00-05:00</published><updated>2025-12-12T00:00:00-05:00</updated><author><name>Vedaang Chopra</name></author><id>tag:vedaangchopra.live,2025-12-12:/writing/sai---metis-presentation.html</id><summary type="html">&lt;p&gt;Detailed analysis and presentation notes for SAI   METIS Presentation.&lt;/p&gt;</summary><content type="html">&lt;div class="download-box" style="margin-bottom: 2rem; padding: 1rem; background: var(--btn-bg); border-radius: 8px; display: inline-block;"&gt;
     &lt;a href="https://vedaangchopra.live/writing/CS 8803  SAI - METIS Presentation.pptx" style="text-decoration: none; font-weight: bold;"&gt;
         📥 Download Original Slides (PPTX)
     &lt;/a&gt;
@@ -1698,4 +1698,4 @@
 &lt;h2&gt;Thank you&lt;/h2&gt;
 &lt;p&gt;Concerns: - Across all reviews, the common questions relate to three themes — rule interpretability, profiler cost, and system practicality. METIS addresses these by (1) using an LLM profiler that prunes 50–100× config space with negligible cost; (2) a joint scheduler that adapts to GPU state in real time; and (3) a fallback and feedback loop ensuring reliability. Our follow-up experiments add metadata/no-metadata ablations, profiler size sweeps, fairness and SLO tests, and a learned policy variant. Even under these stricter conditions, METIS continues to deliver 1.6–2.8× lower latency, 1.8–4.5× higher throughput, and ≤ 10 % overhead, proving its practical and general impact on RAG serving systems    Questions: -&lt;/p&gt;
 &lt;p&gt;&lt;strong&gt;Key Takeaways:&lt;/strong&gt;
-*   Q and A ?&lt;/p&gt;</content><category term="Research Paper Analysis"/></entry></feed>
+*   Q and A ?&lt;/p&gt;</content><category term="AI Systems"/></entry></feed>
