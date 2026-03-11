@@ -1,5 +1,60 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>Vedaang Chopra - AI Systems</title><link href="https://vedaangchopra.live/" rel="alternate"/><link href="https://vedaangchopra.live/feeds/ai-systems.atom.xml" rel="self"/><id>https://vedaangchopra.live/</id><updated>2025-12-12T00:00:00-05:00</updated><entry><title>SAI METIS Presentation</title><link href="https://vedaangchopra.live/writing/sai---metis-presentation.html" rel="alternate"/><published>2025-12-12T00:00:00-05:00</published><updated>2025-12-12T00:00:00-05:00</updated><author><name>Vedaang Chopra</name></author><id>tag:vedaangchopra.live,2025-12-12:/writing/sai---metis-presentation.html</id><summary type="html">&lt;p&gt;Detailed analysis and presentation notes for SAI   METIS Presentation.&lt;/p&gt;</summary><content type="html">&lt;div class="download-box" style="margin-bottom: 2rem; padding: 1rem; background: var(--btn-bg); border-radius: 8px; display: inline-block;"&gt;
+<feed xmlns="http://www.w3.org/2005/Atom"><title>Vedaang Chopra - AI Systems</title><link href="https://vedaangchopra.live/" rel="alternate"/><link href="https://vedaangchopra.live/feeds/ai-systems.atom.xml" rel="self"/><id>https://vedaangchopra.live/</id><updated>2026-03-11T00:00:00-04:00</updated><entry><title>Matryoshka Representation Learning: The Russian Doll of Embeddings</title><link href="https://vedaangchopra.live/writing/matryoshka-representation-learning.html" rel="alternate"/><published>2026-03-11T00:00:00-04:00</published><updated>2026-03-11T00:00:00-04:00</updated><author><name>Vedaang Chopra</name></author><id>tag:vedaangchopra.live,2026-03-11:/writing/matryoshka-representation-learning.html</id><summary type="html">&lt;p&gt;&lt;em&gt;This post is an adapted review of the paper "Matryoshka Representation Learning" (Kusupati et al., 2022), originally evaluated for the GT SAI Fall 2025 cohort.&lt;/em&gt;&lt;/p&gt;
+&lt;hr&gt;
+&lt;h2&gt;🪆 The Core Concept: Russian Dolls&lt;/h2&gt;
+&lt;p&gt;&lt;strong&gt;Matryoshka Representation Learning (MRL)&lt;/strong&gt; proposes an elegant training strategy designed to create "elastic" embeddings. Much like a Matryoshka (Russian) doll …&lt;/p&gt;</summary><content type="html">&lt;p&gt;&lt;em&gt;This post is an adapted review of the paper "Matryoshka Representation Learning" (Kusupati et al., 2022), originally evaluated for the GT SAI Fall 2025 cohort.&lt;/em&gt;&lt;/p&gt;
+&lt;hr&gt;
+&lt;h2&gt;🪆 The Core Concept: Russian Dolls&lt;/h2&gt;
+&lt;p&gt;&lt;strong&gt;Matryoshka Representation Learning (MRL)&lt;/strong&gt; proposes an elegant training strategy designed to create "elastic" embeddings. Much like a Matryoshka (Russian) doll where a large doll contains several smaller, fully-formed dolls nested inside it, MRL trains a large embedding vector such that its &lt;em&gt;smaller prefixes&lt;/em&gt; are also completely valid, usable embeddings.&lt;/p&gt;
+&lt;p&gt;Imagine a traditional 2048-dimensional embedding. With MRL, the first 8, 16, 32, 64, or 128 dimensions are mathematically forced to be dense, coarse-grained standalone representations. &lt;/p&gt;
+&lt;p&gt;This means a single encoder produces multiple levels of semantic detail:
+*   &lt;strong&gt;Coarse&lt;/strong&gt; (small embedding prefix, fast, ultra-lightweight)
+*   &lt;strong&gt;Fine&lt;/strong&gt; (large embedding, rich, accurate)&lt;/p&gt;
+&lt;p&gt;This is already making waves in industry—most notably, OpenAI uses MRL under the hood for their latest embedding models, allowing users to truncate vector arrays dynamically to save costs without crippling accuracy.&lt;/p&gt;
+&lt;hr&gt;
+&lt;h2&gt;🛑 The Problem with Fixed-Size Vectors&lt;/h2&gt;
+&lt;p&gt;Normally, when we train a representation model (like ResNet, ViT, or BERT) to output a 1024-D embedding, all downstream tasks must use the full 1024-D payload. This is highly inefficient:
+*   &lt;strong&gt;Wasteful Compute:&lt;/strong&gt; A simple semantic filtering task shouldn't require the same heavy, high-dimensional arithmetic as a highly complex reasoning task.
+*   &lt;strong&gt;Storage Bloat:&lt;/strong&gt; Maintaining massive vector databases for billion-scale corpora becomes painfully expensive.
+*   &lt;strong&gt;Brittle Adaptability:&lt;/strong&gt; If you need a smaller, faster model for an edge device, you historically have to train an entirely separate, smaller model from scratch.&lt;/p&gt;
+&lt;hr&gt;
+&lt;h2&gt;⚙️ How MRL Works&lt;/h2&gt;
+&lt;p&gt;MRL modifies the representation bottleneck of a model, rather than altering its entire backbone workflow. &lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;strong&gt;Select Granularities:&lt;/strong&gt; Pick log-spaced prefixes from your target dimension. For a 2048-D vector, the paper uses prefixes like &lt;code&gt;{8, 16, 32, 64, ..., 2048}&lt;/code&gt;.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Attach Independent Heads:&lt;/strong&gt; Every one of these prefix slices gets its own linear classification head.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Aggregate Loss:&lt;/strong&gt; During the forward pass, the model computes the loss for &lt;em&gt;every&lt;/em&gt; prefix slice and sums them all together together with a weighting factor ($c_m$). &lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Backpropagate:&lt;/strong&gt; The early dimensions are supervised by &lt;em&gt;all&lt;/em&gt; the respective heads. As a result, the network is forced to pack the most critical, generalized semantic information into the earliest dimensions of the array, leaving the latter dimensions to handle high-fidelity detail refinements.&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;&lt;strong&gt;The Results:&lt;/strong&gt;
+*   Up to &lt;strong&gt;14× smaller embeddings&lt;/strong&gt; with virtually identical accuracy on ImageNet.
+*   Up to &lt;strong&gt;14× speedup in retrieval&lt;/strong&gt; when utilizing a coarse-to-fine adaptive search funnel.
+*   Consistency across vision, language, and multimodal tasks.&lt;/p&gt;
+&lt;hr&gt;
+&lt;h2&gt;⚖️ My Take: Strengths and Weaknesses&lt;/h2&gt;
+&lt;p&gt;MRL makes a single model act like a Swiss Army knife. For semantic retrieval or classification routing between edge and cloud, it is phenomenal. However, my review uncovers a few systemic weaknesses:&lt;/p&gt;
+&lt;h3&gt;Strengths&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Agnostic Architecture:&lt;/strong&gt; The technique fits cleanly on top of existing encoders regardless of modality.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;RAG Goldmine:&lt;/strong&gt; You can store 8-D coarse embeddings locally for instant semantic shortlisting, and ping cloud-hosted 2048-D representations for complex reranking.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Empirical Success:&lt;/strong&gt; Achieving matching baseline accuracy using highly truncated representations is non-trivial.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3&gt;Weaknesses &amp;amp; Scaling Limits&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Loss Balancing Issues:&lt;/strong&gt; The simple summation of losses across all dimension heads can allow the massive full-width dimensions to mathematically dominate the gradient updates. The system desperately needs an adaptive loss-weighting strategy (like Focal Loss) to prioritize performance on the smaller prefixes.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Scalability to Frontier Models:&lt;/strong&gt; The experiments cap out around ResNet-50 and standard BERT contexts. If we scale to massive MOE (Mixture of Experts) LLMs with huge feed-forward networks, introducing nested multi-loss topologies at scale across high-latency GPU interconnects becomes incredibly expensive.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Manual Search Tuning:&lt;/strong&gt; MRL is passive. The user or system developer still has to manually write the rules to dictate &lt;em&gt;when&lt;/em&gt; to search a 32-D space versus a 1024-D space. It would be far more powerful if the model natively built a differentiable k-d tree index during training.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr&gt;
+&lt;h2&gt;❓ Frequently Asked Questions&lt;/h2&gt;
+&lt;p&gt;While assessing the paper, a few excellent questions arose:&lt;/p&gt;
+&lt;h3&gt;1. Why use logarithmic scale granularities ($D, D/2, D/4, D/8...$)?&lt;/h3&gt;
+&lt;p&gt;Log-spacing is necessary because information density rapidly plateaus. The first few dimensions ($1 \to 8$) shoulder the massive burden of coarse, macro-level semantics (e.g. separating "animal" from "vehicle"). Adding 8 dimensions later in the array ($1016 \to 1024$) only captures extremely negligible, fine-grained micro-semantics. Log-spacing explicitly assigns gradient priority where it matters most—the densely packed early vector spaces—preventing the vast "tail" dimensions from overpowering the loss curve.&lt;/p&gt;
+&lt;h3&gt;2. Can this scale to autoregressive text generation (like ChatGPT)?&lt;/h3&gt;
+&lt;p&gt;Not cleanly. The original paper strictly targets &lt;em&gt;representation&lt;/em&gt; generation (embeddings for classification, clustering, or retrieval). Autoregressive generation (next-token prediction) fundamentally depends on sequentially unpacking internal KV-caches to query a vast vocabulary logit matrix. Slapping MRL onto generative text logic is structurally mismatched, though there is ongoing research trying to find nested latency "exits" for faster un-cached decoding. &lt;/p&gt;
+&lt;h3&gt;3. When was the paper actually released?&lt;/h3&gt;
+&lt;p&gt;The core research, &lt;strong&gt;Matryoshka Representation Learning&lt;/strong&gt; by Kusupati et al., was originally quietly uploaded to arXiv on &lt;strong&gt;May 26, 2022&lt;/strong&gt;. It gained significant traction after being presented at NeurIPS 2022, but truly skyrocketed to industry acclaim in early 2024 when OpenAI confirmed its use inside the &lt;code&gt;text-embedding-3&lt;/code&gt; API architecture..
+When is the paper released ? Based on that I will accept !&lt;/p&gt;</content><category term="AI Systems"/><category term="Embeddings"/><category term="AI Systems"/><category term="MRL"/><category term="Computer Vision"/><category term="NLP"/></entry><entry><title>SAI METIS Presentation</title><link href="https://vedaangchopra.live/writing/sai---metis-presentation.html" rel="alternate"/><published>2025-12-12T00:00:00-05:00</published><updated>2025-12-12T00:00:00-05:00</updated><author><name>Vedaang Chopra</name></author><id>tag:vedaangchopra.live,2025-12-12:/writing/sai---metis-presentation.html</id><summary type="html">&lt;p&gt;Detailed analysis and presentation notes for SAI   METIS Presentation.&lt;/p&gt;</summary><content type="html">&lt;div class="download-box" style="margin-bottom: 2rem; padding: 1rem; background: var(--btn-bg); border-radius: 8px; display: inline-block;"&gt;
     &lt;a href="https://vedaangchopra.live/writing/CS 8803  SAI - METIS Presentation.pptx" style="text-decoration: none; font-weight: bold;"&gt;
         📥 Download Original Slides (PPTX)
     &lt;/a&gt;
