@@ -8,11 +8,14 @@
         <p class="blog-subtitle">My thoughts on AI research + systems engineering + life.</p>
     </div>
 
-    <div class="blog-list">
+    <div class="project-grid">
         {% for category, cat_articles in categories|sort %}
-        <div class="blog-category-group">
-            <h2 class="blog-category-title">{{ category }}</h2>
+        <div class="project-card" style="display: flex; flex-direction: column; justify-content: flex-start;">
+            <h2 class="blog-category-title" style="margin-top: 0; border-bottom: none; padding-bottom: 0;">
+                <a href="{{ SITEURL }}/{{ category.url }}">{{ category }} ↗</a>
+            </h2>
             
+            <div style="margin-top: 1rem; flex-grow: 1;">
             {# Extract unique series #}
             {% set unique_series = [] %}
             {% for article in cat_articles %}
@@ -23,14 +26,14 @@
 
             {# Render series groups #}
             {% for s_name in unique_series %}
-            <div class="blog-series-group">
-                <h3 class="blog-series-title">{{ s_name }}</h3>
-                <div class="blog-items">
+            <div class="blog-series-group" style="margin-left: 0; border-left: 2px solid var(--accent-color); padding-left: 1rem; margin-bottom: 1.5rem; background: transparent;">
+                <h3 class="blog-series-title" style="font-size: 1.1rem; margin-bottom: 0.5rem; color: var(--text-color);">{{ s_name }}</h3>
+                <div class="blog-items" style="gap: 0.5rem;">
                     {% for article in cat_articles|sort(attribute='date')|reverse %}
                         {% if article.series == s_name %}
-                        <div class="blog-item">
-                            <span class="blog-date">{{ article.date|strftime('%b %d, %Y') }}</span>
-                            <a href="{{ SITEURL }}/{{ article.url }}" class="blog-title">{{ article.title }}</a>
+                        <div class="blog-item" style="gap: 0.5rem; margin-bottom: 0.25rem;">
+                            <span class="blog-date" style="font-size: 0.85rem; min-width: auto;">{{ article.date|strftime('%b %Y') }}</span>
+                            <a href="{{ SITEURL }}/{{ article.url }}" class="blog-title" style="font-size: 0.95rem;">{{ article.title }}</a>
                         </div>
                         {% endif %}
                     {% endfor %}
@@ -39,7 +42,7 @@
             {% endfor %}
 
             {# Render standalone articles #}
-            <div class="blog-standalone-group">
+            <div class="blog-standalone-group" style="margin-left: 0;">
                 {% if unique_series|length > 0 %}
                     <!-- Show standalone header if there are mixed content -->
                     {% set has_standalone = false %}
@@ -49,20 +52,21 @@
                         {% endif %}
                     {% endfor %}
                     {% if has_standalone %}
-                        <h3 class="blog-series-title standalone-title">Standalone Articles</h3>
+                        <h3 class="blog-series-title standalone-title" style="font-size: 1rem; margin-left: 0; opacity: 0.7;">Standalone</h3>
                     {% endif %}
                 {% endif %}
                 
-                <div class="blog-items">
+                <div class="blog-items" style="gap: 0.5rem;">
                     {% for article in cat_articles|sort(attribute='date')|reverse %}
                         {% if not article.series %}
-                        <div class="blog-item">
-                            <span class="blog-date">{{ article.date|strftime('%b %d, %Y') }}</span>
-                            <a href="{{ SITEURL }}/{{ article.url }}" class="blog-title">{{ article.title }}</a>
+                        <div class="blog-item" style="gap: 0.5rem; margin-bottom: 0.25rem;">
+                            <span class="blog-date" style="font-size: 0.85rem; min-width: auto;">{{ article.date|strftime('%b %Y') }}</span>
+                            <a href="{{ SITEURL }}/{{ article.url }}" class="blog-title" style="font-size: 0.95rem;">{{ article.title }}</a>
                         </div>
                         {% endif %}
                     {% endfor %}
                 </div>
+            </div>
             </div>
         </div>
         {% endfor %}
