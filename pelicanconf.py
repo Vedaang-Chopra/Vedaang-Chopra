@@ -3,7 +3,7 @@ SITENAME = 'Vedaang Chopra'
 SITEURL = ''
 
 PATH = 'content'
-ARTICLE_PATHS = ['blog/markdown']
+ARTICLE_PATHS = ['writing']
 USE_FOLDER_AS_CATEGORY = True
 THEME = 'themes/minimalist'
 
@@ -19,14 +19,14 @@ AUTHOR_FEED_ATOM = None
 AUTHOR_FEED_RSS = None
 
 # Articles
-ARTICLE_URL = 'blog/{slug}.html'
-ARTICLE_SAVE_AS = 'blog/{slug}.html'
-ARTICLE_LANG_URL = 'blog/{slug}-{lang}.html'
-ARTICLE_LANG_SAVE_AS = 'blog/{slug}-{lang}.html'
+ARTICLE_URL = 'writing/{slug}.html'
+ARTICLE_SAVE_AS = 'writing/{slug}.html'
+ARTICLE_LANG_URL = 'writing/{slug}-{lang}.html'
+ARTICLE_LANG_SAVE_AS = 'writing/{slug}-{lang}.html'
 
-# Blog Index
-INDEX_SAVE_AS = 'blog.html'
-INDEX_URL = 'blog.html'
+# Blog Index (now Writing)
+INDEX_SAVE_AS = 'writing.html'
+INDEX_URL = 'writing.html'
 
 # Direct Templates
 DIRECT_TEMPLATES = ['index', 'categories', 'authors', 'archives', 'home', 'projects']
@@ -36,13 +36,14 @@ PROJECTS_SAVE_AS = 'projects.html'
 # Pages
 PAGE_URL = '{slug}.html'
 PAGE_SAVE_AS = '{slug}.html'
+PAGE_PATHS = ['pages', 'resume']
 
 DISPLAY_PAGES_ON_MENU = False
 DISPLAY_CATEGORIES_ON_MENU = False
 
 # Menu
 MENUITEMS = (('Resume', '/resume.html'),
-             ('Writing', '/blog.html'),
+             ('Writing', '/writing.html'),
              ('Uses', '/uses.html'),)
 
 DEFAULT_PAGINATION = 10
@@ -56,7 +57,7 @@ CURRENT_YEAR = datetime.now().year
 
 PROJECTS = []
 try:
-    projects_file = os.path.join(os.path.dirname(__file__), 'content', 'data', 'projects.yml')
+    projects_file = os.path.join(os.path.dirname(__file__), 'content', 'projects', 'projects.yml')
     if os.path.exists(projects_file):
         with open(projects_file, 'r') as f:
             PROJECTS = yaml.safe_load(f)
@@ -78,8 +79,7 @@ MARKDOWN = {
 }
 
 # Static Paths
-# Static Paths
-STATIC_PATHS = ['images', 'data', 'Resumes', 'blog/raw_content', 'extra']
+STATIC_PATHS = ['images', 'projects', 'resume', 'extra']
 
 EXTRA_PATH_METADATA = {
     'extra/CNAME': {'path': 'CNAME'},
