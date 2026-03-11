@@ -9,7 +9,7 @@ part: 3
 ---
 
 **Part 3 of a 4-part series on Vision-Language Model design.**  
-[← Previous](/blog/molmo-part-2) | [Next →](/blog/molmo-part-4)
+[← Previous](/writing/molmo-part-2) | [Next →](/writing/molmo-part-4)
 
 ---
 
@@ -149,4 +149,4 @@ Without layout-aware connectors, counting degenerates into guesswork and spatial
 ---
 
 **Part 3 of a 4-part series on Vision-Language Model design.**  
-[← Previous](/blog/molmo-part-2) | [Next →](/blog/molmo-part-4)
+[← Previous](/writing/molmo-part-2) | [Next →](/writing/molmo-part-4)

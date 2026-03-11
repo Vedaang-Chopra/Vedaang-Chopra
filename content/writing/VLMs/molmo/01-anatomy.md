@@ -11,7 +11,7 @@ part: 1
 ![MOLMO Poster Presentation](/images/molmo/Molmo_poster.png)
 
 **Part 1 of a 4-part series on Vision-Language Model design.**  
-← Previous | [Next →](/blog/molmo-part-2)
+← Previous | [Next →](/writing/molmo-part-2)
 
 ---
 
@@ -110,4 +110,4 @@ MOLMO's contribution lies in treating these transitions as first-class design pr
 ---
 
 **Part 1 of a 4-part series on Vision-Language Model design.**  
-← Previous | [Next →](/blog/molmo-part-2)
+← Previous | [Next →](/writing/molmo-part-2)

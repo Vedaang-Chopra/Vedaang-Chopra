@@ -4,7 +4,7 @@ Slug: cs8803-vlm---molmo-and-pixmo
 Summary: Detailed analysis and presentation notes for cs8803 VLM   MOLMO & PIXMO.
 
 <div class="download-box" style="margin-bottom: 2rem; padding: 1rem; background: var(--btn-bg); border-radius: 8px; display: inline-block;">
-    <a href="{attach}../raw_content/cs8803-VLM - MOLMO & PIXMO.pptx" style="text-decoration: none; font-weight: bold;">
+    <a href="{attach}cs8803-VLM - MOLMO & PIXMO.pptx" style="text-decoration: none; font-weight: bold;">
         📥 Download Original Slides (PPTX)
     </a>
 </div>
@@ -43,7 +43,7 @@ What Allen AI through molmo want to achieve is was transparency  “This paper i
 *   Open data (PixMo)
 *   Open training code
 *   Git Repo: - https://github.com/allenai/molmo/tree/main
-*   Website:- https://allenai.org/blog/molmo
+*   Website:- https://allenai.org/writing/molmo
 *   Problem: - Lack of open, transparent, and high-performing vision-language models
 *   Category-1: - API Based: - GPT-4o, Claude, Gemini, Groq,
 *   Category-2: - Open Weights: - Qwen, InternVL, PaliGemma

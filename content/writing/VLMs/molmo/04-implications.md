@@ -9,7 +9,7 @@ part: 4
 ---
 
 **Part 4 of a 4-part series on Vision-Language Model design.**  
-[← Previous](/blog/molmo-part-3) | Next →
+[← Previous](/writing/molmo-part-3) | Next →
 
 ---
 
@@ -155,4 +155,4 @@ This blog series was created with assistance from:
 ---
 
 **Part 4 of a 4-part series on Vision-Language Model design.**  
-[← Previous](/blog/molmo-part-3) | Next →
+[← Previous](/writing/molmo-part-3) | Next →

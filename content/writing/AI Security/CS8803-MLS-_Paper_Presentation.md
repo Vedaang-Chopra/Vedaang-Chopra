@@ -4,7 +4,7 @@ Slug: mls--paper-presentation
 Summary: Detailed analysis and presentation notes for MLS  Paper Presentation.
 
 <div class="download-box" style="margin-bottom: 2rem; padding: 1rem; background: var(--btn-bg); border-radius: 8px; display: inline-block;">
-    <a href="{attach}../raw_content/CS8803-MLS- Paper Presentation.pptx" style="text-decoration: none; font-weight: bold;">
+    <a href="{attach}CS8803-MLS- Paper Presentation.pptx" style="text-decoration: none; font-weight: bold;">
         📥 Download Original Slides (PPTX)
     </a>
 </div>

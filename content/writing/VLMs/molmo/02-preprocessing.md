@@ -9,7 +9,7 @@ part: 2
 ---
 
 **Part 2 of a 4-part series on Vision-Language Model design.**  
-[← Previous](/blog/molmo-part-1) | [Next →](/blog/molmo-part-3)
+[← Previous](/writing/molmo-part-1) | [Next →](/writing/molmo-part-3)
 
 ---
 
@@ -102,4 +102,4 @@ This is why MOLMO is better understood as an architectural *correction* rather t
 ---
 
 **Part 2 of a 4-part series on Vision-Language Model design.**  
-[← Previous](/blog/molmo-part-1) | [Next →](/blog/molmo-part-3)
+[← Previous](/writing/molmo-part-1) | [Next →](/writing/molmo-part-3)

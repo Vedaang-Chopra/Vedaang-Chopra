@@ -12,7 +12,7 @@ Here are the technologies I use and where I've applied them.
 
 **Evidence:**
 
-*   [Research: Molmo & Pixmo Analysis]({filename}/blog/markdown/cs8803-VLM_-_MOLMO_&_PIXMO.md) — *Deep dive into VLM architectures.*
+*   [Research: Molmo & Pixmo Analysis]({filename}/writing/VLMs/cs8803-VLM_-_MOLMO_&_PIXMO.md) — *Deep dive into VLM architectures.*
 *   **Athena** (Resume) — *Multi-agent screenplay-to-video generation.*
 *   **Agentic RAG Chatbot** (Fortinet) — *Reduced issue-resolution time by 70%.*
 

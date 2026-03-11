@@ -4,7 +4,7 @@ Slug: llm-paper-presentation-slide-(1)
 Summary: Detailed analysis and presentation notes for LLM Paper Presentation Slide (1).
 
 <div class="download-box" style="margin-bottom: 2rem; padding: 1rem; background: var(--btn-bg); border-radius: 8px; display: inline-block;">
-    <a href="{attach}../raw_content/CS 8803 -LLM Paper Presentation Slide (1).pptx" style="text-decoration: none; font-weight: bold;">
+    <a href="{attach}CS 8803 -LLM Paper Presentation Slide (1).pptx" style="text-decoration: none; font-weight: bold;">
         📥 Download Original Slides (PPTX)
     </a>
 </div>
