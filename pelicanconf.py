@@ -4,7 +4,10 @@ SITEURL = ''
 
 PATH = 'content'
 ARTICLE_PATHS = ['writing']
-USE_FOLDER_AS_CATEGORY = True
+# Extract category from the first sub-directory inside 'writing'
+# e.g., content/writing/VLMs/molmo/01.md -> category='VLMs'
+USE_FOLDER_AS_CATEGORY = False
+PATH_METADATA = 'writing/(?P<category>[^/]+)/.*'
 THEME = 'themes/minimalist'
 
 TIMEZONE = 'America/New_York'
