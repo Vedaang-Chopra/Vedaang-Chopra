@@ -30,20 +30,41 @@
 
         <main>
 <h1>Projects</h1>
+<p class="blog-subtitle">Research systems and engineering projects — verified work, with code where public.</p>
 <div class="project-grid">
         <div class="project-card">
+            <h2><a href="https://github.com/Vedaang-Chopra" target="_blank">CAD Code Generation Pipeline (CORE Robotics Lab) ↗</a></h2>
+            <p class="project-desc">Closed-loop agentic pipeline for parametric CAD code generation: an LLM generates CadQuery programs, an execution environment returns compile and geometry feedback, and a LangGraph-orchestrated repair loop iteratively corrects errors — inference-time search with verifiable geometric reward (frozen model, no fine-tuning). Includes geometric verification (Chamfer/Hausdorff on STL meshes), VLM-as-judge visual judgment, RAG-augmented prompts, and a pytest evaluation harness.</p>
+            <p class="project-stack"><strong>Stack:</strong> Python, LangGraph, CadQuery, Pydantic, VLMs, RAG, pytest</p>
+        </div>
+        <div class="project-card">
             <h2><a href="https://github.com/Vedaang-Chopra/Malware_Analysis" target="_blank">Malware Analysis: Memory Forensics with ML & Volatility ↗</a></h2>
-            <p class="project-desc">Research project integrating machine learning with memory forensics (Volatility Framework) and YARA rules for ransomware detection in IoT-enabled energy systems. Automated analysis of 18 memory dumps (6 benign, 12 ransomware families) with 100+ YARA rules. Published at IEEE ICAIA 2026. Dataset hosted on Hugging Face (33GB analysis + 470GB raw memory dumps).</p>
+            <p class="project-desc">Research project integrating machine learning with memory forensics (Volatility Framework) and YARA rules for ransomware detection in IoT-enabled energy systems. Automated analysis of 18 memory dumps (6 benign, 12 ransomware families) with 100+ YARA rules. Published at IEEE ICAIA 2026. Dataset hosted on Hugging Face (33 GB analysis + ~470 GB raw memory dumps).</p>
             <p class="project-stack"><strong>Stack:</strong> Python, Volatility3, YARA, scikit-learn, pandas, Jupyter, Docker, Hugging Face Hub</p>
         </div>
         <div class="project-card">
-            <h2><a href="https://github.com/Vedaang-Chopra/Edge-Glass" target="_blank">Edge-Glass ↗</a></h2>
-            <p class="project-desc">A lightweight, privacy-preserving multimodal assistant using frozen encoders and quantized projectors for on-device inference.</p>
-            <p class="project-stack"><strong>Stack:</strong> Jupyter Notebook, Python</p>
+            <h2><a href="https://github.com/Vedaang-Chopra/ARTEMIS" target="_blank">ARTEMIS — Cost-Aware VLM Routing (Which-VLM-Router) ↗</a></h2>
+            <p class="project-desc">Neural multi-task router that dynamically selects the optimal Vision-Language Model per request, with SLA-aware load balancing (simulation-validated). Serves 5 VLMs across 10 vLLM endpoints over VQA, OCR, captioning, and reasoning tasks with 5 dynamic routing modes; ~340K routing profiles across ~68K queries, with 90.3% oracle-utility recovery in balanced mode.</p>
+            <p class="project-stack"><strong>Stack:</strong> PyTorch, vLLM, FastAPI, PostgreSQL, Weights & Biases</p>
+        </div>
+        <div class="project-card">
+            <h2><a href="https://github.com/Vedaang-Chopra/CEREBRUS" target="_blank">CERBERUS — Vision-Language Alignment for Edge (public repo: CEREBRUS) ↗</a></h2>
+            <p class="project-desc">Cross-modal alignment with frozen encoders (CLIP ViT-L/14, SBERT) using Matryoshka Representation Learning compressing embeddings 4096→128 dims (~78% R@5 at 4096-d on PixMo retrieval). LoRA fine-tuning of Qwen2.5 decoders; PyTorch DDP distributed training with mixed precision on H100/A100 clusters. Includes an honestly-reported negative Perceiver Resampler ablation.</p>
+            <p class="project-stack"><strong>Stack:</strong> PyTorch (DDP, mixed precision), PEFT/LoRA, CLIP, SBERT, Matryoshka</p>
+        </div>
+        <div class="project-card">
+            <h2><a href="https://github.com/Vedaang-Chopra/RL_Soccer_project" target="_blank">RL Soccer ↗</a></h2>
+            <p class="project-desc">Academic project (team): PPO agents (baseline, reward shaping, curriculum learning, self-play) and a DQN baseline for 2v2 soccer using Ray/RLlib.</p>
+            <p class="project-stack"><strong>Stack:</strong> Python, Ray/RLlib, PPO, DQN, Unity ML-Agents</p>
+        </div>
+        <div class="project-card">
+            <h2><a href="https://github.com/Vedaang-Chopra/CAD-Physics" target="_blank">CAD-Physics — FEA-Guided Verification of LLM-Generated CAD ↗</a></h2>
+            <p class="project-desc">Extends CAD verification from geometric validity to physical validity: finite-element-analysis checks (stress, displacement, safety factors) on LLM-generated designs. Early-stage research extension of the CORE Lab CAD pipeline.</p>
+            <p class="project-stack"><strong>Stack:</strong> Python, Jupyter, FEA tooling</p>
         </div>
         <div class="project-card">
             <h2><a href="https://github.com/Vedaang-Chopra/AI-Security" target="_blank">AI-Security ↗</a></h2>
-            <p class="project-desc">Security concepts in AI: backdoors, poisoning, jailbreaks, and adversarial attacks.</p>
+            <p class="project-desc">Security concepts in AI: adversarial attacks (PGD), embedding poisoning, blind backdoors, model extraction, membership inference on LLMs, jailbreaks, and watermarking.</p>
             <p class="project-stack"><strong>Stack:</strong> Python, Jupyter Notebook</p>
         </div>
         <div class="project-card">
@@ -52,19 +73,9 @@
             <p class="project-stack"><strong>Stack:</strong> Shell, Python</p>
         </div>
         <div class="project-card">
-            <h2><a href="https://github.com/Vedaang-Chopra/Disease_Ontology_Project" target="_blank">Disease_Ontology_Project ↗</a></h2>
-            <p class="project-desc">Biomedical text classification using the Human Disease Ontology (DOID).</p>
-            <p class="project-stack"><strong>Stack:</strong> Python, Jupyter Notebook</p>
-        </div>
-        <div class="project-card">
             <h2><a href="https://github.com/Vedaang-Chopra/Machine_Learning" target="_blank">Machine_Learning ↗</a></h2>
             <p class="project-desc">A collection of small projects and experiments undertaken for learning machine learning concepts.</p>
             <p class="project-stack"><strong>Stack:</strong> Python, Jupyter Notebook</p>
-        </div>
-        <div class="project-card">
-            <h2><a href="https://github.com/Vedaang-Chopra/Developer_Reference_Repository" target="_blank">Developer_Reference_Repository ↗</a></h2>
-            <p class="project-desc">A comprehensive reference repository for development resources and best practices.</p>
-            <p class="project-stack"><strong>Stack:</strong> General</p>
         </div>
 </div>
         </main>
@@ -78,7 +89,7 @@
                     <a href="https://linkedin.com/in/vedaang-chopra/" target="_blank" class="footer-icon-btn" aria-label="LinkedIn">
                         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path><rect x="2" y="9" width="4" height="12"></rect><circle cx="4" cy="4" r="2"></circle></svg>
                     </a>
-                    <a href="mailto:vedaangchopra1009@gmail.com" class="footer-icon-btn" aria-label="Email">
+                    <a href="mailto:vedaangchopra@gatech.edu" class="footer-icon-btn" aria-label="Email">
                         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
                     </a>
                 </div>

@@ -35,42 +35,257 @@
     </header>
     
     <div class="content">
-        <h1>Technical Skills &amp; Evidence</h1>
-<p>Here are the technologies I use and where I've applied them.</p>
-<h2>🧠 Generative AI &amp; LLMs</h2>
-<p><strong>Stack:</strong> PyTorch, Hugging Face, LangChain, vLLM</p>
-<p><strong>Evidence:</strong></p>
-<ul>
-<li><a href="https://vedaangchopra.live/writing/cs8803-vlm---molmo-and-pixmo.html">Research: Molmo &amp; Pixmo Analysis</a> — <em>Deep dive into VLM architectures.</em></li>
-<li><strong>Athena</strong> (Resume) — <em>Multi-agent screenplay-to-video generation.</em></li>
-<li><strong>Agentic RAG Chatbot</strong> (Fortinet) — <em>Reduced issue-resolution time by 70%.</em></li>
-</ul>
-<h2>👁️ Computer Vision</h2>
-<p><strong>Stack:</strong> OpenCV, PyTorch Geometric, Diffusers, CNNs</p>
-<p><strong>Evidence:</strong></p>
-<ul>
-<li><a href="projects.html">Project: Edge Assistant</a> — <em>Lightweight multimodal assistant.</em></li>
-<li><strong>Fortinet</strong> — <em>Deployed edge-optimized ML models via ONNX Runtime.</em></li>
-</ul>
-<h2>⚙️ MLOps &amp; Systems</h2>
-<p><strong>Stack:</strong> Docker, Kubernetes, FastAPI, ONNX, Redis</p>
-<p><strong>Evidence:</strong></p>
-<ul>
-<li><a href="projects.html">Project: Which-VLM Router</a> — <em>Semantic router for VLM endpoints.</em></li>
-<li><strong>Fortinet</strong> — <em>Scaled OpenSearch pipelines to 2000+ events/sec.</em></li>
-</ul>
-<h2>🐍 Data &amp; Core</h2>
-<p><strong>Stack:</strong> Python, Pandas, Elasticsearch, FAISS</p>
-<p><strong>Evidence:</strong></p>
-<ul>
-<li><strong>Ontology-based Text Classification</strong> — <em>Improved accuracy by 10% over baselines.</em></li>
-</ul>
+        <h1>Skills — Every Claim, Cited</h1>
+<p>Every skill below is backed by a real system I built. Evidence links point to my code, repos, or the specific project where it was used. Nothing on this page is aspirational.</p>
+<h2>🤖 Agentic AI &amp; LLM Systems</h2>
+<table>
+<thead>
+<tr>
+<th>Skill</th>
+<th>Where I used it</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>LangGraph</strong> (repair loops, supervisor-worker, planners)</td>
+<td>CAD pipeline repair loop (<a href="resume.html">CORE Lab research</a>) · ATHENA supervisor-worker routing · SHASTRA planner</td>
+</tr>
+<tr>
+<td><strong>LangChain</strong></td>
+<td><a href="resume.html">Fortinet</a> agentic RAG diagnostics (production) · CAD RAG module</td>
+</tr>
+<tr>
+<td><strong>Agentic RAG</strong></td>
+<td>Fortinet agentic RAG diagnostics — LLM plans multi-step tool calls over telemetry, verifies hypotheses via structured function calling; hackathon prototype → production, ~70% mean resolution-time reduction</td>
+</tr>
+<tr>
+<td><strong>Tool / function calling</strong></td>
+<td>Fortinet (structured function calling) · CAD execution feedback · ATHENA tools.py</td>
+</tr>
+<tr>
+<td><strong>Multi-agent orchestration</strong></td>
+<td>ATHENA — 5 specialized agents + supervisor-worker via LangGraph Command, reflection critique</td>
+</tr>
+<tr>
+<td><strong>Structured generation (Pydantic)</strong></td>
+<td>ATHENA (OrchestrationRouter / ReflectionRouter) · SHASTRA · CAD</td>
+</tr>
+<tr>
+<td><strong>LLM-as-a-judge</strong></td>
+<td>CAD VLM-based visual judgment · ATHENA reflection loops</td>
+</tr>
+<tr>
+<td><strong>Planning &amp; reasoning</strong></td>
+<td>SHASTRA trace-to-graph · CAD multi-step repair · ATHENA</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Stack:</strong> LangGraph, LangChain, Pydantic</p>
+<h2>👁️ Vision-Language Models &amp; Retrieval</h2>
+<table>
+<thead>
+<tr>
+<th>Skill</th>
+<th>Where I used it</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>vLLM serving</strong></td>
+<td><a href="https://github.com/Vedaang-Chopra/ARTEMIS">ARTEMIS</a> — 5 VLMs across 10 endpoints (Gemma 3 27B, Qwen3-VL, Qwen2.5-VL, DeepSeek OCR) · <a href="https://github.com/Vedaang-Chopra/CEREBRUS">CERBERUS</a></td>
+</tr>
+<tr>
+<td><strong>VLM routing &amp; evaluation</strong></td>
+<td>ARTEMIS — trained neural multi-task router, SLA-aware load balancing (simulation-validated), 5 routing modes, ~340K profiles / ~68K queries, 90.3% oracle-utility recovery (balanced)</td>
+</tr>
+<tr>
+<td><strong>CLIP / SBERT / FAISS</strong></td>
+<td>CERBERUS — frozen-encoder alignment + retrieval</td>
+</tr>
+<tr>
+<td><strong>Cross-modal retrieval</strong></td>
+<td>CERBERUS — R@5 ~78% on PixMo; 4096→128-dim Matryoshka compression</td>
+</tr>
+<tr>
+<td><strong>Matryoshka Representation Learning</strong></td>
+<td>CERBERUS — <code>src/encoders/mrl.py</code>, prefix-sliced projector</td>
+</tr>
+<tr>
+<td><strong>LoRA fine-tuning of Qwen2.5 decoders</strong></td>
+<td>CERBERUS — PEFT r=32 α=64, Qwen2.5-7B/3B/1.5B on GT HICE cluster</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Stack:</strong> PyTorch, Hugging Face Transformers, vLLM, CLIP, SBERT, FAISS, PEFT</p>
+<h2>⚙️ Production ML &amp; Inference Systems</h2>
+<table>
+<thead>
+<tr>
+<th>Skill</th>
+<th>Where I used it</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Inference optimization (ONNX Runtime)</strong></td>
+<td><a href="resume.html">Fortinet</a> — edge deployment on network appliances, ~40% latency reduction</td>
+</tr>
+<tr>
+<td><strong>OpenSearch / Elasticsearch at scale</strong></td>
+<td>Fortinet — full ingestion re-architecture (async I/O + Golang), 50 → 2,000 events/sec (40x)</td>
+</tr>
+<tr>
+<td><strong>SLA forecasting</strong></td>
+<td>Fortinet — 60+ classifiers, 4 categories, automated retraining, 7-day horizon</td>
+</tr>
+<tr>
+<td><strong>Anomaly detection</strong></td>
+<td>Fortinet — DBSCAN on SD-WAN telemetry (reportedly prevented &gt;50% of potential outages) · unsupervised wireless thresholding (patent)</td>
+</tr>
+<tr>
+<td><strong>Backend ML integration (Python/Go)</strong></td>
+<td>Fortinet — distributed telemetry systems, CPU-only pickle model serving</td>
+</tr>
+<tr>
+<td><strong>ML serving APIs</strong></td>
+<td><a href="https://github.com/Vedaang-Chopra/ARTEMIS">ARTEMIS</a> — FastAPI inference stack over Postgres-backed profiles</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Stack:</strong> Python, Go, ONNX Runtime, OpenSearch, FastAPI, Docker, Redis, PostgreSQL, Azure</p>
+<h2>🔬 Evaluation &amp; Research Rigor</h2>
+<table>
+<thead>
+<tr>
+<th>Skill</th>
+<th>Where I used it</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Automated evaluation harnesses</strong></td>
+<td>CAD — pytest harness, compile + geometric gates on every run</td>
+</tr>
+<tr>
+<td><strong>Geometric verification</strong></td>
+<td>CAD — Chamfer/Hausdorff on STL meshes, precision/recall/F1, normal consistency</td>
+</tr>
+<tr>
+<td><strong>Ablation study design</strong></td>
+<td>CERBERUS — Perceiver Resampler ablation (honest negative result) · CAD repair-loop components</td>
+</tr>
+<tr>
+<td><strong>Cross-modal evaluation</strong></td>
+<td>ATHENA — BLEU/ROUGE-L/METEOR/BERTScore + CLIPScore/SSIM/PSNR on 100 reference videos</td>
+</tr>
+<tr>
+<td><strong>Experiment tracking</strong></td>
+<td>CAD + ARTEMIS + CERBERUS — Weights &amp; Biases, TensorBoard</td>
+</tr>
+<tr>
+<td><strong>Benchmark construction</strong></td>
+<td>ARTEMIS — 5 evaluation suites (VQA, OCR, captioning, reasoning) · CAD on CADPrompt benchmark</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Stack:</strong> pytest, Weights &amp; Biases, TensorBoard</p>
+<h2>🛡️ Security &amp; Memory Forensics</h2>
+<table>
+<thead>
+<tr>
+<th>Skill</th>
+<th>Where I used it</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Memory forensics (Volatility3)</strong></td>
+<td><a href="https://github.com/Vedaang-Chopra/Malware_Analysis">Malware_Analysis</a> — automated orchestration of malfind, pslist, vadinfo, yarascan</td>
+</tr>
+<tr>
+<td><strong>YARA rule development</strong></td>
+<td>Malware_Analysis — 100+ rules for ransomware family classification</td>
+</tr>
+<tr>
+<td><strong>ML for security</strong></td>
+<td>Malware_Analysis — scikit-learn pipeline for malicious-process identification; <strong>published at IEEE ICAIA 2026</strong></td>
+</tr>
+<tr>
+<td><strong>Adversarial robustness</strong></td>
+<td><a href="https://github.com/Vedaang-Chopra/AI-Security">AI-Security</a> — PGD attacks, embedding poisoning, blind backdoors, model extraction, membership inference, watermarking (coursework)</td>
+</tr>
+<tr>
+<td><strong>Dataset curation at scale</strong></td>
+<td>Hugging Face Hub — 33 GB analysis dataset + ~470 GB raw dumps + 3,384 code files</td>
+</tr>
+<tr>
+<td><strong>Security auditing</strong></td>
+<td><a href="https://github.com/Vedaang-Chopra/Audit_Script_Development">Audit_Script_Development</a> — automated Linux posture-audit tooling</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Stack:</strong> Volatility3, YARA, scikit-learn, Python</p>
+<h2>🐍 Core Engineering</h2>
+<table>
+<thead>
+<tr>
+<th>Skill</th>
+<th>Where I used it</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Python</strong> (expert)</td>
+<td>Every system above · 4.5 years production at Fortinet</td>
+</tr>
+<tr>
+<td><strong>Go</strong></td>
+<td>Fortinet — OpenSearch scaling, backend services</td>
+</tr>
+<tr>
+<td><strong>PyTorch (DDP, mixed precision)</strong></td>
+<td>CERBERUS — distributed training on H100/A100 · ARTEMIS router training</td>
+</tr>
+<tr>
+<td><strong>Scikit-learn</strong></td>
+<td>Fortinet 60+ classifiers · Malware_Analysis pipeline</td>
+</tr>
+<tr>
+<td><strong>Distributed training</strong></td>
+<td>CERBERUS — PyTorch DDP + mixed precision, GT HICE cluster (H100/A100)</td>
+</tr>
+<tr>
+<td><strong>HPC / Slurm</strong></td>
+<td>CAD multi-GPU runs · ARTEMIS/CERBERUS cluster jobs</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Stack:</strong> Python, Go, PyTorch, SQL/PostgreSQL, Linux, Git, Slurm, Bash, C/C++ (coursework)</p>
+<h2>🎓 Academic (explicitly qualified)</h2>
+<table>
+<thead>
+<tr>
+<th>Skill</th>
+<th>Where I used it</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>PPO / DQN, reward shaping, curriculum learning, self-play (Ray/RLlib)</strong></td>
+<td><a href="https://github.com/Vedaang-Chopra/RL_Soccer_project">RL_Soccer_project</a> — 2v2 soccer agents <em>(academic project, team)</em></td>
+</tr>
+<tr>
+<td><strong>Post-training literature (RLHF/DPO-family, process-vs-outcome reward models)</strong></td>
+<td>Coursework/self-study notes tied to CAD verifiable-reward design — <em>literature familiarity only, no hands-on production post-training</em></td>
+</tr>
+</tbody>
+</table>
 <hr>
-<h2>💻 Hardware &amp; Tools</h2>
+<h2>💻 Daily Drivers</h2>
 <ul>
-<li><strong>Editor:</strong> VS Code</li>
-<li><strong>Terminal:</strong> Zsh + tmux</li>
-<li><strong>Compute:</strong> Slurm (HPC)</li>
+<li><strong>Compute:</strong> Georgia Tech HPC (Slurm), H100/A100 clusters</li>
+<li><strong>Editor / Terminal:</strong> VS Code · Zsh + tmux</li>
+<li><strong>Infra:</strong> Docker, Linux (daily driver), Git, Azure</li>
 </ul>
     </div>
 </section>
@@ -85,7 +300,7 @@
                     <a href="https://linkedin.com/in/vedaang-chopra/" target="_blank" class="footer-icon-btn" aria-label="LinkedIn">
                         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path><rect x="2" y="9" width="4" height="12"></rect><circle cx="4" cy="4" r="2"></circle></svg>
                     </a>
-                    <a href="mailto:vedaangchopra1009@gmail.com" class="footer-icon-btn" aria-label="Email">
+                    <a href="mailto:vedaangchopra@gatech.edu" class="footer-icon-btn" aria-label="Email">
                         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
                     </a>
                 </div>

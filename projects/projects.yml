@@ -1,15 +1,37 @@
+- name: "CAD Code Generation Pipeline (CORE Robotics Lab)"
+  description: "Closed-loop agentic pipeline for parametric CAD code generation: an LLM generates CadQuery programs, an execution environment returns compile and geometry feedback, and a LangGraph-orchestrated repair loop iteratively corrects errors — inference-time search with verifiable geometric reward (frozen model, no fine-tuning). Includes geometric verification (Chamfer/Hausdorff on STL meshes), VLM-as-judge visual judgment, RAG-augmented prompts, and a pytest evaluation harness."
+  stack: "Python, LangGraph, CadQuery, Pydantic, VLMs, RAG, pytest"
+  url: "https://github.com/Vedaang-Chopra"
+  note: "Private research repo — details available on request."
+
 - name: "Malware Analysis: Memory Forensics with ML & Volatility"
-  description: "Research project integrating machine learning with memory forensics (Volatility Framework) and YARA rules for ransomware detection in IoT-enabled energy systems. Automated analysis of 18 memory dumps (6 benign, 12 ransomware families) with 100+ YARA rules. Published at IEEE ICAIA 2026. Dataset hosted on Hugging Face (33GB analysis + 470GB raw memory dumps)."
+  description: "Research project integrating machine learning with memory forensics (Volatility Framework) and YARA rules for ransomware detection in IoT-enabled energy systems. Automated analysis of 18 memory dumps (6 benign, 12 ransomware families) with 100+ YARA rules. Published at IEEE ICAIA 2026. Dataset hosted on Hugging Face (33 GB analysis + ~470 GB raw memory dumps)."
   stack: "Python, Volatility3, YARA, scikit-learn, pandas, Jupyter, Docker, Hugging Face Hub"
   url: "https://github.com/Vedaang-Chopra/Malware_Analysis"
 
-- name: "Edge-Glass"
-  description: "A lightweight, privacy-preserving multimodal assistant using frozen encoders and quantized projectors for on-device inference."
-  stack: "Jupyter Notebook, Python"
-  url: "https://github.com/Vedaang-Chopra/Edge-Glass"
+- name: "ARTEMIS — Cost-Aware VLM Routing (Which-VLM-Router)"
+  description: "Neural multi-task router that dynamically selects the optimal Vision-Language Model per request, with SLA-aware load balancing (simulation-validated). Serves 5 VLMs across 10 vLLM endpoints over VQA, OCR, captioning, and reasoning tasks with 5 dynamic routing modes; ~340K routing profiles across ~68K queries, with 90.3% oracle-utility recovery in balanced mode."
+  stack: "PyTorch, vLLM, FastAPI, PostgreSQL, Weights & Biases"
+  url: "https://github.com/Vedaang-Chopra/ARTEMIS"
+
+- name: "CERBERUS — Vision-Language Alignment for Edge (public repo: CEREBRUS)"
+  description: "Cross-modal alignment with frozen encoders (CLIP ViT-L/14, SBERT) using Matryoshka Representation Learning compressing embeddings 4096→128 dims (~78% R@5 at 4096-d on PixMo retrieval). LoRA fine-tuning of Qwen2.5 decoders; PyTorch DDP distributed training with mixed precision on H100/A100 clusters. Includes an honestly-reported negative Perceiver Resampler ablation."
+  stack: "PyTorch (DDP, mixed precision), PEFT/LoRA, CLIP, SBERT, Matryoshka"
+  url: "https://github.com/Vedaang-Chopra/CEREBRUS"
+  note: "Public repo: CEREBRUS. Research details on request."
+
+- name: "RL Soccer"
+  description: "Academic project (team): PPO agents (baseline, reward shaping, curriculum learning, self-play) and a DQN baseline for 2v2 soccer using Ray/RLlib."
+  stack: "Python, Ray/RLlib, PPO, DQN, Unity ML-Agents"
+  url: "https://github.com/Vedaang-Chopra/RL_Soccer_project"
+
+- name: "CAD-Physics — FEA-Guided Verification of LLM-Generated CAD"
+  description: "Extends CAD verification from geometric validity to physical validity: finite-element-analysis checks (stress, displacement, safety factors) on LLM-generated designs. Early-stage research extension of the CORE Lab CAD pipeline."
+  stack: "Python, Jupyter, FEA tooling"
+  url: "https://github.com/Vedaang-Chopra/CAD-Physics"
 
 - name: "AI-Security"
-  description: "Security concepts in AI: backdoors, poisoning, jailbreaks, and adversarial attacks."
+  description: "Security concepts in AI: adversarial attacks (PGD), embedding poisoning, blind backdoors, model extraction, membership inference on LLMs, jailbreaks, and watermarking."
   stack: "Python, Jupyter Notebook"
   url: "https://github.com/Vedaang-Chopra/AI-Security"
 
@@ -18,17 +40,7 @@
   stack: "Shell, Python"
   url: "https://github.com/Vedaang-Chopra/Audit_Script_Development"
 
-- name: "Disease_Ontology_Project"
-  description: "Biomedical text classification using the Human Disease Ontology (DOID)."
-  stack: "Python, Jupyter Notebook"
-  url: "https://github.com/Vedaang-Chopra/Disease_Ontology_Project"
-
 - name: "Machine_Learning"
   description: "A collection of small projects and experiments undertaken for learning machine learning concepts."
   stack: "Python, Jupyter Notebook"
   url: "https://github.com/Vedaang-Chopra/Machine_Learning"
-
-- name: "Developer_Reference_Repository"
-  description: "A comprehensive reference repository for development resources and best practices."
-  stack: "General"
-  url: "https://github.com/Vedaang-Chopra/Developer_Reference_Repository"
