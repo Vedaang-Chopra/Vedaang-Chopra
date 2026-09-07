@@ -69,7 +69,7 @@ except Exception as e:
 
 # Social
 SOCIAL = (('GitHub', 'https://github.com/Vedaang-Chopra'),
-          ('LinkedIn', '#'),) # Add actual links later
+          ('LinkedIn', 'https://linkedin.com/in/vedaang-chopra'),)
 
 # Plugins & Extensions
 MARKDOWN = {
