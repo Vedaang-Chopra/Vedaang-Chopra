@@ -5,6 +5,22 @@
     var root = document.getElementById('rs-root');
     if (!root) { return; }
 
+    /* ---- visual registry: each visual is a module in js/vis/<id>.js that calls RSVis.register(id, mount) ---- */
+    var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    var RSVis = window.RSVis = window.RSVis || { mods: {} };
+    RSVis.register = function (id, mount) { RSVis.mods[id] = mount; };
+    function mountVisuals(scope) {
+        scope.querySelectorAll('.rs-vis:not([data-mounted])').forEach(function (el) {
+            var mod = RSVis.mods[el.getAttribute('data-vis')];
+            var holder = el.querySelector('.rs-vis-data');
+            if (!mod || !holder) { return; }
+            var data;
+            try { data = JSON.parse(holder.textContent); } catch (err) { console.error('visual data', err); return; }
+            el.setAttribute('data-mounted', '1');
+            mod(el, data, { reduceMotion: reduceMotion, openCard: function (id) { openTarget(id, true); } });
+        });
+    }
+
     var LENSES = ['full', 'research', 'agentic'];
     var lensButtons = Array.prototype.slice.call(document.querySelectorAll('#rs-lens button'));
     var pdfLink = document.getElementById('rs-pdf');
@@ -85,8 +101,10 @@
         var el = proj || card;
         if (!el) { return; }
         var parent = proj || card.closest('.rs-proj');
-        if (parent) { parent.open = true; }
+        if (parent) { parent.open = true; mountVisuals(parent); }
         if (card) {
+            var early = card.closest('.rs-early');
+            if (early) { early.open = true; }
             var drawer = card.querySelector('details');
             if (drawer) { drawer.open = true; }
         }
@@ -96,6 +114,7 @@
     }
     document.querySelectorAll('.rs-proj, .rs-drawer').forEach(function (d) {
         d.addEventListener('toggle', function () {
+            if (d.open && d.classList.contains('rs-proj')) { mountVisuals(d); }
             var id = d.id.replace(/^drawer-/, '');
             if (d.open) { state.open = id; }
             else if (state.open === id) { state.open = ''; }
@@ -167,8 +186,12 @@
     });
 
     /* ---- init ---- */
+    document.querySelectorAll('.rs-proj[open]').forEach(mountVisuals);
     applyLens(state.lens);
     if (state.open) { openTarget(state.open, true); }
+    document.addEventListener('DOMContentLoaded', function () {
+        document.querySelectorAll('.rs-proj[open]').forEach(mountVisuals);
+    });
     window.addEventListener('hashchange', function () {
         var s = readHash();
         if (s.lens !== state.lens) { applyLens(s.lens); }

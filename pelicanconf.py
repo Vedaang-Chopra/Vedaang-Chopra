@@ -76,6 +76,18 @@ try:
 except Exception as e:
     print(f"Error loading resume data: {e}")
 
+RESUME_VISUALS = {}
+try:
+    visuals_dir = os.path.join(os.path.dirname(__file__), 'content', 'data', 'visuals')
+    if os.path.isdir(visuals_dir):
+        import json
+        for name in sorted(os.listdir(visuals_dir)):
+            if name.endswith('.json'):
+                with open(os.path.join(visuals_dir, name), 'r') as f:
+                    RESUME_VISUALS[name[:-5]] = json.load(f)
+except Exception as e:
+    print(f"Error loading resume visuals: {e}")
+
 # Social
 SOCIAL = (('GitHub', 'https://github.com/Vedaang-Chopra'),
           ('LinkedIn', 'https://linkedin.com/in/vedaang-chopra'),)

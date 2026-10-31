@@ -1,0 +1,28 @@
+{
+ "title": "Mutual-fund consensus platform",
+ "idea": "When many independent professional investors converge on a stock, that may carry information. First comes the plumbing: getting clean holdings data from every fund house.",
+ "ladderTitle": "How a fund house's disclosures are acquired",
+ "ladderCaption": "Deterministic first, escalate only when needed.",
+ "rungs": [
+  {"label":"Plain HTTP","detail":"Fetch the disclosure file straight from the portal. Simple, repeatable, tried first."},
+  {"label":"Network API","detail":"If the portal page loads its data from an internal API, call that API directly instead of scraping the page."},
+  {"label":"Browser automation","detail":"For portals that need clicks, dropdowns or scripts, drive a real browser to reach the file."},
+  {"label":"Optional vision model","tag":"Not evaluated","detail":"A vision model could read awkward pages. It is not evaluated, so it is not relied on."},
+  {"label":"Manual review","detail":"When nothing automatic works, a person looks at the portal and records what to do."}
+ ],
+ "flowTitle": "From raw disclosure to consensus",
+ "flow": [
+  {"label":"Fund house file","status":"Built","detail":"The raw monthly holdings disclosure, as the fund house publishes it."},
+  {"label":"Parse","status":"Built","detail":"Turn each file's layout into rows of fund, stock and holding."},
+  {"label":"Validate","status":"Built","detail":"Check each row against expected shape and values."},
+  {"label":"Quarantine bad rows","status":"Built","detail":"Rows that fail are set aside for inspection instead of being silently dropped or loaded."},
+  {"label":"Upsert into PostgreSQL","status":"Built","detail":"Good rows are written with provenance: which file and fund house each row came from."},
+  {"label":"Survivorship-safe history","status":"Built","detail":"Funds and stocks that later vanish stay in the history, so the past is not rewritten to look cleaner."},
+  {"label":"Consensus view","status":"Built","detail":"How many independent managers hold a stock, and what kinds of fund they are."}
+ ],
+ "after": [
+  {"label":"Read-only API and dashboard","status":"Built","detail":"A read-only API and a dashboard expose the consensus view."},
+  {"label":"Backtest of signals","status":"Tried","detail":"Tried, did not work so far, under review. No claim is made that the consensus is a usable signal."}
+ ],
+ "chip": "Backtest of signals: Tried, did not work so far, under review"
+}

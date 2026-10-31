@@ -1,0 +1,25 @@
+{
+ "title": "Sign reading for AR glasses",
+ "idea": "The idea: drop OCR from the live path, so the model reads the sign directly and the slow step goes away.",
+ "lanes": [
+  {"id":"old","name":"Earlier pipeline","status":"Built, replaced","steps":[
+   {"label":"Camera frame","detail":"The glasses or phone camera sends a frame."},
+   {"label":"On-device gate","detail":"A cheap check on the device decides whether the frame is worth processing."},
+   {"label":"OCR (PaddleOCR)","detail":"A separate text-recognition model pulls raw text out of the frame. This is the step the new design removes from the live path."},
+   {"label":"Vision-language model","detail":"A model turns the recognised text into meaning."},
+   {"label":"Text to speech","detail":"The result is read aloud."}]},
+  {"id":"new","name":"Current pipeline","status":"Built, prototype","steps":[
+   {"label":"Camera frame","detail":"The camera sends a frame."},
+   {"label":"On-device gate","detail":"Blur and change checks skip frames that are blurry or unchanged. The gate is ported to web, Android and iOS."},
+   {"label":"Vision-language model","detail":"One model reads the image and returns structured JSON: detected text, navigation cues, hazards and a spoken sentence. The provider is swappable."},
+   {"label":"Speech","detail":"The spoken sentence leads with what the sign means, then the detail."}]}
+ ],
+ "partial": "Partial: the Meta Ray-Ban hardware path is not validated, and there are no latency figures yet. Whether dropping OCR helps is the design intent, not a measured result.",
+ "phoneLabel": "Illustration of the flow, not a recording",
+ "frames": [
+  {"stage":"Gate","lines":["Blur check: fail","Change check: pass","Frame skipped, next frame"]},
+  {"stage":"Gate","lines":["Blur check: pass","Change check: pass","Frame sent to the model"]},
+  {"stage":"Reply","json":["{","  \"detected_text\": \"EXIT  Stairs down\",","  \"navigation_cues\": [\"exit ahead\"],","  \"hazards\": [\"steps\"],","  \"spoken\": \"Exit ahead; stairs go down.\"","}"]},
+  {"stage":"Speech","lines":["Speaking:","\"Exit ahead; stairs go down.\""]}
+ ]
+}

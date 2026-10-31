@@ -1,0 +1,48 @@
+{
+  "title": "How CERBERUS connects images to a language model",
+  "tabs": ["What exists today", "Shrink the bridge"],
+  "statuses": {
+    "built": "Built",
+    "partial": "Partial",
+    "proposed": "Proposed",
+    "failed": "Tried, did not work"
+  },
+  "pipelineLabel": "Pipeline, left to right. Select a box for details.",
+  "pipeline": [
+    {"id": "img", "name": "Image encoder", "status": "built", "text": "A frozen CLIP ViT-L/14 turns the image into patch features, and it is never trained."},
+    {"id": "sel", "name": "Question-aware patch selector", "status": "proposed", "text": "This does not exist yet: it is a research proposal for a small module that reads the question and decides how many image patches reach the language model."},
+    {"id": "pool", "name": "Attention pooling", "status": "built", "text": "A learned attention pooling layer squeezes the image features into one vector in the shared space."},
+    {"id": "space", "name": "Shared 4096-dimension space", "status": "built", "text": "Images and text land in one shared space of 4096 dimensions, nested so the first 512 or 128 dimensions can be used on their own."},
+    {"id": "llm", "name": "Qwen decoder with LoRA", "status": "partial", "text": "A Qwen decoder with LoRA reads the aligned tokens; there is one 7B run with training loss only and no held-out answer metric yet."}
+  ],
+  "sideLabel": "Around the pipeline",
+  "side": [
+    {"id": "txt", "name": "Text encoder", "status": "built", "text": "A frozen sentence encoder embeds captions, and its output is aligned to the image side."},
+    {"id": "nce", "name": "Contrastive alignment", "status": "built", "text": "An InfoNCE loss on PixMo image-caption pairs pulls matching images and captions together in the shared space."},
+    {"id": "perc", "name": "Perceiver compression", "status": "failed", "text": "Compressing image tokens with a Perceiver was tried, but retrieval stayed near random, so it is not part of the working path."}
+  ],
+  "detailDefault": "Select any box to read what it does and how far it got.",
+  "shrink": {
+    "label": "Embedding size",
+    "sizes": [4096, 512, 128],
+    "recall": [77.7, 73.7, 62.9],
+    "metric": "image-to-text recall@5, paired PixMo validation set, early measurement",
+    "keptText": "kept",
+    "droppedText": "dropped, sliced off",
+    "vectorLabel": "Embedding vector, schematic cells",
+    "note": "The vector is sliced to its first dimensions and renormalised, with no extra parameters.",
+    "caption": "This shrinks the vector, not the number of patches. Choosing patches from the question is the proposed next step."
+  },
+  "idea": {
+    "title": "The idea",
+    "badge": "Illustration of the idea, not a result",
+    "chip": "Proposed",
+    "mock": "Mock grid of image patches. Highlighted patches are the ones kept.",
+    "cases": [
+      {"q": "What colour is the sign?", "note": "A narrow question keeps few patches.", "kept": [[1,5],[1,6],[2,5],[2,6]]},
+      {"q": "Describe the scene", "note": "A broad question keeps many patches.", "kept": "most"}
+    ],
+    "rows": 5,
+    "cols": 8
+  }
+}

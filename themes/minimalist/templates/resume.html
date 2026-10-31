@@ -6,13 +6,19 @@
 <link rel="stylesheet" href="{{ SITEURL }}/theme/css/resume.css" />
 <script>document.documentElement.className += ' js';</script>
 <script src="{{ SITEURL }}/theme/js/resume.js" defer></script>
+{% for v in ['cad', 'cerberus', 'artemis', 'athena', 'shastra', 'ar', 'finance', 'malware'] %}
+<script src="{{ SITEURL }}/theme/js/vis/{{ v }}.js" defer></script>
+{% endfor %}
 {% endblock %}
 
 {% block vendor_scripts %}{% endblock %}
 
 {% set KIND_TEXT = {'base': 'baseline', 'win': 'beat the baseline', 'loss': 'did not beat the baseline', 'ref': 'reference', 'plain': 'comparison'} %}
+{% set STATUS = R_STATUS if R_STATUS is defined else {} %}
 
-{# One baseline-vs-result gauge: baseline bar first, result drawn from it. #}
+{% macro tier(t) %}<span class="tier tier-{{ t|lower|replace('_','-')|replace(' ','-') }}">{{ t|lower|capitalize }}</span>{% endmacro %}
+
+{# One baseline-vs-result gauge, used for early measurements. #}
 {% macro gauge(c) %}
 {% set pair = c.chart.hero_pair %}
 {% set ns = namespace(base=none, res=none) %}
@@ -22,18 +28,17 @@
 {% endfor %}{% endfor %}
 {% set bp = (ns.base.value / c.chart.max * 100)|round(1) %}
 {% set rp = (ns.res.value / c.chart.max * 100)|round(1) %}
-<span class="gauge" role="img" aria-label="{{ ns.base.label|e }} {{ ns.base.shown|e }}, {{ ns.res.label|e }} {{ ns.res.shown|e }}, {{ KIND_TEXT[ns.res.kind] }}">
+<span class="gauge" role="img" aria-label="{{ ns.base.label|e }} {{ ns.base.shown|e }}, {{ ns.res.label|e }} {{ ns.res.shown|e }}">
     <span class="g-base" style="width:{{ [bp, rp]|min }}%"></span>
     <span class="g-res k-{{ ns.res.kind }}" style="left:{{ [bp, rp]|min }}%;width:{{ (bp - rp)|abs }}%"></span>
     <span class="g-tick" style="left:{{ bp }}%"><span>{{ ns.base.label }} {{ ns.base.shown }}</span></span>
 </span>
 {% endmacro %}
 
-{% macro tier(t) %}<span class="tier tier-{{ t|lower|replace('_','-')|replace(' ','-') }}">{{ t|lower|capitalize }}</span>{% endmacro %}
-
 {% block content %}
 {% set R = RESUME %}
 {% set M = R.meta %}
+{% set SK = M.status_key %}
 {% set cards_by_id = {} %}
 {% for c in R.cards %}{% set _ = cards_by_id.update({c.id: c}) %}{% endfor %}
 <div class="rs" id="rs-root">
@@ -42,19 +47,15 @@
     <h1 id="rs-name">{{ M.name }}</h1>
     <p class="rs-pos">{{ M.positioning }}</p>
     <p class="rs-status">{{ M.status }}</p>
-
-    <ol class="rs-hero-gauges" aria-label="Three headline results">
-    {% for cid in R.hero %}{% set c = cards_by_id[cid] %}
-        <li class="rs-hg {{ 'is-neg' if c.kind == 'negative' else '' }}">
-            <a class="rs-hg-name" href="#card-{{ c.id }}" data-open="{{ c.id }}">{{ c.title }}</a>
-            <p class="rs-hg-val"><b>{{ c.headline }}</b> {{ c.headline_note }}</p>
-            {{ gauge(c) }}
-            <p class="rs-hg-cav">{{ tier(c.tier) }} <span>n = {{ c.n }}. {{ c.caveat }}</span></p>
+    <h2 class="rs-h2s" id="h-threads">{{ M.threads_title }}</h2>
+    <ul class="rs-threads" aria-labelledby="h-threads">
+    {% for t in M.threads %}
+        <li>
+            {% if t.project %}<a href="#proj-{{ t.project }}" data-open="proj-{{ t.project }}">{{ t.title }}</a>{% else %}<span class="t-name">{{ t.title }}</span>{% endif %}
+            <span>{{ t.text }}</span>
         </li>
     {% endfor %}
-    </ol>
-    <p class="rs-tierkey">{{ M.tier_key }}</p>
-
+    </ul>
     <div class="rs-actions">
         <a class="rs-btn" id="rs-pdf" href="{{ SITEURL }}/resume/{{ R.pdfs[2].file }}" data-base="{{ SITEURL }}/resume/">Download PDF <span id="rs-pdf-label">Master Extended, 2 pages</span></a>
         <a class="rs-btn alt" href="mailto:{{ M.email }}">Email {{ M.email }}</a>
@@ -70,13 +71,12 @@
 </div>
 
 <section class="rs-sec" id="projects" aria-labelledby="h-proj">
-    <h2 id="h-proj">What I built and measured</h2>
-    <p class="rs-sub">{{ M.intro }} Results that did not work are listed under each project and stay visible.</p>
+    <h2 id="h-proj">What I am building, and why</h2>
+    <p class="rs-sub">{{ M.tier_key }} Open a project for the idea, a picture of how it works, and what is still missing.</p>
     <label class="rs-collapse"><input type="checkbox" id="rs-collapse-neg"> Hide the results that did not work</label>
 
     <div class="rs-projects">
     {% for p in R.projects %}
-    {% set lead = cards_by_id[p.lead] if p.lead else none %}
     <details class="rs-proj" id="proj-{{ p.id }}" data-lenses="{{ p.lenses|join(' ') }}" data-skills="{{ p.skills|join(' ') }}"
          style="--o-full:{{ loop.index }};--o-research:{{ p.order.research }};--o-agentic:{{ p.order.agentic }}">
         <summary>
@@ -85,79 +85,50 @@
                 <span class="credit credit-{{ p.credit_kind }}">{{ p.credit }}</span>
             </span>
             <span class="rs-proj-line">{{ p.summary }}</span>
-            {% if lead %}
-            <span class="rs-lead {{ 'is-neg' if lead.kind == 'negative' else '' }}">
-                <span class="rs-lead-text"><b>{{ lead.headline }}</b> {{ lead.headline_note }}</span>
-                {{ gauge(lead) }}
+            {% if p.mechanism %}
+            <span class="rs-statusbar" role="img" aria-label="{{ p.state }}. {{ p.mechanism|length }} parts: {% for s in ['built','partial','proposed','negative'] %}{{ p.mechanism|selectattr('status','equalto',s)|list|length }} {{ SK[s]|lower }}{{ ', ' if not loop.last }}{% endfor %}">
+                {% for m in p.mechanism %}<i class="st-{{ m.status }}"></i>{% endfor %}
             </span>
             {% endif %}
+            <span class="rs-meta-row"><span class="state">{{ p.state }}</span>{% if p.mechanism %}<span class="rs-legend"><i class="st-built"></i>{{ SK.built }} <i class="st-partial"></i>{{ SK.partial }} <i class="st-proposed"></i>{{ SK.proposed }}{% if p.mechanism|selectattr('status','equalto','negative')|list %} <i class="st-negative"></i>{{ SK.negative }}{% endif %}</span>{% endif %}</span>
             {% set negs = [] %}
-            {% for cid in p.cards %}{% if cards_by_id[cid].kind == 'negative' and cid != p.lead %}{% set _ = negs.append(cards_by_id[cid]) %}{% endif %}{% endfor %}
+            {% for cid in p.cards %}{% if cards_by_id[cid].kind == 'negative' %}{% set _ = negs.append(cards_by_id[cid]) %}{% endif %}{% endfor %}
             {% if negs %}
-            <span class="rs-negs"><span class="neg-label">Did not work:</span>
-                {% for n in negs %}<span class="neg-item">{{ n.headline }} {{ n.headline_note }}</span>{% endfor %}
+            <span class="rs-negs"><span class="neg-label">Tried, did not work:</span>
+                {% for n in negs %}<span class="neg-item">{{ n.title }}</span>{% endfor %}
             </span>
             {% endif %}
-            <span class="rs-open" aria-hidden="true">Open plots and details</span>
+            <span class="rs-open" aria-hidden="true">Open the idea and the picture</span>
         </summary>
 
         <div class="rs-proj-body">
-            {% if p.flow %}
-            <ol class="rs-flow" aria-label="How {{ p.name|e }} works">
-                {% for s in p.flow %}
-                <li>{% if s.card %}<a href="#card-{{ s.card }}" data-open="{{ s.card }}">{{ s.label }}</a>{% else %}<span>{{ s.label }}</span>{% endif %}{% if s.sub %}<small>{{ s.sub }}</small>{% endif %}</li>
-                {% endfor %}
-            </ol>
-            {% if p.flow_note %}<p class="rs-note">{{ p.flow_note }}</p>{% endif %}
+            <div class="rs-idea">
+                <div><h3>The problem</h3><p>{{ p.problem }}</p></div>
+                <div><h3>The idea</h3><p>{{ p.idea }}</p></div>
+            </div>
+
+            {% if p.visual and RESUME_VISUALS.get(p.visual) %}
+            <figure class="rs-visfig">
+                <div class="rs-vis" data-vis="{{ p.visual }}" aria-label="Interactive picture of {{ p.name|e }}">
+                    <script type="application/json" class="rs-vis-data">{{ RESUME_VISUALS[p.visual]|tojson }}</script>
+                </div>
+            </figure>
             {% endif %}
 
-            {% for cid in p.cards %}{% set c = cards_by_id[cid] %}
-            <article class="rs-card {{ 'is-neg' if c.kind == 'negative' else '' }}" id="card-{{ c.id }}" data-card="{{ c.id }}" data-kind="{{ c.kind }}"
-                 data-skills="{{ c.skills|join(' ') }}" data-baseline="{{ c.baseline|e }}" data-n="{{ c.n|e }}" data-unit="{{ c.chart.unit|e }}">
-                <h3>{{ c.title }} {{ tier(c.tier) }}{% if c.kind == 'negative' %} <span class="chip neg">Did not work</span>{% endif %}</h3>
-                <p class="rs-head"><b>{{ c.headline }}</b> {{ c.headline_note }}</p>
-                <div class="rs-chart">
-                {% for g in c.chart.groups %}
-                    <p class="rs-group">{{ g.label }}</p>
-                    <ul class="rs-bars">
-                    {% for b in g.bars %}
-                        <li><button type="button" class="rs-bar k-{{ b.kind }}" data-label="{{ b.label|e }}" data-value="{{ b.value }}" data-group="{{ g.label|e }}">
-                            <span class="bl">{{ b.label }}<span class="sr">, {{ KIND_TEXT[b.kind] }}</span></span>
-                            <span class="track"><span class="fill" style="width:{{ (b.value / c.chart.max * 100)|round(1) }}%"></span></span>
-                            <span class="bv">{{ b.shown }}</span>
-                        </button></li>
-                    {% endfor %}
-                    </ul>
+            {% if p.mechanism %}
+            <div class="rs-mech">
+                <h3>How it works, and how far along it is</h3>
+                <ol>
+                {% for m in p.mechanism %}
+                    <li class="mech-{{ m.status }}"><span class="mech-st st-{{ m.status }}">{{ SK[m.status] }}</span> <span class="mech-label">{{ m.label }}{% if m.note %} <small>{{ m.note }}</small>{% endif %}</span></li>
                 {% endfor %}
-                    <p class="rs-readout" aria-live="polite" data-default="Hover, focus or tap a bar for its exact value and baseline."></p>
-                </div>
-                <p class="rs-caveat"><b>Caveat.</b> {{ c.caveat }}</p>
+                </ol>
+            </div>
+            {% endif %}
 
-                <details class="rs-drawer" id="drawer-{{ c.id }}">
-                    <summary>Evidence and numbers</summary>
-                    <div class="rs-drawer-body">
-                        <dl class="rs-facts">
-                            <div><dt>Baseline</dt><dd>{{ c.baseline }}</dd></div>
-                            <div><dt>Sample size</dt><dd>{{ c.n }}</dd></div>
-                            <div><dt>Setting</dt><dd>{{ c.setting }}</dd></div>
-                            <div><dt>Evidence tier</dt><dd>{{ c.tier|lower|capitalize }}.
-                                {% if c.tier == 'OWNER' %}My own report. No repo artifact backs it.{% else %}Re-read from a saved artifact{% if c.source_file %} ({{ c.source_file }}){% endif %}.{% endif %}</dd></div>
-                        </dl>
-                        {% if c.extra %}<ul>{% for e in c.extra %}<li>{{ e }}</li>{% endfor %}</ul>{% endif %}
-                        {% if c.fact_caveats %}<p><b>Must-keep caveats</b></p><ul>{% for e in c.fact_caveats %}<li>{{ e }}</li>{% endfor %}</ul>{% endif %}
-                        <table>
-                            <caption>{{ c.title }}, {{ c.chart.unit }}</caption>
-                            <thead><tr><th scope="col">Group</th><th scope="col">Bar</th><th scope="col">Role</th><th scope="col">Value</th></tr></thead>
-                            <tbody>
-                            {% for g in c.chart.groups %}{% for b in g.bars %}
-                                <tr><td>{{ g.label }}</td><td>{{ b.label }}</td><td>{{ KIND_TEXT[b.kind] }}</td><td>{{ b.value }}</td></tr>
-                            {% endfor %}{% endfor %}
-                            </tbody>
-                        </table>
-                    </div>
-                </details>
-            </article>
-            {% endfor %}
+            {% if p.unique %}
+            <div class="rs-unique"><h3>What is unusual about it</h3><ul>{% for u in p.unique %}<li>{{ u }}</li>{% endfor %}</ul></div>
+            {% endif %}
 
             {% if p.figures %}
             <div class="rs-figs">
@@ -178,11 +149,76 @@
             </div>
             {% endif %}
 
-            <p class="rs-blurb">{{ p.blurb }}</p>
+            {% if p.cards %}
+            <details class="rs-early">
+                <summary>Early measurements, work in progress</summary>
+                {% for cid in p.cards %}{% set c = cards_by_id[cid] %}
+                <article class="rs-card {{ 'is-neg' if c.kind == 'negative' else '' }}" id="card-{{ c.id }}" data-card="{{ c.id }}" data-kind="{{ c.kind }}"
+                     data-skills="{{ c.skills|join(' ') }}" data-baseline="{{ c.baseline|e }}" data-n="{{ c.n|e }}" data-unit="{{ c.chart.unit|e }}">
+                    <h4>{{ c.title }} {{ tier(c.tier) }}{% if c.kind == 'negative' %} <span class="chip neg">Did not work</span>{% endif %}</h4>
+                    <p class="rs-head"><b>{{ c.headline }}</b> {{ c.headline_note }}</p>
+                    <div class="rs-chart">
+                    {% for g in c.chart.groups %}
+                        <p class="rs-group">{{ g.label }}</p>
+                        <ul class="rs-bars">
+                        {% for b in g.bars %}
+                            <li><button type="button" class="rs-bar k-{{ b.kind }}" data-label="{{ b.label|e }}" data-value="{{ b.value }}" data-group="{{ g.label|e }}">
+                                <span class="bl">{{ b.label }}<span class="sr">, {{ KIND_TEXT[b.kind] }}</span></span>
+                                <span class="track"><span class="fill" style="width:{{ (b.value / c.chart.max * 100)|round(1) }}%"></span></span>
+                                <span class="bv">{{ b.shown }}</span>
+                            </button></li>
+                        {% endfor %}
+                        </ul>
+                    {% endfor %}
+                        <p class="rs-readout" aria-live="polite" data-default="Hover, focus or tap a bar for its exact value and baseline."></p>
+                    </div>
+                    <p class="rs-caveat"><b>Caveat.</b> {{ c.caveat }}</p>
+                    <details class="rs-drawer" id="drawer-{{ c.id }}">
+                        <summary>Evidence and numbers</summary>
+                        <div class="rs-drawer-body">
+                            <dl class="rs-facts">
+                                <div><dt>Baseline</dt><dd>{{ c.baseline }}</dd></div>
+                                <div><dt>Sample size</dt><dd>{{ c.n }}</dd></div>
+                                <div><dt>Setting</dt><dd>{{ c.setting }}</dd></div>
+                                <div><dt>Evidence tier</dt><dd>{{ c.tier|lower|capitalize }}.
+                                    {% if c.tier == 'OWNER' %}My own report. No repo artifact backs it.{% else %}Re-read from a saved artifact{% if c.source_file %} ({{ c.source_file }}){% endif %}.{% endif %}</dd></div>
+                            </dl>
+                            {% if c.extra %}<ul>{% for e in c.extra %}<li>{{ e }}</li>{% endfor %}</ul>{% endif %}
+                            {% if c.fact_caveats %}<p><b>Must-keep caveats</b></p><ul>{% for e in c.fact_caveats %}<li>{{ e }}</li>{% endfor %}</ul>{% endif %}
+                            <table>
+                                <caption>{{ c.title }}, {{ c.chart.unit }}</caption>
+                                <thead><tr><th scope="col">Group</th><th scope="col">Bar</th><th scope="col">Role</th><th scope="col">Value</th></tr></thead>
+                                <tbody>
+                                {% for g in c.chart.groups %}{% for b in g.bars %}
+                                    <tr><td>{{ g.label }}</td><td>{{ b.label }}</td><td>{{ KIND_TEXT[b.kind] }}</td><td>{{ b.value }}</td></tr>
+                                {% endfor %}{% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </details>
+                </article>
+                {% endfor %}
+            </details>
+            {% endif %}
+
+            {% if p.links %}<p class="rs-links">{% for l in p.links %}<a href="{{ l.url }}">{{ l.label }}</a>{% endfor %}</p>{% endif %}
         </div>
     </details>
     {% endfor %}
     </div>
+</section>
+
+<section class="rs-sec" id="tools" aria-labelledby="h-tools">
+    <h2 id="h-tools">Tools I built along the way</h2>
+    <ul class="rs-tools">
+    {% for t in R.tools %}
+        <li>
+            <h3>{% if t.url %}<a href="{{ t.url }}">{{ t.name }}</a>{% else %}{{ t.name }}{% endif %}</h3>
+            <p>{{ t.what }}</p>
+            <span class="state">{{ t.state }}</span>
+        </li>
+    {% endfor %}
+    </ul>
 </section>
 
 <section class="rs-sec" id="experience" aria-labelledby="h-exp">
@@ -197,17 +233,18 @@
         <ul class="rs-bul">
         {% for b in e.bullets %}
             <li data-lenses="{{ b.lenses|join(' ') }}" data-skills="{{ b.skills|join(' ') }}">
-                {{ b.text }}{% if b.card %} <a class="rs-more" href="#card-{{ b.card }}" data-open="{{ b.card }}">See the plot</a>{% endif %}
+                {{ b.text }}{% if b.card %} <a class="rs-more" href="#card-{{ b.card }}" data-open="{{ b.card }}">See the measurement</a>{% endif %}
             </li>
         {% endfor %}
         </ul>
     </details>
     {% endfor %}
+    <p class="rs-note">Earlier internships in 2020: security research at NCIIPC, data science at Mu Sigma, security architecture at Cyber Boxer.</p>
 </section>
 
 <section class="rs-sec noprint" id="skills" aria-labelledby="h-skills">
     <h2 id="h-skills">Skills, and how much each one is backed</h2>
-    <p class="rs-sub">Pick a skill to highlight every project, result and job bullet that used it.</p>
+    <p class="rs-sub">Pick a skill to highlight every project, measurement and job bullet that used it.</p>
     <p class="rs-skill-status" id="rs-skill-status" aria-live="polite"></p>
     {% for t in R.skills %}
     <div class="rs-tier">

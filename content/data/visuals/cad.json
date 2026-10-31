@@ -1,0 +1,41 @@
+{
+  "fixture_label": "Illustration: a hand-made fault, not a real model run",
+  "example_intro": "A program that builds a base block with a small peg on top. One line was edited by hand: the peg's rotation angle has its sign flipped.",
+  "score_verdict": "One number for the whole part",
+  "score_note": "A final-shape score judges only the finished part. It cannot say which operation broke it or what to change.",
+  "verifier_note": "The process verifier rebuilds the part after every operation, compares each state with the target, and blames the first operation that goes wrong.",
+  "verdicts": {
+    "correct": {"label": "Correct", "meaning": "Matches the target at this point."},
+    "cause": {"label": "First error", "meaning": "Its input matched the target but its output does not, so the blame lands here."},
+    "inherited": {"label": "Inherited", "meaning": "Already wrong on arrival; the difference was carried in from an earlier step, not caused here."}
+  },
+  "ops": [
+    {"short": "Sketch plane", "what": "Start a flat sketch plane for the base.", "verdict": "correct", "state": "Nothing built yet, only a reference plane. Same as the target."},
+    {"short": "Base block", "what": "Make the rectangular base block.", "verdict": "correct", "state": "The base block exists and matches the target's base."},
+    {"short": "Sketch plane", "what": "Start a second sketch plane for the peg.", "verdict": "correct", "state": "Base unchanged; a new plane is ready for the peg."},
+    {"short": "Peg block", "what": "Make the small peg block.", "verdict": "correct", "state": "Base plus a peg of the right size, still matching the target."},
+    {"short": "Rotate peg", "what": "Turn the peg about the vertical axis.", "verdict": "cause", "state": "The peg is turned the wrong way because the angle's sign is flipped. Everything matched before this step, so this is where the part first goes wrong."},
+    {"short": "Move peg", "what": "Slide the peg to the edge of the base.", "verdict": "inherited", "state": "The move itself is right, but the peg still carries the wrong turn from the step before."},
+    {"short": "Join parts", "what": "Join the base and the peg into one solid.", "verdict": "inherited", "state": "The finished part looks close to the target, but the peg is still turned the wrong way."}
+  ],
+  "fault_types": [
+    "changed dimension", "flipped rotation", "shifted translation", "union swapped for cut",
+    "extra boss added", "harmless internal union", "wrong hole diameter", "hole moved",
+    "deleted hole", "flipped face selector", "wrong hole depth", "wrong fillet radius", "wrong revolve angle"
+  ],
+  "max_turns": 3,
+  "loop_steps": [
+    {"id": "write", "short": "Write code", "component": "Frozen LLM code writer", "status": "built", "status_text": "Built", "sentence": "A frozen language model writes a CadQuery program from the text request; its weights are never changed."},
+    {"id": "run", "short": "Run in sandbox", "component": "Sandboxed CadQuery executor", "status": "built", "status_text": "Built", "sentence": "The program runs in an isolated sandbox and returns a solid or an error."},
+    {"id": "ir", "short": "Intermediate representation", "component": "Feature tree and per-operation solids", "status": "partial", "status_text": "Partial, experiment pending", "sentence": "The program is turned into a feature tree plus the solid after every operation; whether this helps repair is still being tested."},
+    {"id": "outcome", "short": "Outcome check", "component": "Outcome verifier", "status": "built", "status_text": "Built", "sentence": "Compares the final shape with the target and names the kind of mismatch, such as a misplaced or missing feature."},
+    {"id": "process", "short": "Process verifier", "component": "Process verifier", "status": "built", "status_text": "Built, tested on hand-made faults only", "sentence": "Walks the operations in order and blames the first one whose output stops matching the target."},
+    {"id": "packet", "short": "Repair packet", "component": "Repair packet builder", "status": "partial", "status_text": "Partial", "sentence": "Turns the evidence into plain parts for the model: what is wrong, where in the code, a suggested fix, and what to keep.", "parts": ["what", "where", "fix", "keep"]},
+    {"id": "loop", "short": "Repeat, keep the best", "component": "Bounded repair loop", "status": "built", "status_text": "Built, ground-truth-guided", "sentence": "The model rewrites its code from the packet, up to 3 turns; the best attempt is kept and the loop stops early once the part is right."}
+  ],
+  "card_steps": [
+    {"id": "learn", "short": "Learn cards", "component": "Repair card distiller", "status": "partial", "status_text": "Partial, offline only", "sentence": "Offline, failed and repaired training samples are checked against their ground truth and distilled into short reusable repair cards."},
+    {"id": "reuse", "short": "Reuse cards", "component": "Repair card lookup", "status": "partial", "status_text": "Partial, not wired into the live loop", "sentence": "Later runs would look up cards that match the current fault and add their advice to the repair prompt; this is not connected to the live loop yet."}
+  ],
+  "loop_note": "Repair currently uses the ground-truth shape as a guide."
+}

@@ -1,0 +1,48 @@
+{
+  "title": "How ATHENA turns a brief into a storyboard",
+  "counts": "8 LangGraph nodes, 14 node modules in total, 5 research tools.",
+  "source_note": "Drawn from the project code (the LangGraph wiring and node modules). Entry routing is from reading the code, not from a live run. Team project.",
+  "statuses": {
+    "built": "Built",
+    "partial": "Partial",
+    "proposed": "Proposed"
+  },
+  "graph": ["intent_resolver", "plan", "ideation", "character_designer", "world_builder", "story_generator", "scene_decomposer", "scene_pipeline", "project_assembler", "video"],
+  "loop": ["scene_researcher", "script_writer", "visual_director", "shot_planner", ["image_prompt_generator", "image_generator"], "scene_evaluator"],
+  "nodes": {
+    "intent_resolver": {"label": "Intent resolver", "kind": "graph", "status": "built", "purpose": "Reads the brief once with a single structured LLM call. It writes the Intent and the ExecutionPlan and classifies the entry type. It can pause to ask a clarifying question. On a re-run with an Intent already stored it is skipped, so the run is not reclassified.", "writes": "Intent, ExecutionPlan, or a ClarificationRequest when it pauses"},
+    "plan": {"label": "ExecutionPlan", "kind": "gate", "status": "built", "purpose": "Not an LLM supervisor. After the intent node, plain code reads the plan and picks the next node: the next node in the chain, or a jump straight to the scene pipeline when the remaining chain is skipped. Plan fields: needs_characters, needs_world, research_policy (always, never or auto), entry_point, skip_nodes, max_scenes, max_shots_per_scene.", "writes": "Nothing; it routes. Routing, skip and resume are Built."},
+    "ideation": {"label": "Ideation", "kind": "graph", "status": "built", "purpose": "Generates creative concepts from the Intent and picks one, with its rationale and the alternatives.", "writes": "Concept"},
+    "character_designer": {"label": "Character designer", "kind": "graph", "status": "built", "purpose": "Designs the characters from the Concept and Intent. Does nothing when the plan says needs_characters is false.", "writes": "Character list"},
+    "world_builder": {"label": "World builder", "kind": "graph", "status": "built", "purpose": "Builds the world: location, time period and ambiance. Does nothing when the plan says needs_world is false.", "writes": "World"},
+    "story_generator": {"label": "Story generator", "kind": "graph", "status": "built", "purpose": "Combines the Concept, characters, world and Intent into a story structured as beats.", "writes": "Story"},
+    "scene_decomposer": {"label": "Scene decomposer", "kind": "graph", "status": "built", "purpose": "Splits the story into ordered scene shells. Last node of the linear chain.", "writes": "Scene shells"},
+    "scene_pipeline": {"label": "Scene pipeline", "kind": "graph", "status": "built", "purpose": "One graph node that is a plain Python loop. For every scene it runs the per-scene and per-shot modules in order. A failure in one scene is isolated from the others.", "writes": "Nothing itself; the modules inside write to each scene"},
+    "project_assembler": {"label": "Project assembler", "kind": "graph", "status": "built", "purpose": "Deterministic last node. Collects everything into the project output and writes the editable storyboard files.", "writes": "ProjectOutput, storyboard.json, storyboard.html"},
+    "video": {"label": "Video generation from the storyboard", "kind": "proposed", "status": "proposed", "purpose": "A possible next step that would turn the finished storyboard into video. It is not part of the graph and has not been built.", "writes": "Nothing yet"},
+    "scene_researcher": {"label": "Scene researcher", "kind": "loop", "per": "per scene", "status": "built", "purpose": "Writes a research query for the scene and calls the research service. Skipped when research_policy is never or research already exists. A research failure does not stop the run.", "writes": "SceneResearch", "tools": ["web_search", "fetch_page", "image_search", "youtube_search", "youtube_transcript"]},
+    "script_writer": {"label": "Script writer", "kind": "loop", "per": "per scene", "status": "built", "purpose": "Drafts the scene script: narration, stage directions, dialogue, duration and emotional arc.", "writes": "SceneScript"},
+    "visual_director": {"label": "Visual director", "kind": "loop", "per": "per scene", "status": "built", "purpose": "Sets the look of the scene: subject, environment, lighting, colour and mood, and style.", "writes": "VisualDirection"},
+    "shot_planner": {"label": "Shot planner", "kind": "loop", "per": "per scene", "status": "built", "purpose": "Splits one scene into ordered shots with camera angle, framing and composition.", "writes": "Shot list"},
+    "image_prompt_generator": {"label": "Image prompt generator", "kind": "loop", "per": "per shot", "status": "built", "purpose": "Builds the image prompt for one shot from the shot, the visual direction and the character identity.", "writes": "ImagePrompt"},
+    "image_generator": {"label": "Image generator", "kind": "loop", "per": "per shot", "status": "partial", "purpose": "No LLM. Runs a moderation check, then calls the image model; if the model errors it tries a fallback model. If all fail it attaches a marked failed placeholder instead of stopping.", "writes": "GeneratedImage, or a failed placeholder", "note": "Partial: a fix for silent empty images is not yet re-verified end to end.", "tools": ["image_model", "fallback_model"]},
+    "scene_evaluator": {"label": "Scene evaluator", "kind": "loop", "per": "per scene", "status": "partial", "purpose": "Runs after all shots of the scene. Reports key concepts, understanding and issues as a signal; there is no repair loop.", "writes": "SceneEvaluation", "note": "Partial: it evaluates text only."}
+  },
+  "tools": {
+    "web_search": {"label": "Web search", "status": "built", "what": "Keyless web search by default, with fallback engines. Used by the research node and exposed by the MCP server."},
+    "fetch_page": {"label": "Page fetch", "status": "built", "what": "Fetches a page and extracts readable text. Exposed by the MCP server only; the research node does not call it."},
+    "image_search": {"label": "Image search", "status": "built", "what": "Finds reference images, including openly licensed ones, with their licence. Used by the research node and exposed by the MCP server."},
+    "youtube_search": {"label": "YouTube search", "status": "built", "what": "Searches YouTube videos. Turned on only when an API key is set."},
+    "youtube_transcript": {"label": "YouTube transcript", "status": "built", "what": "Gets the transcript of one video. Turned on only when an API key is set."},
+    "image_model": {"label": "Image model", "status": "partial", "what": "FLUX image model through NVIDIA NIM, set in the config. Partial: a fix for silent empty images is not yet re-verified end to end."},
+    "fallback_model": {"label": "Fallback model", "status": "partial", "what": "If the first image model errors, another FLUX model from a different family is tried before giving up with a placeholder."}
+  },
+  "mcp_label": "MCP server: 5 research tools",
+  "entry_points": [
+    {"id": "full_creative", "label": "Full idea", "starts_at": "intent_resolver", "skipped_nodes": []},
+    {"id": "with_script", "label": "With a script", "starts_at": "script_writer", "skipped_nodes": ["ideation", "character_designer", "world_builder", "story_generator", "scene_decomposer"]},
+    {"id": "with_scenes", "label": "With scenes", "starts_at": "script_writer", "skipped_nodes": ["ideation", "character_designer", "world_builder", "story_generator", "scene_decomposer"], "note": "Same routing as with a script in the code."},
+    {"id": "visual_only", "label": "Visuals only", "starts_at": "visual_director", "skipped_nodes": ["ideation", "character_designer", "world_builder", "story_generator", "scene_decomposer", "scene_researcher", "script_writer"], "note": "Whether the visual director runs without a script was not verified."}
+  ],
+  "entry_caption": "Nodes whose output already exists are skipped, which is how runs resume."
+}
