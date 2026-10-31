@@ -28,6 +28,9 @@ CURATION = REPO / "scripts" / "resume_curation.yml"
 DATA_OUT = REPO / "content" / "data" / "resume.yml"
 BANNED_OUT = REPO / "scripts" / "banned_patterns.yml"
 PDF_OUT = REPO / "content" / "resume"
+ASSETS = REPO / "scripts" / "resume_assets.yml"
+IMAGES = REPO / "content" / "images" / "resume"
+MAX_IMAGE_BYTES = 1_500_000
 
 
 def load_yaml(path: Path) -> dict:
@@ -109,7 +112,37 @@ def build(data_dir: Path) -> tuple[dict, list[str]]:
     cur["meta"]["linkedin"] = bank["candidate"]["linkedin"]
     cur["meta"]["github"] = bank["candidate"]["github"]
     cur.pop("facts_check", None)
+    attach_figures(cur, errors)
     return cur, errors
+
+
+def attach_figures(data: dict, errors: list[str]) -> None:
+    """Attach curated figures from resume_assets.yml to their projects."""
+    if not ASSETS.exists():
+        return
+    assets = {a["id"]: a for a in load_yaml(ASSETS)["assets"]}
+    projects = {p["id"]: p for p in data["projects"]}
+    total = 0
+    for asset in assets.values():
+        path = IMAGES / asset["file"]
+        if not path.exists():
+            errors.append(f"asset file missing: {asset['file']}")
+            continue
+        total += path.stat().st_size
+        if asset["project"] not in projects:
+            errors.append(f"asset {asset['id']}: unknown project {asset['project']}")
+    if total > MAX_IMAGE_BYTES:
+        errors.append(f"images weigh {total} bytes, limit {MAX_IMAGE_BYTES}")
+    for asset in assets.values():
+        partner = assets.get(asset.get("compare_with") or "")
+        if partner is not None and asset["id"] > partner["id"]:
+            continue
+        fig = {"id": asset["id"], "file": asset["file"], "alt": asset["alt"], "caption": asset["caption"],
+               "tier": asset["tier"], "claim": asset["claim"], "source_file": Path(asset["source"]).name}
+        if partner is not None:
+            fig.update({"compare_file": partner["file"], "compare_alt": partner["alt"]})
+        projects[asset["project"]].setdefault("figures", []).append(fig)
+    logger.info("attached %d figures, %d bytes", len(assets), total)
 
 
 def copy_pdfs(data_dir: Path, pdfs: list[dict]) -> None:
