@@ -67,6 +67,15 @@ try:
 except Exception as e:
     print(f"Error loading projects: {e}")
 
+RESUME = {}
+try:
+    resume_file = os.path.join(os.path.dirname(__file__), 'content', 'data', 'resume.yml')
+    if os.path.exists(resume_file):
+        with open(resume_file, 'r') as f:
+            RESUME = yaml.safe_load(f)
+except Exception as e:
+    print(f"Error loading resume data: {e}")
+
 # Social
 SOCIAL = (('GitHub', 'https://github.com/Vedaang-Chopra'),
           ('LinkedIn', 'https://linkedin.com/in/vedaang-chopra'),)

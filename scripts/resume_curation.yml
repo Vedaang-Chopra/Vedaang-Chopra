@@ -1,0 +1,378 @@
+# Display content for the interactive resume page.
+# sync_resume.py checks every `proof` string against the fact bank / profile.md
+# and fails when one is missing, so a number cannot reach the page unless it is in the sources.
+# Tier, artifact and caveats come from the fact bank entry named by `fact`.
+
+meta:
+  name: Vedaang Chopra
+  positioning: Applied AI / research engineer. Builds and evaluates agentic and multimodal systems.
+  location: Atlanta, GA
+  visa: F-1, OPT eligible Dec 2026
+  degree: M.S. CS (Machine Learning), Georgia Tech, Dec 2026
+  gpa: 3.8/4.0
+  intro: Every result below shows its baseline, sample size and caveat. The ones that did not work are shown too.
+
+lenses:
+  - {id: full, label: Full, pdf: master}
+  - {id: research, label: Research Engineer, pdf: research}
+  - {id: agentic, label: Agentic Engineer, pdf: agentic}
+
+pdfs:
+  - {id: research, label: Research Engineer, pages: 1, src: resumes/latest/resume_research_engineer.pdf, file: resume_research_engineer.pdf}
+  - {id: agentic, label: Agentic Engineer, pages: 1, src: resumes/latest/resume_agentic_engineer.pdf, file: resume_agentic_engineer.pdf}
+  - {id: master, label: Master Extended, pages: 2, src: resumes/latest/resume_master_extended.pdf, file: resume_master_extended.pdf}
+
+hero: [cad-iou, cerberus-r5, artemis-router]
+
+# ---------------------------------------------------------------- ledger
+# chart.groups[].bars[]: value is drawn on a 0..chart.max axis; `label` is the visible value text.
+# kind: base = baseline, win = beat the baseline, loss = did not beat it, ref = reference (oracle etc.), plain = neutral
+cards:
+  - id: cad-iou
+    fact: cad_three_system_comparison
+    project: cad
+    kind: result
+    lenses: [research, agentic]
+    order: {research: 1, agentic: 1}
+    skills: [evaluation, langgraph, pydantic, bootstrap]
+    title: CAD repair on a frozen LLM, shape overlap
+    headline: "0.82 → 0.92"
+    headline_note: voxel IoU, expert prompts
+    baseline: One-shot generation, same model (gpt-5.4-mini)
+    n: "200 per group"
+    setting: LLM writes CadQuery, runs it, compares to the target part, repairs in at most 3 turns. Model is frozen.
+    caveat: Repair is ground-truth-assisted. The target shape scores each attempt. No result without the target exists.
+    chart:
+      max: 1
+      unit: voxel IoU
+      hero_pair: [One-shot, Agentic repair]
+      groups:
+        - label: Expert prompts
+          bars:
+            - {label: One-shot, value: 0.8227, shown: "0.82", kind: base}
+            - {label: Self-debug, value: 0.8633, shown: "0.86", kind: plain}
+            - {label: Agentic repair, value: 0.9163, shown: "0.92", kind: win}
+        - label: Beginner prompts
+          bars:
+            - {label: One-shot, value: 0.5688, shown: "0.57", kind: base}
+            - {label: Self-debug, value: 0.6478, shown: "0.65", kind: plain}
+            - {label: Agentic repair, value: 0.6990, shown: "0.70", kind: win}
+    extra:
+      - "Agentic minus self-debug, paired bootstrap: +0.053 [0.019, 0.092] expert, +0.051 [0.023, 0.082] beginner (notebook output only)."
+      - "The three arms use different prompts."
+    proof: ["0.8227", "0.9163", "0.5688", "0.6990", "0.8633", "0.6478", "gt_assisted", "+0.0530", "+0.0512"]
+
+  - id: cad-scope
+    fact: cad_three_system_comparison
+    project: cad
+    kind: negative
+    lenses: [research, agentic]
+    order: {research: 2, agentic: 2}
+    skills: [evaluation, langgraph]
+    title: How often repair gets the shape right
+    headline: "147 of 393"
+    headline_note: evaluated agentic runs came out geometry-correct
+    baseline: 400 agentic runs, 393 evaluated, 7 runtime failures
+    n: "393"
+    setting: Same agentic repair runs as the IoU card.
+    caveat: 83 of 230 loop "successes" are geometry-wrong. Turn 1 carries most of the gain.
+    chart:
+      max: 393
+      unit: runs
+      groups:
+        - label: Evaluated agentic runs
+          bars:
+            - {label: Geometry-correct, value: 147, shown: "147", kind: win}
+            - {label: Evaluated, value: 393, shown: "393", kind: base}
+    proof: ["147/393", "83 of 230", "393 evaluated", "7 runtime failures"]
+
+  - id: cad-abc
+    fact: cad_abc_matrix
+    project: cad
+    kind: negative
+    lenses: [research, agentic]
+    order: {research: 4, agentic: 4}
+    skills: [evaluation, langgraph]
+    title: Richer feedback did not help
+    headline: "4/12 in every arm"
+    headline_note: A/B/C feedback ablation, a three-way tie
+    baseline: Arm A, the plainest feedback
+    n: "12 samples x 3 arms"
+    setting: Operation-level tracing against two simpler feedback arms.
+    caveat: Tiny sample. Reads as no measurable gain from operation-level tracing, nothing more.
+    chart:
+      max: 12
+      unit: samples succeeded
+      groups:
+        - label: Successes out of 12
+          bars:
+            - {label: Arm A, value: 4, shown: "4", kind: base}
+            - {label: Arm B, value: 4, shown: "4", kind: loss}
+            - {label: Arm C, value: 4, shown: "4", kind: loss}
+    proof: ["4/12", "12 samples x 3 arms"]
+
+  - id: cad-gate
+    fact: cad_gate_a_failed
+    project: cad
+    kind: negative
+    lenses: [research, agentic]
+    order: {research: 5, agentic: 5}
+    skills: [evaluation, bootstrap]
+    title: A pre-registered gate that failed
+    headline: "14.84% vs 27.01%"
+    headline_note: structural distance vs majority baseline
+    baseline: Majority-class guess, 27.01%
+    n: "411 pairs"
+    setting: Gate A asked whether structural distance predicts the error class. It needed a 10 point margin.
+    caveat: Gate failed (passed=False). Reported as failed. Result comes from notebook output.
+    chart:
+      max: 30
+      unit: percent
+      groups:
+        - label: Gate A
+          bars:
+            - {label: Majority baseline, value: 27.01, shown: "27.01%", kind: base}
+            - {label: Structural distance, value: 14.84, shown: "14.84%", kind: loss}
+    proof: ["14.84%", "27.01%", "411 pairs", "passed=False"]
+
+  - id: cerberus-r5
+    fact: cerberus_retrieval_path
+    project: cerberus
+    kind: result
+    lenses: [research]
+    order: {research: 3, agentic: 9}
+    skills: [pytorch, clip-sbert, matryoshka, retrieval, evaluation]
+    title: CERBERUS retrieval, recall@5
+    headline: "62.9 → 77.7"
+    headline_note: image-to-text R@5, 128-d vs 4096-d
+    baseline: The same model truncated to 128 dimensions
+    n: "paired PixMo validation set"
+    setting: Frozen CLIP ViT-L/14 image tower and sentence encoder with Matryoshka prefixes and InfoNCE. Attention model.
+    caveat: Vision-text only. No held-out QA metric exists. Retrieval numbers are on the validation set.
+    chart:
+      max: 100
+      unit: recall@5, percent
+      hero_pair: [128-d, 4096-d]
+      groups:
+        - label: Image to text
+          bars:
+            - {label: 128-d, value: 62.9, shown: "62.9", kind: base}
+            - {label: 512-d, value: 73.7, shown: "73.7", kind: plain}
+            - {label: 4096-d, value: 77.68, shown: "77.7", kind: win}
+        - label: Text to image
+          bars:
+            - {label: 128-d, value: 64.0, shown: "64.0", kind: base}
+            - {label: 512-d, value: 74.9, shown: "74.9", kind: plain}
+            - {label: 4096-d, value: 77.55, shown: "77.6", kind: win}
+    proof: ["77.68/77.55", "73.7/74.9", "62.9/64.0"]
+
+  - id: artemis-router
+    fact: artemis_test_result
+    project: artemis
+    kind: negative
+    lenses: [research, agentic]
+    order: {research: 6, agentic: 3}
+    skills: [evaluation, routing, bootstrap]
+    title: ARTEMIS, a learned router that lost
+    headline: "0.509 < 0.564"
+    headline_note: learned router vs per-task lookup table
+    baseline: Per-task lookup, 0.5637. Best single model, 0.491.
+    n: "10,198 test questions"
+    setting: Leakage-corrected VLM routing benchmark, five-model pool. Oracle shows the headroom.
+    caveat: Gate G3 failed. The learned router did not beat a lookup table. Offline research only.
+    chart:
+      max: 0.7
+      unit: accuracy
+      hero_pair: [Per-task lookup, Learned router]
+      groups:
+        - label: Test accuracy
+          bars:
+            - {label: Best single model, value: 0.491, shown: "0.491", kind: base}
+            - {label: Per-task lookup, value: 0.5637, shown: "0.564", kind: ref}
+            - {label: Learned router, value: 0.5090, shown: "0.509", kind: loss}
+            - {label: Oracle, value: 0.6543, shown: "0.654", kind: ref}
+    proof: ["0.5090", "0.5637", "0.491", "0.6543", "n=10,198", "G3 FAIL"]
+
+  - id: fortinet-ingest
+    fact: null
+    project: fortinet
+    kind: result
+    lenses: [research, agentic]
+    order: {research: 7, agentic: 6}
+    skills: [go, opensearch, python]
+    title: Fortinet log ingestion throughput
+    headline: "<50 → 2,000+"
+    headline_note: events per second
+    baseline: The earlier ingestion path
+    n: "not reported"
+    setting: Async I/O and Go redesign of the OpenSearch ingestion path at Fortinet AIOps.
+    caveat: Self-reported. No repo artifact exists. Tier is OWNER.
+    tier: OWNER
+    chart:
+      max: 2000
+      unit: events per second
+      groups:
+        - label: Ingestion
+          bars:
+            - {label: Before, value: 50, shown: "<50", kind: base}
+            - {label: After, value: 2000, shown: "2,000+", kind: win}
+    proof: ["<50 → 2,000+ events/s"]
+
+# ---------------------------------------------------------------- experience
+experience:
+  - id: gt-core
+    org: Georgia Tech, CORE Robotics Lab
+    role: Graduate Research Assistant
+    dates: Jan 2026 to present
+    lenses: [research, agentic]
+    bullets:
+      - {text: "Built a CAD generation loop on a frozen LLM: write CadQuery, execute it, compare with the target part, repair for up to 3 turns.", skills: [langgraph, evaluation], lenses: [research, agentic], card: cad-iou}
+      - {text: "Mean voxel IoU 0.82 to 0.92 (expert prompts) and 0.57 to 0.70 (beginner) against one-shot generation, n=200 per group. Repair is guided by the target shape.", skills: [evaluation], lenses: [research, agentic], card: cad-iou}
+      - {text: "Reported the failures too: a three-way feedback tie, a failed pre-registered gate, and 147 of 393 runs geometry-correct.", skills: [evaluation], lenses: [research, agentic], card: cad-abc}
+      - {text: "Test suite of about 2.5k collected tests. No pass count is claimed.", skills: [python], lenses: [research]}
+  - id: fortinet
+    org: Fortinet, AIOps R&D
+    role: Software Development Engineer I, then II (ML/AI track)
+    dates: Feb 2021 to Jul 2025
+    lenses: [research, agentic]
+    note: All Fortinet figures are self-reported. No repo artifacts back them.
+    bullets:
+      - {text: "Redesigned OpenSearch log ingestion with async I/O and Go, from under 50 to 2,000+ events per second (self-reported).", skills: [go, opensearch], lenses: [research, agentic], card: fortinet-ingest}
+      - {text: "Agentic RAG diagnostics: LLM tool-calling over telemetry for root-cause analysis. 2023 hackathon top-5 finalist, then production. About 70% faster mean resolution (self-reported).", skills: [agentic-rag, tool-calling], lenses: [agentic]}
+      - {text: "Edge inference with ONNX Runtime and quantization, CPU-only, on access points and switches. About 40% lower latency (self-reported).", skills: [onnx], lenses: [research]}
+      - {text: "SLA forecasting: 60+ classifiers across 4 categories, 7-day horizon, automated evaluation and retraining.", skills: [scikit-learn], lenses: [research]}
+      - {text: "Filed a patent on distributional-thresholding anomaly detection (PCT/IN2022/058026, pending). About 75% less manual troubleshooting (self-reported).", skills: [python], lenses: [research, agentic]}
+
+# ---------------------------------------------------------------- projects
+projects:
+  - id: cad
+    name: CAD generation with a frozen LLM
+    credit: Owner (research project, CORE Lab)
+    credit_kind: owner
+    lenses: [research, agentic]
+    order: {research: 1, agentic: 1}
+    blurb: Execute, compare with the target part, repair. Ground-truth-assisted, never fine-tuned, never RL.
+    skills: [langgraph, evaluation, bootstrap]
+    cards: [cad-iou, cad-scope, cad-abc, cad-gate]
+  - id: cerberus
+    name: CERBERUS, vision-language alignment
+    credit: Owner (research project)
+    credit_kind: owner
+    lenses: [research]
+    order: {research: 2, agentic: 9}
+    blurb: Frozen CLIP and sentence encoders aligned with Matryoshka prefixes. Also a 7B LoRA QA fine-tune, r=64, 7,500 steps, train loss 0.7420 to 0.1033. Training loss only, no held-out QA metric yet.
+    skills: [pytorch, clip-sbert, matryoshka, lora, retrieval]
+    cards: [cerberus-r5]
+  - id: artemis
+    name: ARTEMIS, VLM routing benchmark
+    credit: Owner (research project)
+    credit_kind: owner
+    lenses: [research, agentic]
+    order: {research: 3, agentic: 3}
+    blurb: 67,711 questions and 338,555 responses across a five-model pool. 3,909 cross-split image hashes voided earlier numbers, so the benchmark was rebuilt leakage-free. Oracle headroom is 0.654 against 0.491 for the best single model; the learned router did not beat lookup.
+    skills: [evaluation, routing]
+    cards: [artemis-router]
+  - id: athena
+    name: ATHENA, storyboard generation
+    credit: Team project (Georgia Tech)
+    credit_kind: team
+    lenses: [agentic]
+    order: {research: 9, agentic: 2}
+    blurb: 14-node deterministic LangGraph pipeline with Pydantic contracts, FastAPI and a CLI. 802 tests collected, not re-run. Evaluator is text-only.
+    skills: [langgraph, pydantic, multi-agent]
+    cards: []
+  - id: shastra
+    name: SHASTRA, agent trace modeling
+    credit: Team project (CS 8903, advisor Dr. Alexey Tumanov)
+    credit_kind: team
+    lenses: [agentic]
+    order: {research: 9, agentic: 4}
+    blurb: I built the analysis stack that turns agent traces into labelled task-dependency graphs. No reuse findings and no accuracy claim. Orchestrator and search are shared team work.
+    skills: [multi-agent, pydantic]
+    cards: []
+  - id: malware
+    name: Malware memory forensics
+    credit: Coursework-era paper with a co-author (B.Tech)
+    credit_kind: coursework
+    lenses: [research]
+    order: {research: 4, agentic: 9}
+    blurb: Volatility 2 with vendored YARA rules, 976 windows, nine scikit-learn classifiers. Best 88.74% (260/293), exploratory with a leakage caveat. IEEE ICAIA 2026, accepted.
+    skills: [scikit-learn]
+    cards: []
+  - id: nms
+    name: Neural-Malware-Shield
+    credit: Team of 4 (GNN work is mine)
+    credit_kind: team
+    lenses: [research]
+    order: {research: 5, agentic: 9}
+    blurb: MalNet-tiny GraphSAGE, accuracy 0.7813 and macro-F1 0.7770. GAT scored 0.7080.
+    skills: [pytorch]
+    cards: []
+  - id: soccer
+    name: RL Soccer
+    credit: Coursework, team project
+    credit_kind: coursework
+    lenses: [research]
+    order: {research: 6, agentic: 9}
+    blurb: PPO curriculum, 30,011,592 steps, final training reward mean 1.969. Ten-episode evaluations won 8-2 against the baseline and 6-4 against curriculum v1. Training reward, not a win rate.
+    skills: [pytorch]
+    cards: []
+  - id: finance
+    name: Financial analytics
+    credit: Independent
+    credit_kind: owner
+    lenses: [research]
+    order: {research: 7, agentic: 9}
+    blurb: Python and PostgreSQL mutual-fund disclosure platform, 391 tests collected. No LLM agent. The backtest was negative, so no alpha claim.
+    skills: [python, sql]
+    cards: []
+
+# ---------------------------------------------------------------- skills
+skills:
+  - tier: A
+    title: Backed by work above
+    note: Used in a result or project on this page.
+    items:
+      - {id: langgraph, label: LangGraph}
+      - {id: pydantic, label: Pydantic structured generation}
+      - {id: tool-calling, label: Tool and function calling}
+      - {id: agentic-rag, label: Agentic RAG}
+      - {id: multi-agent, label: Multi-agent orchestration}
+      - {id: evaluation, label: Evaluation and benchmarking (IoU, Chamfer, Hausdorff)}
+      - {id: bootstrap, label: Paired bootstrap}
+      - {id: pytorch, label: PyTorch}
+      - {id: clip-sbert, label: CLIP and SBERT}
+      - {id: matryoshka, label: Matryoshka embeddings}
+      - {id: retrieval, label: Cross-modal retrieval (Recall@k)}
+      - {id: lora, label: "LoRA fine-tuning (CERBERUS 7B only)"}
+      - {id: routing, label: Model routing}
+      - {id: scikit-learn, label: scikit-learn}
+      - {id: onnx, label: "ONNX Runtime, quantization (self-reported)"}
+      - {id: python, label: Python}
+      - {id: go, label: Go}
+      - {id: sql, label: SQL and PostgreSQL}
+      - {id: opensearch, label: OpenSearch}
+  - tier: B
+    title: Qualified
+    note: Coursework or code paths only.
+    items:
+      - {id: ppo, label: "PPO, DQN, Ray RLlib (academic)"}
+      - {id: ddp, label: "DDP and mixed precision (code paths only, no hardware counts)"}
+  - tier: C
+    title: Coursework only
+    note: Studied, not used in my own results.
+    items:
+      - {id: megatron, label: Megatron-LM (coursework)}
+      - {id: fsdp, label: FSDP (coursework)}
+      - {id: pretraining, label: Pre-training (coursework)}
+
+# ---------------------------------------------------------------- education and pubs
+education:
+  - {school: Georgia Institute of Technology, detail: "M.S. Computer Science, Machine Learning. GPA 3.8/4.0.", dates: Aug 2024 to Dec 2026}
+  - {school: Maharaja Surajmal Institute of Technology, detail: "B.Tech. Information Technology. CGPA 8.8/10.0.", dates: Aug 2016 to Aug 2020}
+publications:
+  - {title: "Integrating Machine Learning and Memory Forensics for Enhancing Cybersecurity in IoT-Enabled Energy Systems", venue: IEEE ICAIA 2026, status: "Accepted, presenting Nov 16, 2026"}
+  - {title: "Patent PCT/IN2022/058026, distributional-thresholding anomaly detection", venue: Fortinet, status: "Filed, pending"}
+
+# Strings that must exist verbatim in the fact bank or profile.md for non-card facts.
+facts_check: ["F-1 (OPT eligible Dec 2026)", "3.8/4.0", "accepted, presenting Nov 16, 2026", "PCT/IN2022/058026", "8.8/10.0", "<50 → 2,000+ events/s"]

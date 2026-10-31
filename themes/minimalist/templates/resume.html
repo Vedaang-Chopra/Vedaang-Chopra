@@ -1,0 +1,216 @@
+{% extends "base.html" %}
+
+{% block title %}Resume - {{ SITENAME }}{% endblock %}
+
+{% block head_extra %}
+<link rel="stylesheet" href="{{ SITEURL }}/theme/css/resume.css" />
+<script>document.documentElement.className += ' js';</script>
+<script src="{{ SITEURL }}/theme/js/resume.js" defer></script>
+{% endblock %}
+
+{% block vendor_scripts %}{% endblock %}
+
+{% macro tier_badge(tier) %}<span class="tier tier-{{ tier|lower|replace('_','-')|replace(' ','-') }}">{{ tier }}</span>{% endmacro %}
+
+{% block content %}
+{% set R = RESUME %}
+{% set M = R.meta %}
+{% set lens_ids = ['research', 'agentic'] %}
+<div class="rs" id="rs-root" data-pdfs='{{ R.lenses|map(attribute="id")|join(",") }}'>
+
+<section class="rs-hero" aria-labelledby="rs-name">
+    <h1 id="rs-name">{{ M.name }}</h1>
+    <p class="rs-pos">{{ M.positioning }}</p>
+    <p class="rs-meta">{{ M.location }} · {{ M.visa }} · {{ M.degree }} · GPA {{ M.gpa }}</p>
+    <p class="rs-intro">{{ M.intro }}</p>
+
+    <ol class="rs-hero-gauges" aria-label="Three headline results">
+    {% for cid in R.hero %}
+        {% for c in R.cards if c.id == cid %}
+        {% set g = c.chart.groups[0] %}
+        {% set pair = c.chart.hero_pair %}
+        {% set ns = namespace(base=none, res=none, refs=[]) %}
+        {% for b in g.bars %}
+            {% if b.label == pair[0] %}{% set ns.base = b %}{% endif %}
+            {% if b.label == pair[1] %}{% set ns.res = b %}{% endif %}
+        {% endfor %}
+        <li class="rs-hg {{ 'is-neg' if c.kind == 'negative' else '' }}">
+            <a class="rs-hg-name" href="#card-{{ c.id }}" data-open="{{ c.id }}">{{ c.title }}</a>
+            <span class="rs-hg-track" role="img" aria-label="{{ ns.base.label|e }} {{ ns.base.shown|e }}, {{ ns.res.label|e }} {{ ns.res.shown|e }}">
+                <span class="rs-hg-base" style="width:{{ (ns.base.value / c.chart.max * 100)|round(1) }}%"></span>
+                <span class="rs-hg-res k-{{ ns.res.kind }}" style="left:{{ (ns.base.value / c.chart.max * 100)|round(1) if ns.res.value > ns.base.value else (ns.res.value / c.chart.max * 100)|round(1) }}%;width:{{ ((ns.res.value - ns.base.value)|abs / c.chart.max * 100)|round(1) }}%"></span>
+                <span class="rs-hg-tick" style="left:{{ (ns.base.value / c.chart.max * 100)|round(1) }}%"><span>{{ ns.base.label }} {{ ns.base.shown }}</span></span>
+            </span>
+            <span class="rs-hg-val"><b>{{ c.headline }}</b> <span>{{ c.headline_note }}</span></span>
+            <span class="rs-hg-cav">{{ tier_badge(c.tier) }} {{ c.caveat }}</span>
+        </li>
+        {% endfor %}
+    {% endfor %}
+    </ol>
+
+    <div class="rs-actions">
+        <a class="rs-btn" id="rs-pdf" href="{{ SITEURL }}/resume/{{ R.pdfs[2].file }}" data-base="{{ SITEURL }}/resume/">Download PDF <span id="rs-pdf-label">Master Extended, 2 pages</span></a>
+        <a class="rs-btn alt" href="mailto:{{ M.email }}">Email {{ M.email }}</a>
+    </div>
+</section>
+
+<div class="rs-lens" id="rs-lens" role="radiogroup" aria-label="Role lens">
+    <span class="rs-lens-title" id="rs-lens-title">Role lens</span>
+    {% for l in R.lenses %}
+    <button type="button" role="radio" aria-checked="{{ 'true' if l.id == 'full' else 'false' }}" data-lens="{{ l.id }}" data-pdf="{{ l.pdf_file }}">{{ l.label }}</button>
+    {% endfor %}
+    <span class="rs-lens-note" id="rs-lens-note" aria-live="polite"></span>
+</div>
+
+<section class="rs-sec" id="ledger" aria-labelledby="h-ledger">
+    <h2 id="h-ledger">Results ledger</h2>
+    <p class="rs-sub">Each card is one result with its baseline, sample size and caveat. Open <em>Evidence</em> for the tier and the numbers as a table. Negative results stay on the page.</p>
+    <div class="rs-key" aria-hidden="true">
+        <span><i class="k-base"></i>baseline</span><span><i class="k-win"></i>beat the baseline</span><span><i class="k-loss"></i>did not</span><span><i class="k-ref"></i>reference</span>
+    </div>
+    <label class="rs-collapse"><input type="checkbox" id="rs-collapse-neg"> Collapse negative results</label>
+
+    <div class="rs-ledger">
+    {% for c in R.cards %}
+    <article class="rs-card {{ 'is-neg' if c.kind == 'negative' else '' }}" id="card-{{ c.id }}" data-card="{{ c.id }}" data-kind="{{ c.kind }}"
+         data-lenses="{{ c.lenses|join(' ') }}" data-skills="{{ c.skills|join(' ') }}"
+         style="--o-full:{{ loop.index }};--o-research:{{ c.order.research }};--o-agentic:{{ c.order.agentic }}"
+         data-baseline="{{ c.baseline|e }}" data-n="{{ c.n|e }}" data-caveat="{{ c.caveat|e }}" data-unit="{{ c.chart.unit|e }}">
+        <header>
+            <h3>{{ c.title }}</h3>
+            <span class="rs-chips">{% if c.kind == 'negative' %}<span class="chip neg">Negative result</span>{% endif %}{{ tier_badge(c.tier) }}</span>
+        </header>
+        <p class="rs-head"><b>{{ c.headline }}</b> <span>{{ c.headline_note }}</span></p>
+
+        <div class="rs-chart">
+        {% for g in c.chart.groups %}
+            <p class="rs-group">{{ g.label }}</p>
+            <ul class="rs-bars">
+            {% for b in g.bars %}
+                <li class="rs-bar k-{{ b.kind }}" tabindex="0" data-label="{{ b.label|e }}" data-value="{{ b.value }}" data-shown="{{ b.shown|e }}" data-group="{{ g.label|e }}">
+                    <span class="bl">{{ b.label }}</span>
+                    <span class="track"><span class="fill" style="width:{{ (b.value / c.chart.max * 100)|round(1) }}%"></span></span>
+                    <span class="bv">{{ b.shown }}</span>
+                </li>
+            {% endfor %}
+            </ul>
+        {% endfor %}
+            <p class="rs-readout" aria-live="polite" data-default="Hover, focus or tap a bar for its detail."></p>
+        </div>
+
+        <dl class="rs-facts">
+            <div><dt>Baseline</dt><dd>{{ c.baseline }}</dd></div>
+            <div><dt>n</dt><dd>{{ c.n }}</dd></div>
+            <div class="wide"><dt>Setting</dt><dd>{{ c.setting }}</dd></div>
+            <div class="wide caveat"><dt>Caveat</dt><dd>{{ c.caveat }}</dd></div>
+        </dl>
+
+        <details class="rs-drawer" id="drawer-{{ c.id }}">
+            <summary>Evidence</summary>
+            <div class="rs-drawer-body">
+                <p><b>Tier:</b> {{ c.tier }}.
+                {% if c.tier == 'OWNER' %}Self-reported by me. No repo artifact backs it.{% else %}Re-read from the artifact{% if c.source_file %} <code>{{ c.source_file }}</code>{% endif %}.{% endif %}</p>
+                {% if c.extra %}<ul>{% for e in c.extra %}<li>{{ e }}</li>{% endfor %}</ul>{% endif %}
+                {% if c.fact_caveats %}<p><b>Must-keep caveats</b></p><ul>{% for e in c.fact_caveats %}<li>{{ e }}</li>{% endfor %}</ul>{% endif %}
+                <table>
+                    <caption>{{ c.title }}, {{ c.chart.unit }}</caption>
+                    <thead><tr><th scope="col">Group</th><th scope="col">Bar</th><th scope="col">Value</th></tr></thead>
+                    <tbody>
+                    {% for g in c.chart.groups %}{% for b in g.bars %}
+                        <tr><td>{{ g.label }}</td><td>{{ b.label }}</td><td>{{ b.value }}</td></tr>
+                    {% endfor %}{% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </details>
+    </article>
+    {% endfor %}
+    </div>
+</section>
+
+<section class="rs-sec" id="experience" aria-labelledby="h-exp">
+    <h2 id="h-exp">Experience</h2>
+    {% for e in R.experience %}
+    <article class="rs-job" data-lenses="{{ e.lenses|join(' ') }}">
+        <header><h3>{{ e.org }}</h3><p>{{ e.role }} · {{ e.dates }}</p></header>
+        {% if e.note %}<p class="rs-note">{{ e.note }}</p>{% endif %}
+        <ul class="rs-bul">
+        {% for b in e.bullets %}
+            <li data-lenses="{{ b.lenses|join(' ') }}" data-skills="{{ b.skills|join(' ') }}" style="--o-full:{{ loop.index }}">
+                {{ b.text }}{% if b.card %} <a class="rs-more" href="#card-{{ b.card }}" data-open="{{ b.card }}">See result</a>{% endif %}
+            </li>
+        {% endfor %}
+        </ul>
+    </article>
+    {% endfor %}
+</section>
+
+<section class="rs-sec noprint" id="projects" aria-labelledby="h-proj">
+    <h2 id="h-proj">Research projects</h2>
+    <p class="rs-sub">Credit is stated on each one. The diagram is the CAD repair loop; each step jumps to the card that measures it.</p>
+
+    <figure class="rs-loop">
+        <svg viewBox="0 0 760 170" role="group" aria-labelledby="loop-t loop-d">
+            <title id="loop-t">CAD repair loop</title>
+            <desc id="loop-d">The model writes CadQuery, the code is executed, the output is compared with the target part, then it repairs for up to three turns.</desc>
+            <defs><marker id="arr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" class="arrow-fill"/></marker></defs>
+            <a href="#card-cad-iou" data-open="cad-iou"><g class="node"><rect x="10" y="40" width="150" height="56" rx="6"/><text x="85" y="64" text-anchor="middle">LLM writes</text><text x="85" y="82" text-anchor="middle">CadQuery</text></g></a>
+            <a href="#card-cad-iou" data-open="cad-iou"><g class="node"><rect x="215" y="40" width="150" height="56" rx="6"/><text x="290" y="64" text-anchor="middle">Execute</text><text x="290" y="82" text-anchor="middle">build the part</text></g></a>
+            <a href="#card-cad-iou" data-open="cad-iou"><g class="node key"><rect x="420" y="40" width="150" height="56" rx="6"/><text x="495" y="64" text-anchor="middle">Compare to target</text><text x="495" y="82" text-anchor="middle">voxel IoU</text></g></a>
+            <a href="#card-cad-scope" data-open="cad-scope"><g class="node"><rect x="595" y="40" width="150" height="56" rx="6"/><text x="670" y="64" text-anchor="middle">Repair</text><text x="670" y="82" text-anchor="middle">up to 3 turns</text></g></a>
+            <path d="M160 68H213" class="edge" marker-end="url(#arr)"/><path d="M365 68H418" class="edge" marker-end="url(#arr)"/><path d="M570 68H593" class="edge" marker-end="url(#arr)"/>
+            <path d="M670 98V140H85V98" class="edge dash" marker-end="url(#arr)"/>
+            <text x="378" y="132" text-anchor="middle" class="cap">repaired code goes back to the model</text>
+            <a href="#card-cad-abc" data-open="cad-abc"><text x="378" y="22" text-anchor="middle" class="link">Feedback ablation: tie, see card</text></a>
+        </svg>
+    </figure>
+
+    <div class="rs-projects">
+    {% for p in R.projects %}
+    <article class="rs-proj" id="proj-{{ p.id }}" data-lenses="{{ p.lenses|join(' ') }}" data-skills="{{ p.skills|join(' ') }}"
+         style="--o-full:{{ loop.index }};--o-research:{{ p.order.research }};--o-agentic:{{ p.order.agentic }}">
+        <header><h3>{{ p.name }}</h3><span class="credit credit-{{ p.credit_kind }}">{{ p.credit }}</span></header>
+        <p>{{ p.blurb }}</p>
+        {% if p.cards %}<p class="rs-links">{% for cid in p.cards %}<a href="#card-{{ cid }}" data-open="{{ cid }}">{{ cid|replace('-', ' ') }}</a>{% endfor %}</p>{% endif %}
+    </article>
+    {% endfor %}
+    </div>
+</section>
+
+<section class="rs-sec noprint" id="skills" aria-labelledby="h-skills">
+    <h2 id="h-skills">Skills</h2>
+    <p class="rs-sub">Tier A is backed by the work above. Pick a skill to highlight every result, bullet and project that used it.</p>
+    <p class="rs-skill-status" id="rs-skill-status" aria-live="polite"></p>
+    {% for t in R.skills %}
+    <div class="rs-tier">
+        <h3>Tier {{ t.tier }}: {{ t.title }} <small>{{ t.note }}</small></h3>
+        <ul class="rs-skills">
+        {% for s in t['items'] %}
+            <li><button type="button" class="rs-skill" data-skill="{{ s.id }}" aria-pressed="false">{{ s.label }}</button></li>
+        {% endfor %}
+        </ul>
+    </div>
+    {% endfor %}
+</section>
+
+<section class="rs-sec" id="education" aria-labelledby="h-edu">
+    <h2 id="h-edu">Education, publications, patent</h2>
+    <ul class="rs-plain">
+    {% for e in R.education %}<li><b>{{ e.school }}</b>. {{ e.detail }} {{ e.dates }}.</li>{% endfor %}
+    {% for p in R.publications %}<li><b>{{ p.title }}</b>. {{ p.venue }}. {{ p.status }}.</li>{% endfor %}
+    </ul>
+</section>
+
+<section class="rs-sec rs-close noprint" id="contact" aria-labelledby="h-contact">
+    <h2 id="h-contact">Get the resume or write to me</h2>
+    <ul class="rs-pdfs">
+    {% for p in R.pdfs %}
+        <li><a class="rs-btn {{ 'alt' if p.id != 'research' else '' }}" href="{{ SITEURL }}/resume/{{ p.file }}">{{ p.label }}, {{ p.pages }} page{{ 's' if p.pages > 1 else '' }}</a></li>
+    {% endfor %}
+    </ul>
+    <p class="rs-contact"><a href="mailto:{{ M.email }}">{{ M.email }}</a> · <a href="{{ M.linkedin }}">LinkedIn</a> · <a href="{{ M.github }}">GitHub</a></p>
+    <p class="rs-note">Built from my fact bank, last updated {{ M.profile_updated }}.</p>
+</section>
+
+</div>
+{% endblock %}
