@@ -1,6 +1,6 @@
 {
   "title": "How CERBERUS connects images to a language model",
-  "tabs": ["What exists today", "Shrink the bridge"],
+  "tabs": ["Pipeline: built and proposed", "Shrink the bridge"],
   "statuses": {
     "built": "Built",
     "partial": "Partial",

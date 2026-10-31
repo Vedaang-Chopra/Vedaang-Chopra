@@ -81,7 +81,7 @@
          style="--o-full:{{ loop.index }};--o-research:{{ p.order.research }};--o-agentic:{{ p.order.agentic }}">
         <summary>
             <span class="rs-proj-head">
-                <span class="rs-proj-name">{{ p.name }}</span>
+                <h3 class="rs-proj-name">{{ p.name }}</h3>
                 <span class="credit credit-{{ p.credit_kind }}">{{ p.credit }}</span>
             </span>
             <span class="rs-proj-line">{{ p.summary }}</span>
@@ -95,7 +95,7 @@
             {% for cid in p.cards %}{% if cards_by_id[cid].kind == 'negative' %}{% set _ = negs.append(cards_by_id[cid]) %}{% endif %}{% endfor %}
             {% if negs %}
             <span class="rs-negs"><span class="neg-label">Tried, did not work:</span>
-                {% for n in negs %}<span class="neg-item">{{ n.title }}</span>{% endfor %}
+                {% for n in negs %}<span class="neg-item">{{ n.title }}{{ "; " if not loop.last }}</span>{% endfor %}
             </span>
             {% endif %}
             <span class="rs-open" aria-hidden="true">Open the idea and the picture</span>
@@ -103,21 +103,22 @@
 
         <div class="rs-proj-body">
             <div class="rs-idea">
-                <div><h3>The problem</h3><p>{{ p.problem }}</p></div>
-                <div><h3>The idea</h3><p>{{ p.idea }}</p></div>
+                <div><h4>The problem<span class="sr"> of {{ p.name }}</span></h4><p>{{ p.problem }}</p></div>
+                <div><h4>The idea<span class="sr"> of {{ p.name }}</span></h4><p>{{ p.idea }}</p></div>
             </div>
 
             {% if p.visual and RESUME_VISUALS.get(p.visual) %}
             <figure class="rs-visfig">
-                <div class="rs-vis" data-vis="{{ p.visual }}" aria-label="Interactive picture of {{ p.name|e }}">
+                <div class="rs-vis" data-vis="{{ p.visual }}" role="group" aria-label="Interactive picture of {{ p.name|e }}">
                     <script type="application/json" class="rs-vis-data">{{ RESUME_VISUALS[p.visual]|tojson }}</script>
                 </div>
+                <figcaption class="sr">Interactive picture of {{ p.name }}. Parts are marked built, partial, proposed or tried and did not work.</figcaption>
             </figure>
             {% endif %}
 
             {% if p.mechanism %}
             <div class="rs-mech">
-                <h3>How it works, and how far along it is</h3>
+                <h4>How it works, and how far along it is<span class="sr">: {{ p.name }}</span></h4>
                 <ol>
                 {% for m in p.mechanism %}
                     <li class="mech-{{ m.status }}"><span class="mech-st st-{{ m.status }}">{{ SK[m.status] }}</span> <span class="mech-label">{{ m.label }}{% if m.note %} <small>{{ m.note }}</small>{% endif %}</span></li>
@@ -127,7 +128,7 @@
             {% endif %}
 
             {% if p.unique %}
-            <div class="rs-unique"><h3>What is unusual about it</h3><ul>{% for u in p.unique %}<li>{{ u }}</li>{% endfor %}</ul></div>
+            <div class="rs-unique"><h4>What is unusual about it<span class="sr">: {{ p.name }}</span></h4><ul>{% for u in p.unique %}<li>{{ u }}</li>{% endfor %}</ul></div>
             {% endif %}
 
             {% if p.figures %}

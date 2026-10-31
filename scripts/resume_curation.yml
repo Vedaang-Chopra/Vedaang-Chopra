@@ -3,18 +3,20 @@
 meta:
   name: Vedaang Chopra
   positioning: Georgia Tech M.S. in machine learning, after 5 years of production ML at Fortinet. I build agents
-    and models that can check their own work.
+    and models that show their work, and I report the runs that failed.
   status: Atlanta. F-1, OPT eligible Dec 2026. Open to full-time roles from January 2027.
   threads_title: What I am working on now
   threads:
-  - title: Agents that verify themselves
-    text: A closed-loop CAD agent that writes code, runs it, checks the geometry and repairs it, with no fine-tuning.
+  - title: Checking an agent step by step
+    text: Toward a closed-loop CAD agent that writes code, runs it, checks the geometry after every operation and
+      repairs it, with no fine-tuning.
     project: cad
-  - title: Agents that remember
-    text: How agents learn reusable workflows from their own execution traces.
+  - title: Agent traces as task graphs
+    text: Turning what agents did into graphs, to test whether solution steps repeat across tasks.
     project: shastra
-  - title: Smaller, smarter vision-language models
-    text: Resizable image representations and routing each request to the cheapest model that can answer it.
+  - title: Resizable image embeddings and routing
+    text: Image representations that can be shrunk, and routing each request to the cheapest model that can answer
+      it.
     project: cerberus
   - title: Post-training
     text: Learning supervised fine-tuning, reward modelling and preference optimisation by building small implementations.
@@ -673,6 +675,7 @@ projects:
   - label: Code
     url: https://github.com/Vedaang-Chopra/CAD-Physics
   summary: A frozen model writes CAD code, and a deterministic verifier tells it which construction step went wrong.
+    Ongoing, and repair is still guided by the target shape.
   blurb: ''
 - id: cerberus
   name: CERBERUS, a resizable vision-language bridge
@@ -724,8 +727,8 @@ projects:
   links:
   - label: Code
     url: https://github.com/Vedaang-Chopra/CEREBRUS
-  summary: A vision-language model where the question decides how much of the image the language model reads. The
-    base is built, the selector is proposed.
+  summary: A resizable image-to-language bridge is built. A question-aware patch selector, where the question decides
+    how much of the image the model reads, is proposed.
   blurb: ''
 - id: artemis
   name: ARTEMIS, routing to the right model
@@ -773,7 +776,8 @@ projects:
   links:
   - label: Code
     url: https://github.com/Vedaang-Chopra/ARTEMIS
-  summary: Send each request to the cheapest vision-language model that can answer it, using a leakage-free benchmark.
+  summary: A leakage-free benchmark and a router that sends requests to cheaper vision-language models. The learned
+    router has not yet beaten a simple lookup.
   blurb: ''
 - id: athena
   name: ATHENA, from idea to storyboard
@@ -904,7 +908,7 @@ projects:
   cards: []
   lead: null
   links: []
-  summary: Glasses that read signs aloud, sign first, with OCR dropped from the live path.
+  summary: A prototype that reads signs aloud, sign first, with OCR dropped from the live path.
   blurb: ''
 - id: finance
   name: Mutual-fund consensus platform
@@ -976,7 +980,7 @@ projects:
     status: built
     note: Exploratory, with a leakage caveat. Does not match the paper table.
   unique:
-  - Everything from malware execution to the classifier was built by hand, including the data-generation setup.
+  - Everything from malware execution to the classifier was built, including the data-generation setup.
   - Raw memory dumps and the dataset are released publicly.
   skills:
   - scikit-learn
@@ -1055,9 +1059,7 @@ skills:
   - id: multi-agent
     label: Multi-agent orchestration
   - id: evaluation
-    label: Evaluation and benchmarking (IoU
-    Chamfer: null
-    Hausdorff): null
+    label: Evaluation and benchmarking (IoU, Chamfer, Hausdorff)
   - id: bootstrap
     label: Paired bootstrap
   - id: pytorch
