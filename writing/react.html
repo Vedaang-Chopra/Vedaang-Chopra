@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>"ReAct: Synergizing Reasoning and Acting in Language Models" - Vedaang Chopra</title>
+    <link rel="stylesheet" href="https://vedaangchopra.live/theme/css/style.css" />
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <nav>
+                <a href="https://vedaangchopra.live/" class="profile-brand">
+                    <img src="https://vedaangchopra.live/images/profile.png" alt="Profile" class="profile-circle">
+                </a>
+                <a href="https://vedaangchopra.live/" class="brand">Home</a>
+                <a href="https://vedaangchopra.live/projects.html">Projects</a>
+                <a href="/resume.html">Resume</a>
+                <a href="/writing.html">Writing</a>
+                <a href="/uses.html">Uses</a>
+                <button id="theme-toggle" aria-label="Toggle Theme">
+                    <span class="icon">☀</span>
+                </button>
+            </nav>
+        </header>
+
+        <main>
+<article>
+    <header>
+        <h1>"ReAct: Synergizing Reasoning and Acting in Language Models"</h1>
+        <div class="meta">
+            <span class="date">Mar 24, 2024</span>
+            <span class="category-tag">AI Systems</span>
+        </div>
+    </header>
+    
+    <div class="content">
+        <blockquote>
+<p><strong>The Core Thesis</strong>: ReAct proposes a unified prompting framework that integrates internal reasoning (Chain-of-Thought) with external acting (interacting with environments). By teaching Large Language Models to "think before they act, and act to think better", ReAct creates a self-correcting loop that mitigates hallucinations, enhances explainability, and drastically improves agentic performance on complex tasks.</p>
+</blockquote>
+<h2>The Problem: The Isolation of Thought and Action</h2>
+<p>Historically, Large Language Models (LLMs) have excelled as static thinkers but stumbled as active doers. They suffered from two distinct isolation paradigms:</p>
+<ol>
+<li><strong>Pure Reasoning (e.g., Chain-of-Thought)</strong>: The model articulates a step-by-step reasoning trace ("Let's think step-by-step"). However, this reasoning occurs entirely within the model's internal latent space. If the model hallucinates a fact early in the chain, there is no grounding mechanism to correct it, leading to compounding errors.</li>
+<li><strong>Pure Action (e.g., WebGPT, SayCan)</strong>: The model learns to issue commands (like API calls or web searches) and receives environmental feedback. However, these systems lack an exposed "inner monologue" or reasoning trace. Consequently, the model struggles to <em>plan</em> long-term strategies, often repeating futile actions (e.g., trying to "open a drawer" that is already open) because it fails to synthesize past observations into a coherent plan.</li>
+</ol>
+<h2>The Solution: A Synergistic Feedback Loop</h2>
+<p>ReAct ("Reason + Act") bridges this gap by augmenting the agent's action space. It interleaves reasoning and acting in a continuous, observable loop.</p>
+<h3>The Augmented Action Space</h3>
+<p>Traditionally, an RL-style agent observes a state ($o_t$) and takes an action ($a_t$). ReAct alters this by augmenting the action space to include <em>language actions</em> (internal thoughts). </p>
+<p>The agent's loop is now: <strong>Think $\rightarrow$ Act $\rightarrow$ Observe $\rightarrow$ Think Again.</strong></p>
+<ul>
+<li><strong>Think (Reason)</strong>: The model generates internal thoughts, plans, or sub-goals. This updates the agent's internal context without altering the external world.</li>
+<li><strong>Act</strong>: The model issues a command (e.g., <code>search[entity]</code>, <code>lookup[string]</code>) that interacts with the external environment.</li>
+<li><strong>Observe</strong>: The environment returns new, grounded data, injecting fresh evidence into the prompt.</li>
+</ul>
+<p>By doing this, reasoning informs the next logical action, and the outcome of that action provides grounded facts to update the reasoning.</p>
+<h3>Implementation and Fallbacks</h3>
+<p>In practice, ReAct utilizes a few-shot prompting style with a frozen LLM (PaLM-540B). The authors demonstrate two modes based on task complexity:
+*   <strong>Reasoning-Heavy Tasks</strong>: Regular alternating loops of <em>thought $\rightarrow$ action $\rightarrow$ observation</em> (e.g., answering multi-hop questions using Wikipedia).
+*   <strong>Decision-Heavy Tasks</strong>: <em>Sparse thoughts</em> deployed selectively. The agent takes rapid actions but inserts a reasoning step primarily when it needs to formulate a high-level plan or correct a mistake (e.g., navigating an immersive environment like ALFWorld).</p>
+<p>To ensure robustness, ReAct implements fallback mechanisms. If the ReAct loop exceeds a step budget, it defaults to a pure reasoning approach (Chain-of-Thought with Self-Consistency). If that pure reasoning fails to reach a consensus, it falls back to ReAct's grounded retrieval logic.</p>
+<h2>Results and Impact</h2>
+<p>ReAct was evaluated extensively on knowledge-intensive reasoning tasks (HotpotQA, FEVER) and interactive decision-making tasks (ALFWorld, WebShop).</p>
+<ul>
+<li><strong>Grounded Accuracy</strong>: On FEVER (fact verification), ReAct significantly outperformed Chain-of-Thought because grounded retrieval prevented the LLM from hallucinating critical facts. Small wording differences that flip a claim from "SUPPORTS" to "REFUTES" were accurately parsed via Wikipedia searches.</li>
+<li><strong>Efficiency in Exploration</strong>: In ALFWorld and WebShop, the use of <em>sparse thoughts</em> proved highly effective. The model could plan a sequence of actions, execute them rapidly, check the observations, and adapt its plan dynamically, resulting in high success rates without the overhead of over-analyzing every trivial step.</li>
+<li><strong>Explainable Failure Modes</strong>: Unlike pure-action agents, ReAct's explicit reasoning traces allow developers (and users) to pinpoint exactly where the model's logic deviated, vastly improving debuggability.</li>
+</ul>
+<h2>My Take on the Paper</h2>
+<p>ReAct is a foundational paper in the development of modern LLM agents, establishing the baseline paradigm for how models interact with tools.</p>
+<p><strong>Strengths:</strong>
+*   <strong>Elegant Simplicity</strong>: It relies entirely on structured prompting rather than complex architectural changes, making it highly accessible and easy to implement across different LLMs.
+*   <strong>Explainability as a Feature</strong>: The exposed reasoning traces build trust. Understanding <em>why</em> a model searched for a specific term is as important as the search itself.
+*   <strong>Human-in-the-Loop Steering</strong>: Because thoughts are just text in the prompt, a human can literally edit a bad thought mid-trajectory, instantly correcting the agent's behavior without retraining. </p>
+<p><strong>Weaknesses:</strong>
+*   <strong>Sequential Bottleneck</strong>: The process is strictly linear. ReAct struggles with complex tasks that require exploring multiple parallel hypotheses or branching paths (an issue later addressed by Tree-of-Thoughts).
+*   <strong>Prompting Scaling Laws</strong>: While powerful for discrete tasks, pure in-context prompting may not scale to infinitely complex, open-ended environments. True autonomous mastery likely requires fine-tuning these ReAct trajectories directly into the model weights.
+*   <strong>No Explicit Rollback</strong>: The system assumes its next thought can correct a past mistake. However, a highly confident, wrong initial thought can severely bias the subsequent retrieval steps, creating a self-reinforcing loop of bad logic.</p>
+<h2>Open Questions</h2>
+<ol>
+<li><strong>Post-Training Integration</strong>: Can we utilize ReAct-style datasets (containing explicit thought-action-observation traces) to structurally post-train models, baking the ReAct behavior directly into the weights rather than relying solely on high-context prompts?</li>
+<li><strong>System-Level Overhead</strong>: ReAct inherently increases the number of tokens generated and processed per task. What are the concrete system-level trade-offs regarding computational latency and cost when deploying ReAct in high-throughput production environments compared to simpler retrieval architectures?</li>
+<li><strong>Parallel Architectures</strong>: How can the sequential ReAct framework be gracefully combined with parallel reasoning methods (like Tree-of-Thought) to navigate massive state spaces without causing token-limit exhaustion?</li>
+</ol>
+    </div>
+</article>
+        </main>
+
+        <footer>
+            <div class="footer-content">
+                <div class="footer-icons">
+                    <a href="https://github.com/Vedaang-Chopra" target="_blank" class="footer-icon-btn" aria-label="GitHub">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg>
+                    </a>
+                    <a href="https://linkedin.com/in/vedaang-chopra/" target="_blank" class="footer-icon-btn" aria-label="LinkedIn">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path><rect x="2" y="9" width="4" height="12"></rect><circle cx="4" cy="4" r="2"></circle></svg>
+                    </a>
+                    <a href="mailto:vedaangchopra@gatech.edu" class="footer-icon-btn" aria-label="Email">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
+                    </a>
+                </div>
+                <div class="footer-links">
+                    <p>&copy; 2026 Vedaang Chopra</p>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <script>
+        const toggleBtn = document.getElementById('theme-toggle');
+        const body = document.body;
+        const icon = toggleBtn.querySelector('.icon');
+
+        // Theme Definitions
+        const themes = ['', 'mint-theme', 'dark-theme', 'sepia-theme'];
+        const icons = ['☀', '🌿', '🌙', '☕'];
+
+        // Load saved theme
+        let currentThemeIndex = 0;
+        const savedTheme = localStorage.getItem('theme');
+        
+        if (savedTheme) {
+            const savedIndex = themes.indexOf(savedTheme);
+            if (savedIndex !== -1) {
+                currentThemeIndex = savedIndex;
+                if (themes[currentThemeIndex]) {
+                    body.classList.add(themes[currentThemeIndex]);
+                }
+                icon.textContent = icons[currentThemeIndex];
+            }
+        }
+
+        toggleBtn.addEventListener('click', () => {
+            // Remove current theme class if it exists
+            if (themes[currentThemeIndex]) {
+                body.classList.remove(themes[currentThemeIndex]);
+            }
+
+            // Cycle to next theme
+            currentThemeIndex = (currentThemeIndex + 1) % themes.length;
+
+            // Add new theme class if it exists (not empty string)
+            if (themes[currentThemeIndex]) {
+                body.classList.add(themes[currentThemeIndex]);
+                localStorage.setItem('theme', themes[currentThemeIndex]);
+            } else {
+                localStorage.removeItem('theme');
+            }
+
+            // Update icon
+            icon.textContent = icons[currentThemeIndex];
+        });
+    </script>
+    <script type="module">
+        import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+        mermaid.initialize({ startOnLoad: false });
+
+        document.addEventListener('DOMContentLoaded', () => {
+            // Mermaid diagram keywords to detect
+            const mermaidKeywords = ['flowchart ', 'graph ', 'sequenceDiagram', 'classDiagram', 'stateDiagram', 'erDiagram', 'gantt', 'pie ', 'journey', 'gitGraph'];
+            
+            // Find all code blocks and check content for mermaid syntax
+            const codeBlocks = document.querySelectorAll('code');
+            const mermaidBlocks = Array.from(codeBlocks).filter(block => {
+                const text = block.textContent.trim();
+                return mermaidKeywords.some(keyword => text.startsWith(keyword));
+            });
+            
+            mermaidBlocks.forEach(block => {
+                const div = document.createElement('div');
+                div.className = 'mermaid';
+                div.textContent = block.textContent;
+                
+                // Handle different nesting: code > pre > .highlight
+                let target = block;
+                if (block.parentElement && block.parentElement.tagName === 'PRE') {
+                    target = block.parentElement;
+                    if (target.parentElement && (target.parentElement.classList.contains('highlight') || target.parentElement.classList.contains('codehilite'))) {
+                        target = target.parentElement;
+                    }
+                }
+                target.replaceWith(div);
+            });
+
+            if (mermaidBlocks.length > 0) {
+                mermaid.run({
+                    nodes: document.querySelectorAll('.mermaid')
+                });
+            }
+        });
+    </script>
+</body>
+</html>

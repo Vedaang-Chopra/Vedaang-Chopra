@@ -36,7 +36,7 @@
     
     <div class="content">
         <h1>Skills — Every Claim, Cited</h1>
-<p>Every skill below is backed by a real system I built. Evidence links point to my code, repos, or the specific project where it was used. Nothing on this page is aspirational.</p>
+<p>Skills are grouped by how well I can back them. Strong skills are used in a system I built or shipped; the qualified group is coursework or offline research and says so. Fortinet figures are my own reported numbers.</p>
 <h2>🤖 Agentic AI &amp; LLM Systems</h2>
 <table>
 <thead>
@@ -47,8 +47,8 @@
 </thead>
 <tbody>
 <tr>
-<td><strong>LangGraph</strong> (repair loops, supervisor-worker, planners)</td>
-<td>CAD pipeline repair loop (<a href="resume.html">CORE Lab research</a>) · ATHENA supervisor-worker routing · SHASTRA planner</td>
+<td><strong>LangGraph</strong></td>
+<td>CAD repair loop (<a href="resume.html">CORE Lab research</a>) · ATHENA Production V1 14-node staged pipeline · SHASTRA orchestration</td>
 </tr>
 <tr>
 <td><strong>LangChain</strong></td>
@@ -56,27 +56,23 @@
 </tr>
 <tr>
 <td><strong>Agentic RAG</strong></td>
-<td>Fortinet agentic RAG diagnostics — LLM plans multi-step tool calls over telemetry, verifies hypotheses via structured function calling; hackathon prototype → production, ~70% mean resolution-time reduction</td>
+<td>Fortinet — LLM plans multi-step tool calls over telemetry and verifies hypotheses with structured function calling; hackathon prototype to production, ~70% faster mean resolution (self-reported)</td>
 </tr>
 <tr>
 <td><strong>Tool / function calling</strong></td>
-<td>Fortinet (structured function calling) · CAD execution feedback · ATHENA tools.py</td>
+<td>Fortinet (structured function calling) · CAD execution feedback · ATHENA research tools</td>
 </tr>
 <tr>
 <td><strong>Multi-agent orchestration</strong></td>
-<td>ATHENA — 5 specialized agents + supervisor-worker via LangGraph Command, reflection critique</td>
+<td>ATHENA (team) — deterministic staged workflow with typed handoffs · SHASTRA (team)</td>
 </tr>
 <tr>
 <td><strong>Structured generation (Pydantic)</strong></td>
-<td>ATHENA (OrchestrationRouter / ReflectionRouter) · SHASTRA · CAD</td>
+<td>ATHENA typed artifact contracts · ARTEMIS serving contract · CAD</td>
 </tr>
 <tr>
-<td><strong>LLM-as-a-judge</strong></td>
-<td>CAD VLM-based visual judgment · ATHENA reflection loops</td>
-</tr>
-<tr>
-<td><strong>Planning &amp; reasoning</strong></td>
-<td>SHASTRA trace-to-graph · CAD multi-step repair · ATHENA</td>
+<td><strong>LLM / VLM-as-judge</strong></td>
+<td>CAD visual judgment and ATHENA scene evaluation, used as advisory signals, not correctness oracles</td>
 </tr>
 </tbody>
 </table>
@@ -91,32 +87,28 @@
 </thead>
 <tbody>
 <tr>
-<td><strong>vLLM serving</strong></td>
-<td><a href="https://github.com/Vedaang-Chopra/ARTEMIS">ARTEMIS</a> — 5 VLMs across 10 endpoints (Gemma 3 27B, Qwen3-VL, Qwen2.5-VL, DeepSeek OCR) · <a href="https://github.com/Vedaang-Chopra/CEREBRUS">CERBERUS</a></td>
-</tr>
-<tr>
-<td><strong>VLM routing &amp; evaluation</strong></td>
-<td>ARTEMIS — trained neural multi-task router, SLA-aware load balancing (simulation-validated), 5 routing modes, ~340K profiles / ~68K queries, 90.3% oracle-utility recovery (balanced)</td>
-</tr>
-<tr>
-<td><strong>CLIP / SBERT / FAISS</strong></td>
-<td>CERBERUS — frozen-encoder alignment + retrieval</td>
+<td><strong>CLIP / SBERT encoders</strong></td>
+<td><a href="https://github.com/Vedaang-Chopra/CEREBRUS">CERBERUS</a> — frozen CLIP ViT-L/14 and MPNet alignment</td>
 </tr>
 <tr>
 <td><strong>Cross-modal retrieval</strong></td>
-<td>CERBERUS — R@5 ~78% on PixMo; 4096→128-dim Matryoshka compression</td>
+<td>CERBERUS — R@5 77.7% / 77.5% (image-to-text / text-to-image) at 4096-d on PixMo validation</td>
 </tr>
 <tr>
-<td><strong>Matryoshka Representation Learning</strong></td>
-<td>CERBERUS — <code>src/encoders/mrl.py</code>, prefix-sliced projector</td>
+<td><strong>Matryoshka embeddings</strong></td>
+<td>CERBERUS — nested prefixes down to 128-d (R@5 62.9% / 64.0%)</td>
 </tr>
 <tr>
-<td><strong>LoRA fine-tuning of Qwen2.5 decoders</strong></td>
-<td>CERBERUS — PEFT r=32 α=64, Qwen2.5-7B/3B/1.5B on GT HICE cluster</td>
+<td><strong>LoRA fine-tuning</strong></td>
+<td>CERBERUS only — Qwen-2.5 7B, r=64 on q/k/v/o, image-QA SFT; training loss only, no held-out QA metric yet</td>
+</tr>
+<tr>
+<td><strong>VLM routing &amp; evaluation</strong></td>
+<td><a href="https://github.com/Vedaang-Chopra/ARTEMIS">ARTEMIS</a> — offline research; leakage-corrected 67.7K-question benchmark, oracle 65.4% vs 49.1% best single model, learned router did not beat lookup (negative result)</td>
 </tr>
 </tbody>
 </table>
-<p><strong>Stack:</strong> PyTorch, Hugging Face Transformers, vLLM, CLIP, SBERT, FAISS, PEFT</p>
+<p><strong>Stack:</strong> PyTorch, Hugging Face Transformers, CLIP, SBERT, PEFT</p>
 <h2>⚙️ Production ML &amp; Inference Systems</h2>
 <table>
 <thead>
@@ -128,11 +120,11 @@
 <tbody>
 <tr>
 <td><strong>Inference optimization (ONNX Runtime)</strong></td>
-<td><a href="resume.html">Fortinet</a> — edge deployment on network appliances, ~40% latency reduction</td>
+<td><a href="resume.html">Fortinet</a> — quantized CPU-only edge inference on access points and switches, ~40% latency reduction (self-reported)</td>
 </tr>
 <tr>
-<td><strong>OpenSearch / Elasticsearch at scale</strong></td>
-<td>Fortinet — full ingestion re-architecture (async I/O + Golang), 50 → 2,000 events/sec (40x)</td>
+<td><strong>OpenSearch at scale</strong></td>
+<td>Fortinet — ingestion re-architecture (async I/O + Go), under 50 to 2,000+ events/sec</td>
 </tr>
 <tr>
 <td><strong>SLA forecasting</strong></td>
@@ -140,15 +132,15 @@
 </tr>
 <tr>
 <td><strong>Anomaly detection</strong></td>
-<td>Fortinet — DBSCAN on SD-WAN telemetry (reportedly prevented &gt;50% of potential outages) · unsupervised wireless thresholding (patent)</td>
+<td>Fortinet — DBSCAN on SD-WAN telemetry · patented unsupervised wireless thresholding</td>
 </tr>
 <tr>
 <td><strong>Backend ML integration (Python/Go)</strong></td>
-<td>Fortinet — distributed telemetry systems, CPU-only pickle model serving</td>
+<td>Fortinet — data-science models into Go and Python services, CPU-only</td>
 </tr>
 <tr>
-<td><strong>ML serving APIs</strong></td>
-<td><a href="https://github.com/Vedaang-Chopra/ARTEMIS">ARTEMIS</a> — FastAPI inference stack over Postgres-backed profiles</td>
+<td><strong>Serving APIs</strong></td>
+<td>ATHENA — FastAPI with SSE streaming</td>
 </tr>
 </tbody>
 </table>
@@ -164,31 +156,27 @@
 <tbody>
 <tr>
 <td><strong>Automated evaluation harnesses</strong></td>
-<td>CAD — pytest harness, compile + geometric gates on every run</td>
+<td>CAD — ~40-metric STL evaluation stack, pytest harness, paired bootstrap confidence intervals</td>
 </tr>
 <tr>
 <td><strong>Geometric verification</strong></td>
-<td>CAD — Chamfer/Hausdorff on STL meshes, precision/recall/F1, normal consistency</td>
+<td>CAD — voxel IoU, Chamfer and Hausdorff distances on STL meshes</td>
 </tr>
 <tr>
-<td><strong>Ablation study design</strong></td>
-<td>CERBERUS — Perceiver Resampler ablation (honest negative result) · CAD repair-loop components</td>
-</tr>
-<tr>
-<td><strong>Cross-modal evaluation</strong></td>
-<td>ATHENA — BLEU/ROUGE-L/METEOR/BERTScore + CLIPScore/SSIM/PSNR on 100 reference videos</td>
-</tr>
-<tr>
-<td><strong>Experiment tracking</strong></td>
-<td>CAD + ARTEMIS + CERBERUS — Weights &amp; Biases, TensorBoard</td>
+<td><strong>Ablations and negative results</strong></td>
+<td>CERBERUS Perceiver ablation · CAD feedback matrix and failed pre-registered gate · ARTEMIS router vs lookup</td>
 </tr>
 <tr>
 <td><strong>Benchmark construction</strong></td>
-<td>ARTEMIS — 5 evaluation suites (VQA, OCR, captioning, reasoning) · CAD on CADPrompt benchmark</td>
+<td>ARTEMIS — leakage audit that voided 3,909 cross-split image hashes</td>
+</tr>
+<tr>
+<td><strong>Experiment tracking</strong></td>
+<td>Weights &amp; Biases, TensorBoard</td>
 </tr>
 </tbody>
 </table>
-<p><strong>Stack:</strong> pytest, Weights &amp; Biases, TensorBoard</p>
+<p><strong>Stack:</strong> pytest, Weights &amp; Biases</p>
 <h2>🛡️ Security &amp; Memory Forensics</h2>
 <table>
 <thead>
@@ -199,32 +187,28 @@
 </thead>
 <tbody>
 <tr>
-<td><strong>Memory forensics (Volatility3)</strong></td>
-<td><a href="https://github.com/Vedaang-Chopra/Malware_Analysis">Malware_Analysis</a> — automated orchestration of malfind, pslist, vadinfo, yarascan</td>
-</tr>
-<tr>
-<td><strong>YARA rule development</strong></td>
-<td>Malware_Analysis — 100+ rules for ransomware family classification</td>
+<td><strong>Memory forensics (Volatility 2)</strong></td>
+<td><a href="https://github.com/Vedaang-Chopra/Malware_Analysis">Malware_Analysis</a> — plugin orchestration for feature extraction</td>
 </tr>
 <tr>
 <td><strong>ML for security</strong></td>
-<td>Malware_Analysis — scikit-learn pipeline for malicious-process identification; <strong>published at IEEE ICAIA 2026</strong></td>
+<td>Malware_Analysis — nine scikit-learn classifiers over 976 memory windows (best 88.74%, exploratory); paper accepted at IEEE ICAIA 2026 · Neural-Malware-Shield GraphSAGE on MalNet-tiny</td>
 </tr>
 <tr>
-<td><strong>Adversarial robustness</strong></td>
-<td><a href="https://github.com/Vedaang-Chopra/AI-Security">AI-Security</a> — PGD attacks, embedding poisoning, blind backdoors, model extraction, membership inference, watermarking (coursework)</td>
+<td><strong>Adversarial ML (coursework)</strong></td>
+<td><a href="https://github.com/Vedaang-Chopra/AI-Security">AI-Security</a> — PGD, embedding poisoning, membership inference</td>
 </tr>
 <tr>
-<td><strong>Dataset curation at scale</strong></td>
-<td>Hugging Face Hub — 33 GB analysis dataset + ~470 GB raw dumps + 3,384 code files</td>
+<td><strong>Dataset curation</strong></td>
+<td>Hugging Face Hub — 33 GB analysis outputs plus ~470 GB raw memory dumps</td>
 </tr>
 <tr>
 <td><strong>Security auditing</strong></td>
-<td><a href="https://github.com/Vedaang-Chopra/Audit_Script_Development">Audit_Script_Development</a> — automated Linux posture-audit tooling</td>
+<td><a href="https://github.com/Vedaang-Chopra/Audit_Script_Development">Audit_Script_Development</a></td>
 </tr>
 </tbody>
 </table>
-<p><strong>Stack:</strong> Volatility3, YARA, scikit-learn, Python</p>
+<p><strong>Stack:</strong> Volatility, YARA (vendored rules), scikit-learn, Python</p>
 <h2>🐍 Core Engineering</h2>
 <table>
 <thead>
@@ -235,32 +219,28 @@
 </thead>
 <tbody>
 <tr>
-<td><strong>Python</strong> (expert)</td>
-<td>Every system above · 4.5 years production at Fortinet</td>
+<td><strong>Python</strong></td>
+<td>Every system above · 4.5 years in production at Fortinet</td>
 </tr>
 <tr>
 <td><strong>Go</strong></td>
 <td>Fortinet — OpenSearch scaling, backend services</td>
 </tr>
 <tr>
-<td><strong>PyTorch (DDP, mixed precision)</strong></td>
-<td>CERBERUS — distributed training on H100/A100 · ARTEMIS router training</td>
+<td><strong>PyTorch</strong></td>
+<td>CERBERUS training · ARTEMIS router · RL Soccer · Neural-Malware-Shield</td>
 </tr>
 <tr>
-<td><strong>Scikit-learn</strong></td>
-<td>Fortinet 60+ classifiers · Malware_Analysis pipeline</td>
+<td><strong>scikit-learn</strong></td>
+<td>Fortinet classifiers · Malware_Analysis</td>
 </tr>
 <tr>
-<td><strong>Distributed training</strong></td>
-<td>CERBERUS — PyTorch DDP + mixed precision, GT HICE cluster (H100/A100)</td>
-</tr>
-<tr>
-<td><strong>HPC / Slurm</strong></td>
-<td>CAD multi-GPU runs · ARTEMIS/CERBERUS cluster jobs</td>
+<td><strong>SQL / PostgreSQL</strong></td>
+<td>ARTEMIS profile store · independent financial-analytics project</td>
 </tr>
 </tbody>
 </table>
-<p><strong>Stack:</strong> Python, Go, PyTorch, SQL/PostgreSQL, Linux, Git, Slurm, Bash, C/C++ (coursework)</p>
+<p><strong>Stack:</strong> Python, Go, PyTorch, SQL/PostgreSQL, Linux, Git, Bash</p>
 <h2>🎓 Academic (explicitly qualified)</h2>
 <table>
 <thead>
@@ -271,19 +251,23 @@
 </thead>
 <tbody>
 <tr>
-<td><strong>PPO / DQN, reward shaping, curriculum learning, self-play (Ray/RLlib)</strong></td>
-<td><a href="https://github.com/Vedaang-Chopra/RL_Soccer_project">RL_Soccer_project</a> — 2v2 soccer agents <em>(academic project, team)</em></td>
+<td><strong>PPO / DQN, curriculum learning (Ray/RLlib)</strong></td>
+<td><a href="https://github.com/Vedaang-Chopra/RL_Soccer_project">RL_Soccer_project</a> — academic team project, small-N evaluation</td>
 </tr>
 <tr>
-<td><strong>Post-training literature (RLHF/DPO-family, process-vs-outcome reward models)</strong></td>
-<td>Coursework/self-study notes tied to CAD verifiable-reward design — <em>literature familiarity only, no hands-on production post-training</em></td>
+<td><strong>Distributed training (DDP, mixed precision)</strong></td>
+<td>Coursework code paths only; no multi-node LLM training</td>
+</tr>
+<tr>
+<td><strong>Post-training literature (RLHF, DPO family, reward models)</strong></td>
+<td>Coursework and self-study reading; no hands-on post-training of my own</td>
 </tr>
 </tbody>
 </table>
 <hr>
 <h2>💻 Daily Drivers</h2>
 <ul>
-<li><strong>Compute:</strong> Georgia Tech HPC (Slurm), H100/A100 clusters</li>
+<li><strong>Compute:</strong> Georgia Tech HICE GPU cluster</li>
 <li><strong>Editor / Terminal:</strong> VS Code · Zsh + tmux</li>
 <li><strong>Infra:</strong> Docker, Linux (daily driver), Git, Azure</li>
 </ul>

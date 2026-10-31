@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>"AlphaEvolve: A Coding Agent for Scientific and Algorithmic Discovery" - Vedaang Chopra</title>
+    <link rel="stylesheet" href="https://vedaangchopra.live/theme/css/style.css" />
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <nav>
+                <a href="https://vedaangchopra.live/" class="profile-brand">
+                    <img src="https://vedaangchopra.live/images/profile.png" alt="Profile" class="profile-circle">
+                </a>
+                <a href="https://vedaangchopra.live/" class="brand">Home</a>
+                <a href="https://vedaangchopra.live/projects.html">Projects</a>
+                <a href="/resume.html">Resume</a>
+                <a href="/writing.html">Writing</a>
+                <a href="/uses.html">Uses</a>
+                <button id="theme-toggle" aria-label="Toggle Theme">
+                    <span class="icon">☀</span>
+                </button>
+            </nav>
+        </header>
+
+        <main>
+<article>
+    <header>
+        <h1>"AlphaEvolve: A Coding Agent for Scientific and Algorithmic Discovery"</h1>
+        <div class="meta">
+            <span class="date">Nov 15, 2025</span>
+            <span class="category-tag">AI Systems</span>
+        </div>
+    </header>
+    
+    <div class="content">
+        <blockquote>
+<p><strong>The Core Thesis</strong>: AlphaEvolve solves the failure of LLMs to act as native scientific agents by placing them squarely inside a rigorous evolutionary algorithm. By leveraging LLMs for creative generation (mutation/crossover) while relying on external execution loops for validation and selection, the system can mechanically discover novel algorithmic optimizations—such as a 48-multiplication subset for sorting matrices—that were historically beyond both human engineering and pure neural generation.</p>
+</blockquote>
+<h2>The Problem: Hallucinating Science</h2>
+<p>Scientific discovery involves a rigorous cycle of ideation, testing, backtracking, and validation. While large language models (LLMs) excel at generating creative ideas, they struggle to serve as reliable scientific agents natively because they hallucinate, lack structured exploration techniques, and fail to maintain consistent reasoning across multiple experimental steps.</p>
+<p>Traditional evolutionary methods rely on predefined mutation operations (like swapping subtrees) which severely limit creativity, while LLM-based superoptimization often lacks the structured search needed to explore massive capability spaces. There has been no generalized framework treating LLMs as raw mutation engines while enforcing the strict trial-and-error necessary to uncover true, verifiable scientific novelties.</p>
+<h2>The Solution: Evolutionary Prompting</h2>
+<p>AlphaEvolve focuses on optimization problems where the correctness or quality of a solution can be quantified through an automatic evaluation function. It iteratively evolves entire systems through an LLM-driven multi-agent loop:</p>
+<h3>The Component Pipeline</h3>
+<ol>
+<li><strong>Program Database</strong>: Stores every generated program alongside its evaluation scores to track evolutionary progress and maintain a genetic pool.</li>
+<li><strong>Prompt Sampler</strong>: Constructs rich contextual prompts using human instructions, prior programs, historical evaluation scores, and mathematical context.</li>
+<li><strong>LLM Ensemble</strong>: Utilizes a dual-LLM approach (e.g., Gemini Flash for rapid, cheap exploration and Gemini Pro for targeted, high-quality semantic mutations).</li>
+<li><strong>Evaluation System</strong>: Grades each generated program across cheap-to-expensive execution stages, ensuring only viable mutations survive to the next generation.</li>
+</ol>
+<p>By deploying via the <code>EVOLVE-BLOCK</code> API, developers can demarcate specific regions of custom code for the system to aggressively optimize, forcing the system to produce scoped code diffs.</p>
+<h2>Results and Impact</h2>
+<p>AlphaEvolve has demonstrated the ability to produce legitimate algorithmic breakthroughs rather than just syntactical refactors across multiple domains:</p>
+<ul>
+<li><strong>Algorithmic Discovery</strong>: The system successfully discovered a novel 48-multiplication method for a 4x4 matrix multiplication task, improving upon Strassen’s historic 49-multiplication baseline.</li>
+<li><strong>Production Optimization</strong>: It recovered 0.7% of resources in massive data-center scheduling pipelines, achieved a 23% speedup in a TPU kernel, and optimized FlashAttention kernels at the compiler intermediate representation level.</li>
+<li><strong>General Mathematics</strong>: Across 50+ constructive tasks, it rediscovered the best-known solutions for 75% of problems and established new state-of-the-art results for 20%.</li>
+</ul>
+<h2>My Take on the Paper</h2>
+<p>AlphaEvolve proves that bounding LLMs within strict, programmatic search systems (like evolution) yields significantly closer steps toward AGI than pure scaling.</p>
+<p><strong>Strengths:</strong>
+*   <strong>Tangible System Efficiency</strong>: Automatically enhances highly customized infrastructure, from TPU logic to complex scheduling, yielding real-world ROI.
+*   <strong>True Discovery</strong>: Capable of finding net-new algorithms and breaking historical bounds, not just applying known heuristics.
+*   <strong>Clean Abstraction</strong>: The <code>EVOLVE-BLOCK</code> paradigm makes it highly accessible for developers to drop into existing, mature execution pipelines.</p>
+<p><strong>Weaknesses:</strong>
+*   <strong>Massive Compute Overhead</strong>: The natural selection process requires evaluating thousands of candidate programs sequentially, leading to profound compute costs and slow feedback loops out of reach for independent researchers.
+*   <strong>Dependence on Auto-Evaluation</strong>: It is fundamentally constrained to tasks that possess a programmatic, deterministic reward function, locking it out of areas requiring qualitative human judgment.
+*   <strong>Scalability Bottlenecks</strong>: While percentage gains (like a 1% training-time savings) are massive at Google's scale, the absolute LLM cost to discover these optimizations is exorbitant.</p>
+<h2>Open Questions</h2>
+<ol>
+<li><strong>Practical Resource Bounding</strong>: The paper does not deeply detail the compute ceiling required to achieve these optimizations. At what codebase size or complexity does deploying a heavy evolutionary architecture become definitively unviable compared to human heuristic search?</li>
+<li><strong>Open-Source Reproducibility</strong>: Because the AlphaEvolve framework and its surrounding evaluative infrastructure are heavily tied to internal systems, how can the broader community validate these discoveries or extend the framework into open-source domains?</li>
+<li><strong>Beyond Executable Code</strong>: Can the "mutation via LLM" concept within an evolutionary framework be effectively applied to domains where the fitness function is fuzzy, non-deterministic, or judged by a secondary frozen LLM?</li>
+</ol>
+    </div>
+</article>
+        </main>
+
+        <footer>
+            <div class="footer-content">
+                <div class="footer-icons">
+                    <a href="https://github.com/Vedaang-Chopra" target="_blank" class="footer-icon-btn" aria-label="GitHub">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg>
+                    </a>
+                    <a href="https://linkedin.com/in/vedaang-chopra/" target="_blank" class="footer-icon-btn" aria-label="LinkedIn">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path><rect x="2" y="9" width="4" height="12"></rect><circle cx="4" cy="4" r="2"></circle></svg>
+                    </a>
+                    <a href="mailto:vedaangchopra@gatech.edu" class="footer-icon-btn" aria-label="Email">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
+                    </a>
+                </div>
+                <div class="footer-links">
+                    <p>&copy; 2026 Vedaang Chopra</p>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <script>
+        const toggleBtn = document.getElementById('theme-toggle');
+        const body = document.body;
+        const icon = toggleBtn.querySelector('.icon');
+
+        // Theme Definitions
+        const themes = ['', 'mint-theme', 'dark-theme', 'sepia-theme'];
+        const icons = ['☀', '🌿', '🌙', '☕'];
+
+        // Load saved theme
+        let currentThemeIndex = 0;
+        const savedTheme = localStorage.getItem('theme');
+        
+        if (savedTheme) {
+            const savedIndex = themes.indexOf(savedTheme);
+            if (savedIndex !== -1) {
+                currentThemeIndex = savedIndex;
+                if (themes[currentThemeIndex]) {
+                    body.classList.add(themes[currentThemeIndex]);
+                }
+                icon.textContent = icons[currentThemeIndex];
+            }
+        }
+
+        toggleBtn.addEventListener('click', () => {
+            // Remove current theme class if it exists
+            if (themes[currentThemeIndex]) {
+                body.classList.remove(themes[currentThemeIndex]);
+            }
+
+            // Cycle to next theme
+            currentThemeIndex = (currentThemeIndex + 1) % themes.length;
+
+            // Add new theme class if it exists (not empty string)
+            if (themes[currentThemeIndex]) {
+                body.classList.add(themes[currentThemeIndex]);
+                localStorage.setItem('theme', themes[currentThemeIndex]);
+            } else {
+                localStorage.removeItem('theme');
+            }
+
+            // Update icon
+            icon.textContent = icons[currentThemeIndex];
+        });
+    </script>
+    <script type="module">
+        import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+        mermaid.initialize({ startOnLoad: false });
+
+        document.addEventListener('DOMContentLoaded', () => {
+            // Mermaid diagram keywords to detect
+            const mermaidKeywords = ['flowchart ', 'graph ', 'sequenceDiagram', 'classDiagram', 'stateDiagram', 'erDiagram', 'gantt', 'pie ', 'journey', 'gitGraph'];
+            
+            // Find all code blocks and check content for mermaid syntax
+            const codeBlocks = document.querySelectorAll('code');
+            const mermaidBlocks = Array.from(codeBlocks).filter(block => {
+                const text = block.textContent.trim();
+                return mermaidKeywords.some(keyword => text.startsWith(keyword));
+            });
+            
+            mermaidBlocks.forEach(block => {
+                const div = document.createElement('div');
+                div.className = 'mermaid';
+                div.textContent = block.textContent;
+                
+                // Handle different nesting: code > pre > .highlight
+                let target = block;
+                if (block.parentElement && block.parentElement.tagName === 'PRE') {
+                    target = block.parentElement;
+                    if (target.parentElement && (target.parentElement.classList.contains('highlight') || target.parentElement.classList.contains('codehilite'))) {
+                        target = target.parentElement;
+                    }
+                }
+                target.replaceWith(div);
+            });
+
+            if (mermaidBlocks.length > 0) {
+                mermaid.run({
+                    nodes: document.querySelectorAll('.mermaid')
+                });
+            }
+        });
+    </script>
+</body>
+</html>

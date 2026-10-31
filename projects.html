@@ -33,39 +33,49 @@
 <p class="blog-subtitle">Research systems and engineering projects — verified work, with code where public.</p>
 <div class="project-grid">
         <div class="project-card">
-            <h2><a href="https://github.com/Vedaang-Chopra" target="_blank">CAD Code Generation Pipeline (CORE Robotics Lab) ↗</a></h2>
-            <p class="project-desc">Closed-loop agentic pipeline for parametric CAD code generation: an LLM generates CadQuery programs, an execution environment returns compile and geometry feedback, and a LangGraph-orchestrated repair loop iteratively corrects errors — inference-time search with verifiable geometric reward (frozen model, no fine-tuning). Includes geometric verification (Chamfer/Hausdorff on STL meshes), VLM-as-judge visual judgment, RAG-augmented prompts, and a pytest evaluation harness.</p>
-            <p class="project-stack"><strong>Stack:</strong> Python, LangGraph, CadQuery, Pydantic, VLMs, RAG, pytest</p>
+            <h2><a href="https://github.com/Vedaang-Chopra" target="_blank">CAD Code Generation with a Frozen LLM (CORE Robotics Lab) ↗</a></h2>
+            <p class="project-desc">Closed-loop agentic pipeline for parametric CAD: a frozen LLM writes CadQuery, an execution environment compares the geometry against the ground-truth part, and a bounded LangGraph repair loop (up to 3 turns) corrects errors. Mean voxel IoU rises from 0.82 to 0.92 (expert prompts) and 0.57 to 0.70 (beginner prompts) over single-shot generation, n=200 per group, and +0.05 over a self-debug baseline. Repair is ground-truth-assisted, and the negative results (feedback-matrix tie, failed pre-registered gate) are reported as negatives. Ongoing.</p>
+            <p class="project-stack"><strong>Stack:</strong> Python, LangGraph, CadQuery, Pydantic, pytest</p>
         </div>
         <div class="project-card">
-            <h2><a href="https://github.com/Vedaang-Chopra/Malware_Analysis" target="_blank">Malware Analysis: Memory Forensics with ML & Volatility ↗</a></h2>
-            <p class="project-desc">Research project integrating machine learning with memory forensics (Volatility Framework) and YARA rules for ransomware detection in IoT-enabled energy systems. Automated analysis of 18 memory dumps (6 benign, 12 ransomware families) with 100+ YARA rules. Published at IEEE ICAIA 2026. Dataset hosted on Hugging Face (33 GB analysis + ~470 GB raw memory dumps).</p>
-            <p class="project-stack"><strong>Stack:</strong> Python, Volatility3, YARA, scikit-learn, pandas, Jupyter, Docker, Hugging Face Hub</p>
+            <h2><a href="https://github.com/Vedaang-Chopra/CEREBRUS" target="_blank">CERBERUS — Vision-Language Alignment & QA Fine-tuning ↗</a></h2>
+            <p class="project-desc">Vision-text alignment with frozen CLIP ViT-L/14 and MPNet encoders, Matryoshka embeddings and InfoNCE: 77.7% / 77.5% image-to-text / text-to-image R@5 at 4096-d on PixMo validation, 62.9% / 64.0% at 128-d. LoRA SFT (r=64) of Qwen-2.5 7B for image QA, with training loss falling from 0.742 to 0.103; no held-out QA metric yet. A Perceiver Resampler ablation is reported as a negative result. Ongoing.</p>
+            <p class="project-stack"><strong>Stack:</strong> PyTorch, PEFT/LoRA, CLIP, SBERT, Matryoshka</p>
         </div>
         <div class="project-card">
-            <h2><a href="https://github.com/Vedaang-Chopra/ARTEMIS" target="_blank">ARTEMIS — Cost-Aware VLM Routing (Which-VLM-Router) ↗</a></h2>
-            <p class="project-desc">Neural multi-task router that dynamically selects the optimal Vision-Language Model per request, with SLA-aware load balancing (simulation-validated). Serves 5 VLMs across 10 vLLM endpoints over VQA, OCR, captioning, and reasoning tasks with 5 dynamic routing modes; ~340K routing profiles across ~68K queries, with 90.3% oracle-utility recovery in balanced mode.</p>
-            <p class="project-stack"><strong>Stack:</strong> PyTorch, vLLM, FastAPI, PostgreSQL, Weights & Biases</p>
+            <h2><a href="https://github.com/Vedaang-Chopra/ARTEMIS" target="_blank">ARTEMIS — VLM Routing Benchmark ↗</a></h2>
+            <p class="project-desc">Offline research on routing requests across vision-language models. Built a leakage-corrected benchmark of 67.7K questions and 338K responses over a five-model pool (3,909 cross-split image hashes voided earlier numbers). On the test set an oracle router reaches 65.4% versus 49.1% for the best single model, but the learned router (50.9%) did not beat a per-task lookup (56.4%) — reported as a negative result.</p>
+            <p class="project-stack"><strong>Stack:</strong> PyTorch, Python, PostgreSQL, Weights & Biases</p>
         </div>
         <div class="project-card">
-            <h2><a href="https://github.com/Vedaang-Chopra/CEREBRUS" target="_blank">CERBERUS — Vision-Language Alignment for Edge (public repo: CEREBRUS) ↗</a></h2>
-            <p class="project-desc">Cross-modal alignment with frozen encoders (CLIP ViT-L/14, SBERT) using Matryoshka Representation Learning compressing embeddings 4096→128 dims (~78% R@5 at 4096-d on PixMo retrieval). LoRA fine-tuning of Qwen2.5 decoders; PyTorch DDP distributed training with mixed precision on H100/A100 clusters. Includes an honestly-reported negative Perceiver Resampler ablation.</p>
-            <p class="project-stack"><strong>Stack:</strong> PyTorch (DDP, mixed precision), PEFT/LoRA, CLIP, SBERT, Matryoshka</p>
+            <h2><a href="https://github.com/Vedaang-Chopra" target="_blank">ATHENA — Storyboard Generation (team) ↗</a></h2>
+            <p class="project-desc">Team project at Georgia Tech. I authored Production V1: a 14-node deterministic LangGraph pipeline with routing from an execution plan, Pydantic contracts, JSON persistence, and FastAPI/SSE, NiceGUI and CLI front ends (~800 tests collected). Release candidate with known open issues: the evaluator is text-only and failed image calls need re-verification. Manuscript in preparation.</p>
+            <p class="project-stack"><strong>Stack:</strong> Python, LangGraph, Pydantic, FastAPI, NiceGUI</p>
+        </div>
+        <div class="project-card">
+            <h2><a href="https://github.com/Vedaang-Chopra" target="_blank">SHASTRA — Agent Trace Modeling (team) ↗</a></h2>
+            <p class="project-desc">Team research project (CS 8903, Spring 2026). I built the analysis stack that turns agent traces into blocks, LLM-labelled capabilities with an append-only label registry, and task-dependency graphs. Early stage: no workflow-reuse findings yet, and retrieval/adaptation is not implemented.</p>
+            <p class="project-stack"><strong>Stack:</strong> Python, LangGraph, Pydantic</p>
+        </div>
+        <div class="project-card">
+            <h2><a href="https://github.com/Vedaang-Chopra/Malware_Analysis" target="_blank">Malware Analysis: Memory Forensics with ML ↗</a></h2>
+            <p class="project-desc">Memory-forensics and ML research for ransomware detection in IoT-enabled energy systems, with Sonika Malik. Volatility 2 feature extraction with vendored YARA rules over 976 memory windows; nine scikit-learn classifiers compared, best Gradient Boosting at 88.74% accuracy (exploratory, with a leakage caveat). Paper accepted at IEEE ICAIA 2026. Dataset hosted on Hugging Face (33 GB analysis, ~470 GB raw memory dumps).</p>
+            <p class="project-stack"><strong>Stack:</strong> Python, Volatility, YARA, scikit-learn, pandas, Hugging Face Hub</p>
+        </div>
+        <div class="project-card">
+            <h2><a href="https://github.com/Vedaang-Chopra" target="_blank">Neural-Malware-Shield (team of 4) ↗</a></h2>
+            <p class="project-desc">Graph-based malware classification on MalNet-tiny. I owned the GNN work: GraphSAGE reaches 0.781 accuracy and 0.777 macro-F1 (GAT: 0.708). Coursework team project.</p>
+            <p class="project-stack"><strong>Stack:</strong> Python, PyTorch Geometric</p>
         </div>
         <div class="project-card">
             <h2><a href="https://github.com/Vedaang-Chopra/RL_Soccer_project" target="_blank">RL Soccer ↗</a></h2>
-            <p class="project-desc">Academic project (team): PPO agents (baseline, reward shaping, curriculum learning, self-play) and a DQN baseline for 2v2 soccer using Ray/RLlib.</p>
+            <p class="project-desc">Academic team project: PPO curriculum training over 30M steps for 2v2 soccer on Ray/RLlib, evaluated over 10 episodes (8–2 against the baseline, 6–4 against an earlier curriculum). Small-N results, coursework (CS 8803 Deep RL).</p>
             <p class="project-stack"><strong>Stack:</strong> Python, Ray/RLlib, PPO, DQN, Unity ML-Agents</p>
         </div>
         <div class="project-card">
-            <h2><a href="https://github.com/Vedaang-Chopra/CAD-Physics" target="_blank">CAD-Physics — FEA-Guided Verification of LLM-Generated CAD ↗</a></h2>
-            <p class="project-desc">Extends CAD verification from geometric validity to physical validity: finite-element-analysis checks (stress, displacement, safety factors) on LLM-generated designs. Early-stage research extension of the CORE Lab CAD pipeline.</p>
-            <p class="project-stack"><strong>Stack:</strong> Python, Jupyter, FEA tooling</p>
-        </div>
-        <div class="project-card">
-            <h2><a href="https://github.com/Vedaang-Chopra/AI-Security" target="_blank">AI-Security ↗</a></h2>
-            <p class="project-desc">Security concepts in AI: adversarial attacks (PGD), embedding poisoning, blind backdoors, model extraction, membership inference on LLMs, jailbreaks, and watermarking.</p>
-            <p class="project-stack"><strong>Stack:</strong> Python, Jupyter Notebook</p>
+            <h2><a href="https://github.com/Vedaang-Chopra/AI-Security" target="_blank">AI-Security (CS 8803 ML Security) ↗</a></h2>
+            <p class="project-desc">Coursework: PGD adversarial attacks (clean accuracy ~92% falling to 8.5% at 8/255), embedding poisoning (99.67% poison success, 93.30% clean accuracy), and membership inference on Pythia-160m (AUC 0.994). Blind-backdoor notebooks wrap the upstream backdoors101 code and are not an original implementation.</p>
+            <p class="project-stack"><strong>Stack:</strong> Python, PyTorch, Jupyter</p>
         </div>
         <div class="project-card">
             <h2><a href="https://github.com/Vedaang-Chopra/Audit_Script_Development" target="_blank">Audit_Script_Development ↗</a></h2>
