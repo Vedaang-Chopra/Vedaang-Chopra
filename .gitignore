@@ -3,3 +3,11 @@ __pycache__/
 venv/
 *.pyc
 .DS_Store
+
+# LaTeX build artifacts
+resume/*.aux
+resume/*.log
+resume/*.out
+resume/*.fls
+resume/*.fdb_latexmk
+resume/*.bak*

@@ -1,7 +1,7 @@
 ---
 title: "DistServe: Disaggregating Prefill and Decoding for Goodput-Optimized LLM Serving"
-date: "2024-03-24"
-slug: "distserve"
+date: 2024-03-24
+slug: distserve
 layout: post
 tags: ["AI Systems", "LLM Serving", "Disaggregation", "Systems", "Paper Review"]
 ---

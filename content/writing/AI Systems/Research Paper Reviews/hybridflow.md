@@ -1,7 +1,7 @@
 ---
 title: "HybridFlow: A Flexible and Efficient RLHF Framework for Scalable Training"
-date: "2024-03-24"
-slug: "hybridflow"
+date: 2024-03-24
+slug: hybridflow
 layout: post
 tags: ["AI Systems", "RLHF", "Post-Training", "Systems", "Paper Review"]
 ---

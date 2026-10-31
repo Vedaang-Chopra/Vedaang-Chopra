@@ -1,7 +1,7 @@
 ---
 title: "ReAct: Synergizing Reasoning and Acting in Language Models"
-date: "2024-03-24"
-slug: "react"
+date: 2024-03-24
+slug: react
 layout: post
 tags: ["AI Systems", "Agents", "Prompting", "Systems", "Paper Review"]
 ---

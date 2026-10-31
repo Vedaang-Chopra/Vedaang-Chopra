@@ -1,7 +1,7 @@
 Title: Resume
 Slug: resume
 Save_as: resume.html
-Date: 2026-09-07
+Date: 2026-10-31
 
 <div class="resume-header">
     <a href="/resume/Vedaang_Chopra_Prof_CV.pdf" class="btn-pill" target="_blank">Download PDF ⬇</a>
@@ -15,47 +15,36 @@ Atlanta, GA | +1 404-740-9905 | [vedaangchopra@gatech.edu](mailto:vedaangchopra@
 
 ## Summary
 
-MS Computer Science (Machine Learning) student at Georgia Tech (GPA 4.0/4.0, graduating Dec 2026) with 4+ years of production ML/AI engineering experience at Fortinet and active graduate research in agentic AI systems, LLM evaluation, and cost-aware VLM routing. Published researcher (IEEE ICAIA 2026) and inventor on a filed patent.
-
----
-
-## Technical Skills
-
-- **Agentic AI & LLM Systems:** LangGraph, LangChain, agentic RAG, tool/function calling, multi-agent orchestration (supervisor-worker), structured generation (Pydantic), LLM-as-a-judge
-- **AI/ML Core:** Python (expert), PyTorch, Hugging Face Transformers, Scikit-Learn, CNNs/Vision Transformers, NLP & Computer Vision
-- **LLMs / VLMs / Inference:** vLLM serving, VLM routing & evaluation, model benchmarking, inference optimization, CLIP/SBERT/FAISS, Matryoshka Representation Learning, quantization
-- **Systems & Infrastructure:** Go, OpenSearch/Elasticsearch, ONNX Runtime, Docker, Linux, Git, SQL/PostgreSQL, Redis, FastAPI, Azure, Slurm, W&B/TensorBoard, PyTorch DDP, mixed precision training
-- **RL (academic projects):** PPO, DQN, reward shaping, curriculum learning, self-play (Ray/RLlib)
+Production ML engineer turned researcher. M.S. in Computer Science (Machine Learning) at Georgia Tech (GPA 3.8/4.0, graduating Dec 2026), after 4.5 years at Fortinet where I was promoted from SDE I to SDE II and filed a patent. Current research covers inference-time search with verifiable geometric signals on a frozen LLM, evaluation-harness design, vision-language retrieval, VLM routing benchmarks, and multi-agent orchestration. Paper accepted at IEEE ICAIA 2026.
 
 ---
 
 ## Experience
 
+**Georgia Institute of Technology — CORE Robotics Lab @ Siemens** | *Graduate Research Assistant* (Advisor: Dr. Matthew Gombolay) | Atlanta, GA | Jan 2026 – Present
+
+*   **CAD code generation with a frozen LLM.** The LLM writes CadQuery, the program is executed and compared against the ground-truth part, and a bounded LangGraph repair loop (up to 3 turns) corrects errors. The model is frozen: no training or fine-tuning, only inference-time search with a verifiable geometric signal.
+*   **Results (n=200 per group):** mean voxel IoU rises from 0.82 to 0.92 for expert prompts and from 0.57 to 0.70 for beginner prompts versus single-shot generation, and by about +0.05 over a self-debug baseline (paired bootstrap).
+*   **Scope and negatives, stated plainly:** repair is ground-truth-assisted and no ground-truth-free result exists yet; a 36-run feedback-matrix comparison tied across arms; a pre-registered structural-distance gate failed. Most code was written by AI coding agents from my specifications, and I supervised it.
+
 **Fortinet Technologies Inc. (AIOps R&D)** | *Software Development Engineer I & II (ML/AI Track)* | Bengaluru, India | Feb 2021 – Jul 2025
 
-*   **Led development of an agentic RAG diagnostics system** (SDE II) — a Fortinet Global Hackathon 2023 entry (top-5 finalist, 5th place) taken to production. The LLM plans multi-step tool calls over network telemetry, verifies hypotheses via structured function calling, and produces autonomous root-cause analysis, reducing mean resolution time by ~70%.
-*   **Filed patent PCT/IN2022/058026** — unsupervised distributional thresholding for wireless connectivity anomaly detection (US publication US20240121629A1; filed/pending), cutting manual troubleshooting by ~75%.
-*   **Re-architected OpenSearch ingestion pipelines** (complete redesign, async I/O + Golang), scaling throughput from 50 to 2,000 events/sec (40x).
-*   **Deployed edge-optimized ML models** via ONNX Runtime on network appliances, achieving ~40% latency reduction.
-*   **Built SLA forecasting pipelines** supporting 60+ classifiers across 4 categories (performance, capacity, availability, connectivity) with automated evaluation and retraining, enabling 7-day AI-based performance prediction.
-*   **Implemented DBSCAN-based anomaly detection** for SD-WAN telemetry, reportedly preventing over 50% of potential network outages.
-*   **Integrated ML models into backend services** with Python and Go across distributed systems and telemetry infrastructure, including CPU-only pickle model serving.
+*   **Agentic RAG diagnostics system** (SDE II): Fortinet Global Hackathon 2023 top-5 finalist, taken to production. An LLM plans multi-step tool calls over network telemetry and verifies hypotheses with structured function calling to produce root-cause analysis; ~70% faster mean resolution (self-reported).
+*   **Patent filed, PCT/IN2022/058026** (US publication US20240121629A1, pending): unsupervised distributional thresholding for wireless connectivity anomaly detection; ~75% less manual troubleshooting (self-reported).
+*   **OpenSearch ingestion re-architecture** (async I/O + Go): throughput from under 50 to 2,000+ events/sec (40x).
+*   **Edge inference:** ONNX Runtime with quantization on CPU-only access points and switches; ~40% latency reduction (self-reported).
+*   **SLA forecasting pipelines:** 60+ classifiers across 4 categories with automated evaluation and retraining, giving a 7-day performance forecast.
+*   **DBSCAN anomaly detection on SD-WAN telemetry:** reportedly prevented over 50% of potential outages.
+*   **Backend integration:** deployed data-science team models into Go and Python services, CPU-only.
 
 ---
 
-## Graduate Research — Georgia Tech
+## Research Projects (Georgia Tech)
 
-**CORE Robotics Lab @ Siemens — Graduate Research Assistant** (Advisor: Dr. Matthew Gombolay) | Jan 2026 – Present
-
-*   **CAD Code Generation Pipeline:** Building a closed-loop agentic pipeline for parametric CAD code generation — an LLM generates CadQuery programs, an execution environment returns compile and geometry feedback, and a LangGraph-orchestrated repair loop iteratively corrects errors. Model is frozen: no training, no fine-tuning — synthesis is framed as inference-time search with verifiable geometric reward. Verification includes Chamfer/Hausdorff distances on STL meshes, AST/code-graph structural analysis, VLM-based visual judgment, and RAG-augmented prompts across a modular multi-package system with a pytest evaluation harness.
-
-**CS 8903 Special Problems — Graduate Researcher** | Jan 2025 – Present
-
-*   **ARTEMIS — Cost-Aware VLM Routing** (Aug 2025 – Present): Trained a neural multi-task router with SLA-aware load balancing (simulation-validated), serving 5 VLMs across 10 vLLM endpoints (Gemma 3 27B, Qwen3-VL, DeepSeek OCR, and others) over VQA, OCR, captioning, and reasoning tasks with 5 dynamic routing modes; ~340K routing profiles across ~68K queries, with 90.3% oracle-utility recovery in balanced mode.
-*   **CERBERUS — Vision-Language Alignment for Edge** (Aug 2025 – Present): Cross-modal alignment with frozen encoders (CLIP/SBERT) using Matryoshka Representation Learning (4096→128 dims, ~78% R@5 at 4096-d on PixMo retrieval); LoRA fine-tuning of Qwen2.5 decoders (PEFT r=32 α=64); PyTorch DDP distributed training with mixed precision on H100/A100 clusters. Reported a negative Perceiver Resampler ablation result.
-*   **ATHENA — Multi-Agent Screenplay Generation** (Jan – May 2025, co-authored with Prof. Vijay Madisetti): Built a 5-agent supervisor-worker orchestration system via LangGraph Command routing with reflection-based critique and dynamic plan modification; preliminary corpus evaluation (BLEU-4 ~0.15, CLIPScore ~0.47) across 100 reference videos.
-*   **SHASTRA — Agent Workflow Orchestration** (Jan 2026 – Present): Built an orchestration framework with constraint-aware plan search and a component registry, plus a runnable GAIA trace-to-graph pipeline (94 sessions, 4,037 events, 442 graph nodes); executor integration and workflow retrieval not yet implemented.
-*   **AI Security (coursework-style):** Adversarial attacks (PGD), embedding poisoning, blind backdoors, model extraction, membership inference on LLMs, watermarking.
+*   **CERBERUS — vision-language alignment** (Aug 2025 – Present): frozen CLIP ViT-L/14 and MPNet encoders with Matryoshka embeddings; image-to-text / text-to-image R@5 of 77.7% / 77.5% at 4096-d and 62.9% / 64.0% at 128-d on PixMo validation. LoRA SFT (r=64) of Qwen-2.5 7B for image QA, training loss 0.742 to 0.103; no held-out QA metric yet. A Perceiver ablation is reported as a negative result.
+*   **ARTEMIS — VLM routing benchmark** (Aug 2025 – Present, offline research): leakage-corrected benchmark of 67.7K questions and 338K responses over five models. On the test set an oracle router reaches 65.4% versus 49.1% for the best single model; the learned router (50.9%) did not beat a per-task lookup (56.4%), reported as a negative result.
+*   **ATHENA — storyboard generation** (team): authored Production V1, a 14-node deterministic LangGraph pipeline with typed contracts and FastAPI/NiceGUI/CLI front ends (~800 tests collected). Release candidate with known open issues. Manuscript in preparation.
+*   **SHASTRA — agent trace modeling** (team, CS 8903, advisor Dr. Alexey Tumanov): built the analysis stack that turns agent traces into labelled blocks and task-dependency graphs. Early stage, with no reuse findings yet.
 
 ---
 
@@ -63,9 +52,8 @@ MS Computer Science (Machine Learning) student at Georgia Tech (GPA 4.0/4.0, gra
 
 **Georgia Institute of Technology** | *M.S. in Computer Science (Machine Learning Specialization)* | Atlanta, GA | Aug 2024 – Dec 2026 (expected)
 
-*   GPA: 4.0/4.0 · Advisor: Dr. Matthew Gombolay, CORE Robotics Lab @ Siemens
+*   GPA: 3.8/4.0
 *   Coursework: Deep Learning, Deep Reinforcement Learning, ML Security, Large & Vision Language Models, Agentic AI, Systems for AI
-*   Research focus: agentic AI systems, LLM evaluation, VLM routing, execution-grounded verification
 
 **Maharaja Surajmal Institute of Technology (GGSIPU)** | *B.Tech. in Information Technology* | New Delhi, India | Aug 2016 – Aug 2020
 
@@ -73,27 +61,30 @@ MS Computer Science (Machine Learning) student at Georgia Tech (GPA 4.0/4.0, gra
 
 ---
 
-## Selected Projects
+## Other Projects
 
-**[Malware Analysis: Memory Forensics with ML](https://github.com/Vedaang-Chopra/Malware_Analysis)** — Published at **IEEE ICAIA 2026** ("Integrating Machine Learning and Memory Forensics for Enhancing Cybersecurity in IoT-Enabled Energy Systems", with Sonika Malik): analyzed 18 memory dumps across 12 ransomware families, developed 100+ YARA rules, automated Volatility3 orchestration, and built an ML classification pipeline. Dataset released on Hugging Face (33 GB analysis + ~470 GB raw memory dumps).
+**[Malware Analysis: Memory Forensics with ML](https://github.com/Vedaang-Chopra/Malware_Analysis)** — paper accepted at **IEEE ICAIA 2026** (with Sonika Malik). Volatility 2 features with vendored YARA rules over 976 memory windows; best of nine classifiers was Gradient Boosting at 88.74% accuracy (exploratory, with a leakage caveat). Dataset on Hugging Face.
 
-**[RL Soccer](https://github.com/Vedaang-Chopra/RL_Soccer_project)** *(academic project)* — PPO (baseline, reward shaping, curriculum, self-play) and DQN agents for 2v2 soccer using Ray/RLlib. Team project.
+**Neural-Malware-Shield** *(team of 4, coursework)* — GraphSAGE on MalNet-tiny, 0.781 accuracy / 0.777 macro-F1; I owned the GNN work.
 
-**[AI-Security](https://github.com/Vedaang-Chopra/AI-Security)** — Adversarial robustness coursework material: backdoors, poisoning, jailbreaks, and adversarial attacks.
+**[RL Soccer](https://github.com/Vedaang-Chopra/RL_Soccer_project)** *(academic team project)* — PPO curriculum over 30M steps for 2v2 soccer with Ray/RLlib; 10-episode evaluations, small-N.
+
+**[AI-Security](https://github.com/Vedaang-Chopra/AI-Security)** *(CS 8803 coursework)* — PGD attacks, embedding poisoning, and membership inference on an LLM.
 
 ---
 
 ## Publications & Patents
 
-*   **Patent (Filed):** PCT/IN2022/058026 — Unsupervised distributional thresholding for wireless connectivity anomaly detection ([Justia](https://patents.justia.com/inventor/vedaang-chopra))
-*   **IEEE ICAIA 2026:** "Integrating Machine Learning and Memory Forensics for Enhancing Cybersecurity in IoT-Enabled Energy Systems" (with Sonika Malik)
-*   **Manuscript in preparation:** Screenplay generation via multi-agent orchestration (ATHENA, co-authored with Prof. Vijay Madisetti)
+*   **IEEE ICAIA 2026 (accepted, presenting Nov 16, 2026):** "Integrating Machine Learning and Memory Forensics for Enhancing Cybersecurity in IoT-Enabled Energy Systems" (with Sonika Malik)
+*   **Patent (filed, pending):** PCT/IN2022/058026 — Unsupervised distributional thresholding for wireless connectivity anomaly detection ([Justia](https://patents.justia.com/inventor/vedaang-chopra))
+*   **Manuscript in preparation:** ATHENA, multi-agent storyboard generation
 
 ---
 
 ## Research Interests
 
 1. **Agentic AI Systems** — multi-agent orchestration, tool-use planning, workflow reuse, long-horizon task decomposition
-2. **Execution-Grounded Evaluation** — functional correctness beyond token-level metrics (code execution, geometric verification, visual judgment)
-3. **Efficient Multimodal Inference** — cost-aware routing, model compression (Matryoshka), edge deployment
-4. **Production ML Systems** — reliable deployment, monitoring, and evaluation pipelines at scale
+2. **Execution-Grounded Evaluation** — functional correctness (code execution, geometry, visual judgment) over token-level metrics
+3. **Efficient Multimodal Inference** — cost-aware routing, Matryoshka embeddings, edge deployment
+4. **Verifiable-Reward Structured Generation** — inference-time search on frozen models
+5. **Production ML Systems** — reliable deployment, monitoring, and evaluation pipelines

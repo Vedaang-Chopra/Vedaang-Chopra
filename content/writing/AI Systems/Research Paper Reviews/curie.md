@@ -1,8 +1,8 @@
 ---
 layout: post
 title: "Curie: Toward Rigorous and Automated Scientific Experimentation with AI Agents"
-date: "2026-03-11"
-slug: "curie-automated-scientific-experimentation"
+date: 2026-03-11
+slug: curie-automated-scientific-experimentation
 tags: ["AI Agents", "Scientific Experimentation", "Multi-Agent Systems", "Curie", "AI Systems", "Paper Review"]
 ---
 

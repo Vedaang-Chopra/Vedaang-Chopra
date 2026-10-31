@@ -1,7 +1,7 @@
 ---
 title: "QLoRA: Efficient Finetuning of Quantized LLMs"
-date: "2024-03-24"
-slug: "qlora"
+date: 2024-03-24
+slug: qlora
 layout: post
 tags: ["AI Systems", "Quantization", "Fine-Tuning", "Systems", "Paper Review"]
 ---

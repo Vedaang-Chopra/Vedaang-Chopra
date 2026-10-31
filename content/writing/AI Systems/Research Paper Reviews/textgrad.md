@@ -1,7 +1,7 @@
 ---
 title: "TextGrad: Automatic “Differentiation” via Text"
-date: "2024-03-24"
-slug: "textgrad"
+date: 2024-03-24
+slug: textgrad
 layout: post
 tags: ["AI Systems", "Optimization", "Agents", "Systems", "Paper Review"]
 ---

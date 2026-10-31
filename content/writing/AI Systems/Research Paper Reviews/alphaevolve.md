@@ -1,8 +1,8 @@
 ---
 layout: post
 title: "AlphaEvolve: A Coding Agent for Scientific and Algorithmic Discovery"
-date: "2025-11-15"
-slug: "alphaevolve-coding-agent-discovery"
+date: 2025-11-15
+slug: alphaevolve-coding-agent-discovery
 tags: ["AI Agents", "Evolutionary Algorithms", "AlphaEvolve", "Scientific Discovery", "AI Systems", "Paper Review"]
 ---
 
