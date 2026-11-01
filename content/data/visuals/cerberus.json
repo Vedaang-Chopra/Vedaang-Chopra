@@ -1,79 +1,40 @@
 {
-  "label": "CERBERUS walkthrough: letting the question decide how much of an image to read",
-  "stepWord": "Step",
-  "ofWord": "of",
-  "back": "Back",
-  "next": "Next",
-  "statuses": {
-    "built": "Built",
-    "partial": "Partial",
-    "proposed": "Proposed",
-    "failed": "Tried, did not work"
-  },
+  "label": "CERBERUS: teaching a vision model to look at less",
   "grid": {"rows": 6, "cols": 8, "sign": [[1,5],[1,6],[2,5],[2,6]]},
-  "steps": [
-    {
-      "kind": "all",
-      "title": "Today a model reads every patch, whatever you ask.",
-      "text": "A vision-language model answers questions about a picture. It first cuts the picture into small squares called patches. Its language part then reads every patch, even for an easy question.",
-      "counterLabel": "Patches the language model reads:",
-      "counterValue": "all",
-      "gridLabel": "A simple scene cut into a grid of patches. Every patch is highlighted."
+  "figure": {
+    "img": "/images/resume/cerberus_retrieval_r5_by_dim.webp",
+    "alt": "Line chart of retrieval recall at 5 against vector length from 128 to 4096. The attention-pooling lines rise from about 63 percent to about 78 percent. The Perceiver lines stay near zero."
+  },
+  "card": {
+    "problem": {
+      "strip": [
+        {"text": "Photo and a question"},
+        {"text": "Photo cut into hundreds of pieces", "tone": "bad"},
+        {"text": "Model reads every piece", "tone": "bad"},
+        {"text": "Slow and costly"}
+      ],
+      "line": "Vision-language models read a whole image as hundreds of tokens, even when the question needs one small region. This project is ongoing."
     },
-    {
-      "kind": "choose",
-      "title": "The idea: let the question choose how many patches to read.",
-      "text": "A narrow question needs only a few patches. A broad one needs many. Pick a question to see which patches would be read.",
-      "stamp": "Proposed. Illustration, not a result.",
-      "counterLabel": "Patches the language model would read:",
-      "questionsLabel": "Pick a question",
-      "questions": [
-        {"q": "What colour is the sign?", "kept": "sign", "count": "a few, around the sign", "gridLabel": "Only the patches around the sign are highlighted."},
-        {"q": "Describe the scene", "kept": "most", "count": "many, across the whole scene", "gridLabel": "Almost every patch is highlighted."}
-      ]
+    "flow": {
+      "nodes": [
+        {"label": "Image", "sub": "input photo"},
+        {"label": "Resize and embed", "sub": "Built"},
+        {"label": "Pick parts to keep", "sub": "Proposed, not built"},
+        {"label": "Answer", "sub": "language model"}
+      ],
+      "note": "Built: a frozen image model and a learned layer turn pictures into shrinkable vectors. Proposed: a question-aware step that decides which parts of the image to keep. A Qwen decoder with LoRA is Partial: one run, training loss only."
     },
-    {
-      "kind": "figure",
-      "title": "What I built first: images and words in one shared space.",
-      "text": "In a shared space, a picture and the words that describe it land close together, like nearby points on one map.",
-      "img": "/images/resume/cerberus_tsne_alignment.webp",
-      "alt": "Two scatter plots of image and text embeddings. In the left plot, image dots and text crosses are interleaved. In the right plot, they sit in separate clusters.",
-      "tag": "Illustration",
-      "caption": "Each dot is a picture and each cross is a caption, flattened onto a page. Left, the version I built: pictures and captions mix together. Right, the Perceiver try: they stay apart."
-    },
-    {
-      "kind": "shrink",
-      "title": "That shared space can be shrunk.",
-      "text": "Each picture becomes a list of numbers, called a vector. I trained it so the front part works alone, like nesting dolls. Pick a size.",
-      "sizes": [4096, 512, 128],
-      "recall": [77.7, 73.7, 62.9],
-      "sizeLabel": "Vector length",
-      "keptText": "Kept",
-      "droppedText": "dropped",
-      "vectorLabel": "The vector as a row of cells. Solid cells are kept, dashed cells are cut off.",
-      "metricName": "Image-to-text recall@5",
-      "metricGloss": "How often the right caption is among the top five matches. Paired PixMo validation set, early measurement.",
-      "caption": "This shrinks the vector, not the number of patches."
-    },
-    {
-      "kind": "chips",
-      "title": "What is next, and what did not work.",
-      "text": "Select a part to read where it stands.",
-      "chips": [
-        {"name": "Question-aware selector", "status": "proposed", "statusText": "Proposed", "text": "A small module that reads the question and decides how many patches reach the language model. It is planned, not built."},
-        {"name": "Qwen decoder with LoRA", "status": "partial", "statusText": "Partial, one run, no held-out answer metric yet", "text": "A Qwen language model, tuned with LoRA (small add-on weights), was trained once at 7 billion parameters. Only the training loss was tracked, with no answer score on held-out questions yet."},
-        {"name": "Perceiver compression", "status": "failed", "statusText": "Tried, did not work", "text": "Squeezing the image into a few tokens with a Perceiver was tried, but finding the right caption stayed near random chance."}
-      ]
+    "early": {
+      "title": "Early alignment results, not the question-aware step. Image-to-text recall@5 (right caption in top five) on a paired PixMo validation set, by vector length.",
+      "bars": [
+        {"label": "4096 (baseline)", "value": 77.7, "shown": "77.7%"},
+        {"label": "512", "value": 73.7, "shown": "73.7%", "kind": "ours"},
+        {"label": "128", "value": 62.9, "shown": "62.9%", "kind": "ours"}
+      ],
+      "max": 100,
+      "unit": "Shrinks the vector length, not the number of image patches. Sample size N was not recorded in the saved results.",
+      "caveat": "Tried and did not work: Perceiver-style compression gave near-random retrieval (0.201% image-to-text recall@5), so attention pooling was kept. The root cause is not established.",
+      "notShown": "any answer-accuracy, speed or cost result for looking at fewer patches."
     }
-  ],
-  "more": {
-    "summary": "More detail on how it is built",
-    "items": [
-      {"name": "Image encoder", "status": "built", "text": "a frozen CLIP model turns the picture into patch features and is never retrained."},
-      {"name": "Text encoder", "status": "built", "text": "a frozen sentence encoder turns the caption into numbers."},
-      {"name": "Attention pooling", "status": "built", "text": "a small learned layer squeezes the patch features into one vector in the shared space."},
-      {"name": "Nested resizable vectors (Matryoshka)", "status": "built", "text": "the front part of the vector works on its own, like nesting dolls."},
-      {"name": "Contrastive alignment", "status": "built", "text": "training on PixMo image-caption pairs pulls each picture toward its own caption and away from the others."}
-    ]
   }
 }

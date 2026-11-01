@@ -6,7 +6,7 @@
 <link rel="stylesheet" href="{{ SITEURL }}/theme/css/resume.css" />
 <script>document.documentElement.className += ' js';</script>
 <script src="{{ SITEURL }}/theme/js/resume.js" defer></script>
-{% for v in ['cad', 'cerberus', 'artemis', 'athena', 'shastra', 'ar', 'finance', 'malware'] %}
+{% for v in ['card', 'cad', 'cerberus', 'artemis', 'athena', 'shastra', 'ar', 'finance', 'malware'] %}
 <script src="{{ SITEURL }}/theme/js/vis/{{ v }}.js" defer></script>
 {% endfor %}
 {% endblock %}
@@ -29,18 +29,11 @@
         </span>
         <span class="rs-sum-side">
             <span class="rs-state">{{ p.state }}</span>
-            {% if p.mechanism %}
-            <span class="rs-statusbar" role="img" aria-label="{{ p.mechanism|length }} parts: {% for s in ['built','partial','proposed','negative'] %}{{ p.mechanism|selectattr('status','equalto',s)|list|length }} {{ SK[s]|lower }}{{ ', ' if not loop.last }}{% endfor %}">
-                {% for m in p.mechanism %}<i class="st-{{ m.status }}"></i>{% endfor %}
-            </span>
-            {% endif %}
         </span>
         <span class="rs-chev" aria-hidden="true"></span>
     </summary>
 
     <div class="rs-proj-body">
-        <p class="rs-why">{{ p.why }}</p>
-
         {% if p.visual and RESUME_VISUALS.get(p.visual) %}
         <figure class="rs-visfig">
             <div class="rs-vis" data-vis="{{ p.visual }}" role="group" aria-label="Interactive walkthrough: {{ p.name|e }}">
@@ -50,6 +43,8 @@
         </figure>
         {% endif %}
 
+        <details class="rs-sub rs-details">
+        <summary>Details: what did not work, figures, how far along, evidence</summary>
         {% set negs = [] %}
         {% for cid in p.cards %}{% if cards_by_id[cid].kind == 'negative' %}{% set _ = negs.append(cards_by_id[cid]) %}{% endif %}{% endfor %}
         {% if negs %}
@@ -141,6 +136,8 @@
         </details>
         {% endif %}
 
+        </details>
+
         {% if p.links %}<p class="rs-links">{% for l in p.links %}<a href="{{ l.url }}">{{ l.label }}</a>{% endfor %}</p>{% endif %}
     </div>
 </details>
@@ -156,6 +153,7 @@
 
 <section class="rs-hero" aria-labelledby="rs-name">
     <h1 id="rs-name">{{ M.name }}</h1>
+    <p class="rs-headline">{{ M.headline }}</p>
     <p class="rs-pos">{{ M.positioning }}</p>
     <p class="rs-status">{{ M.status }}</p>
     <div class="rs-actions">
@@ -173,19 +171,11 @@
     </ul>
 </section>
 
-<div class="rs-lens" id="rs-lens" role="radiogroup" aria-label="Role lens">
-    <span class="rs-lens-title">Show me the</span>
-    {% for l in R.lenses %}
-    <button type="button" role="radio" aria-checked="{{ 'true' if l.id == 'full' else 'false' }}" data-lens="{{ l.id }}" data-pdf="{{ l.pdf_file }}">{{ l.label }} view</button>
-    {% endfor %}
-    <span class="rs-lens-note" id="rs-lens-note" aria-live="polite"></span>
-</div>
-
 <section class="rs-sec" id="projects" aria-labelledby="h-proj">
     <h2 id="h-proj">What I am building, and why</h2>
     <p class="rs-sub">Open any project for a short walkthrough. Each one says what works and what does not yet.</p>
     <div class="rs-projects">
-    {% for p in R.projects if p.featured %}{{ project(p, loop.index, R, SK, cards_by_id, SITEURL) }}{% endfor %}
+    {% for p in R.projects|selectattr('featured')|sort(attribute='feature_order') %}{{ project(p, loop.index, R, SK, cards_by_id, SITEURL) }}{% endfor %}
     </div>
 
     <details class="rs-group" id="more-projects">

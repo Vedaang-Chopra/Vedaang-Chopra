@@ -30,7 +30,8 @@ body.sepia-theme .rs { --mut: #5e4a35; --ok: #14663a; --warn: #7a4f00; --base-ba
 .rs h2 { font-size: 1.75rem; line-height: 1.2; font-weight: 600; letter-spacing: -.01em; margin: 0 0 .75rem; }
 .rs h3 { font-size: 1.25rem; line-height: 1.3; font-weight: 600; margin: 0; }
 .rs h4 { font-size: 1rem; margin: 0; }
-.rs-pos { font-size: 1.25rem; line-height: 1.5; max-width: var(--measure); margin: 0 0 .75rem; }
+.rs-headline { font-size: 1.6rem; line-height: 1.3; font-weight: 600; max-width: var(--measure); margin: 0 0 .75rem; text-wrap: balance; }
+.rs-pos { font-size: 1.05rem; line-height: 1.5; max-width: var(--measure); margin: 0 0 .75rem; color: var(--mut); }
 .rs-status { color: var(--mut); margin: 0 0 1.5rem; max-width: var(--measure); }
 .rs-sub { color: var(--mut); max-width: var(--measure); margin: 0 0 1.5rem; }
 .rs-note { color: var(--mut); font-size: .9rem; margin: 1rem 0 0; max-width: var(--measure); }
@@ -242,6 +243,7 @@ details[open] > summary > .rs-chev::before { transform: rotate(45deg); border-co
     .container { max-width: none; padding: 0; margin: 0; }
     .rs h1 { font-size: 18pt; margin: 0; }
     .rs h2 { font-size: 11pt; margin: .5rem 0 .2rem; border-bottom: 1px solid #000; }
+    .rs-headline { font-size: 12pt; margin: 0; }
     .rs-pos { font-size: 10pt; margin: 0; }
     .rs-status { margin: 0 0 .3rem; font-size: 8.5pt; }
     .rs-sec { margin-top: .5rem; }
