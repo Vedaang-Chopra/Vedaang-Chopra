@@ -2,25 +2,23 @@
 
 meta:
   name: Vedaang Chopra
-  positioning: Georgia Tech M.S. in machine learning, after 5 years of production ML at Fortinet. I build agents
-    and models that show their work, and I report the runs that failed.
+  headline: Research engineer. I build ways to check whether AI systems are right, and train them to be better.
+  positioning: 5 years shipping production ML at Fortinet. Georgia Tech M.S. in machine learning, finishing Dec 2026. Moving into evals, post-training and RL.
   status: Atlanta. F-1, OPT eligible Dec 2026. Open to full-time roles from January 2027.
   threads_title: What I am working on now
   threads:
-  - title: Checking an agent step by step
-    text: Toward a closed-loop CAD agent that writes code, runs it, checks the geometry after every operation and
-      repairs it, with no fine-tuning.
+  - title: Verifying agents
+    text: 'CAD: check each step an agent takes, not only the final answer.'
     project: cad
-  - title: Agent traces as task graphs
-    text: Turning what agents did into graphs, to test whether solution steps repeat across tasks.
+  - title: Reusing agent work
+    text: 'SHASTRA: can traces from past agent runs become reusable workflows? A question under test.'
     project: shastra
-  - title: Resizable image embeddings and routing
-    text: Image representations that can be shrunk, and routing each request to the cheapest model that can answer
-      it.
+  - title: Routing vision-language models
+    text: 'ARTEMIS: send each request to the cheapest model that can answer it.'
+    project: artemis
+  - title: Training vision-language models
+    text: 'CERBERUS: teach a vision model to read only the parts of an image it needs.'
     project: cerberus
-  - title: Post-training
-    text: Learning supervised fine-tuning, reward modelling and preference optimisation by building small implementations.
-    project: null
   tier_key: Each project says what is built, partial or only proposed. Numbers appear only as early measurements,
     with their baseline and caveat.
   status_key:
@@ -613,7 +611,7 @@ experience:
     Figures are self-reported.'
 projects:
 - id: cad
-  name: CAD repair without fine-tuning
+  name: Verifying an agent step by step (CAD)
   credit: Owner, CORE Robotics Lab
   credit_kind: owner
   state: Ongoing
@@ -670,8 +668,9 @@ projects:
     where. I let the model see its part after every step, so it can be told which step broke and fix it, with no
     retraining.
   featured: true
+  feature_order: 1
 - id: cerberus
-  name: CERBERUS, a resizable vision-language bridge
+  name: Teaching a vision model to look at less (CERBERUS)
   credit: Owner, research project
   credit_kind: owner
   state: Ongoing
@@ -718,8 +717,9 @@ projects:
     how many pieces the model reads. The shared image-and-text base is built. Choosing pieces by question is the
     next step.
   featured: true
+  feature_order: 4
 - id: artemis
-  name: ARTEMIS, routing to the right model
+  name: Routing each request to the right model (ARTEMIS)
   credit: Owner, research project
   credit_kind: owner
   state: Ongoing
@@ -763,6 +763,7 @@ projects:
     which model is good at which task, and a router that picks one per request. So far it has not beaten a simple
     lookup.
   featured: true
+  feature_order: 3
 - id: athena
   name: ATHENA, from idea to storyboard
   credit: Team project, Georgia Tech
@@ -804,9 +805,9 @@ projects:
   tagline: From a rough idea to an editable storyboard.
   why: Turning an idea into a storyboard usually takes many tools. ATHENA is one graph of eight steps that remembers
     what it has already made, so a change redoes only what it affects.
-  featured: true
+  featured: false
 - id: shastra
-  name: SHASTRA, learning from agent traces
+  name: Reusing agent work (SHASTRA)
   credit: Team project, CS 8903, advisor Dr. Alexey Tumanov
   credit_kind: team
   state: Research prototype
@@ -848,7 +849,8 @@ projects:
   tagline: Turning what AI agents did into maps of their steps.
   why: Agents solve the same task in very different ways. I turn their traces into step maps to test whether solutions
     repeat, so one could be reused.
-  featured: false
+  featured: true
+  feature_order: 2
 - id: ar
   name: Sign reading for AR glasses
   credit: Team of two
@@ -915,7 +917,7 @@ projects:
   tagline: Do mutual funds agree on what to buy?
   why: 'Funds publish what they hold every month. I put it in one place to ask a simple question: when many fund
     managers pick the same stock, does it tell us anything? So far, the answer is that they mostly do not agree.'
-  featured: true
+  featured: false
 - id: malware
   name: Malware detection from memory forensics
   credit: Paper with a co-author, B.Tech. Dataset and code are public.
