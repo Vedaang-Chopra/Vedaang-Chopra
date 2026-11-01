@@ -101,10 +101,16 @@
         var el = proj || card;
         if (!el) { return; }
         var parent = proj || card.closest('.rs-proj');
-        if (parent) { parent.open = true; mountVisuals(parent); }
+        if (parent) {
+            parent.open = true; mountVisuals(parent);
+            var g = parent.closest('.rs-group');
+            if (g) { g.open = true; }
+        }
         if (card) {
             var early = card.closest('.rs-early');
             if (early) { early.open = true; }
+            var grp = card.closest('.rs-group');
+            if (grp) { grp.open = true; }
             var drawer = card.querySelector('details');
             if (drawer) { drawer.open = true; }
         }
@@ -130,7 +136,7 @@
 
     /* ---- negatives: visible by default, the visitor may hide them ---- */
     var hideNeg = document.getElementById('rs-collapse-neg');
-    hideNeg.addEventListener('change', function () { root.classList.toggle('hide-neg', hideNeg.checked); });
+    if (hideNeg) { hideNeg.addEventListener('change', function () { root.classList.toggle('hide-neg', hideNeg.checked); }); }
 
     /* ---- bar readouts ---- */
     function showBar(bar) {

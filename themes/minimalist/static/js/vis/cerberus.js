@@ -1,225 +1,341 @@
 window.RSVis = window.RSVis || {mods:{}};
 (function(){
+  var ID = 'cerberus';
   var S = '.rs-vis[data-vis="cerberus"]';
+  var SVGNS = 'http://www.w3.org/2000/svg';
   var CSS = [
     S+'{font-family:var(--font-sans);color:var(--text-color);}',
     S+' *{box-sizing:border-box;}',
-    S+' button{font:inherit;color:inherit;cursor:pointer;}',
-    S+' button:focus-visible,'+S+' input:focus-visible{outline:3px solid var(--focus);outline-offset:2px;}',
-    S+' .cb-title{font-size:1.05rem;font-weight:600;margin:0 0 .6rem;}',
-    S+' .cb-tabs{display:flex;gap:.4rem;flex-wrap:wrap;border-bottom:1px solid var(--border-color);margin-bottom:.9rem;}',
-    S+' .cb-tab{background:none;border:1px solid transparent;border-bottom:0;border-radius:6px 6px 0 0;padding:.5rem .8rem;font-size:.95rem;}',
-    S+' .cb-tab[aria-selected="true"]{border-color:var(--border-color);background:var(--surface);font-weight:600;margin-bottom:-1px;}',
-    S+' .cb-lab{font-size:.9rem;color:var(--mut);margin:.2rem 0 .5rem;}',
-    S+' .cb-row{display:flex;flex-wrap:wrap;gap:.5rem;align-items:stretch;margin-bottom:.9rem;}',
-    S+' .cb-arrow{align-self:center;color:var(--mut);font-size:1.1rem;}',
-    S+' .cb-box{flex:1 1 150px;min-width:130px;text-align:left;background:var(--surface);border:1px solid var(--border-color);border-radius:8px;padding:.6rem .7rem;display:flex;flex-direction:column;gap:.45rem;}',
-    S+' .cb-box[aria-pressed="true"]{border-color:var(--text-color);box-shadow:0 0 0 2px var(--text-color) inset;}',
-    S+' .cb-box.proposed{background:none;border:2px dashed var(--text-color);}',
-    S+' .cb-name{font-size:.95rem;font-weight:600;line-height:1.25;}',
-    S+' .cb-chip{align-self:flex-start;display:inline-flex;align-items:center;gap:.35rem;font-size:.85rem;padding:.1rem .5rem;border-radius:4px;border:1px solid var(--text-color);color:var(--text-color);}',
-    S+' .cb-chip.built{background:color-mix(in srgb,var(--ok) 12%,var(--bg-color));}',
-    S+' .cb-chip.partial{background:color-mix(in srgb,var(--warn) 14%,var(--bg-color));border-style:double;border-width:3px;}',
-    S+' .cb-chip.proposed{background:none;border-style:dashed;border-width:2px;}',
-    S+' .cb-chip.failed{background:repeating-linear-gradient(45deg,color-mix(in srgb,var(--bad) 20%,var(--bg-color)) 0 4px,var(--bg-color) 4px 8px);}',
-    S+' .cb-chip span{background:var(--bg-color);padding:0 .25rem;border-radius:3px;}',
-    S+' .cb-detail{border:1px solid var(--border-color);border-radius:8px;padding:.7rem .9rem;font-size:.95rem;line-height:1.5;min-height:3.6rem;background:var(--surface);}',
-    S+' .cb-range{width:100%;margin:.4rem 0;accent-color:var(--text-color);}',
-    S+' .cb-stops{display:flex;justify-content:space-between;font-family:var(--font-mono);font-size:.95rem;margin-bottom:.8rem;}',
-    S+' .cb-stops button{background:none;border:0;padding:.2rem .4rem;text-decoration:underline;}',
-    S+' .cb-stops button[aria-pressed="true"]{font-weight:700;}',
-    S+' .cb-vec{display:grid;grid-template-columns:repeat(32,1fr);gap:2px;margin:.3rem 0;}',
-    S+' .cb-cell{height:26px;border-radius:2px;border:1px solid var(--text-color);}',
-    S+' .cb-cell.on{background:var(--text-color);}',
-    S+' .cb-cell.off{background:none;border-style:dashed;opacity:.4;}',
-    S+' .cb-key{display:flex;justify-content:space-between;gap:.5rem;font-size:.9rem;margin-bottom:.8rem;}',
-    S+' .cb-big{font-size:2.2rem;font-weight:700;line-height:1.1;font-family:var(--font-mono);}',
-    S+' .cb-bar{height:10px;border:1px solid var(--text-color);border-radius:5px;margin:.4rem 0;overflow:hidden;}',
+    S+' button{font:inherit;font-size:14px;color:var(--text-color);background:var(--surface);border:1.5px solid var(--border-color);border-radius:6px;padding:.45rem .75rem;cursor:pointer;min-height:40px;}',
+    S+' button:hover{border-color:var(--text-color);}',
+    S+' button:disabled{cursor:default;opacity:.55;}',
+    S+' button:focus-visible,'+S+' input:focus-visible,'+S+' summary:focus-visible{outline:3px solid var(--focus);outline-offset:2px;}',
+    S+' button[aria-pressed="true"]{border-color:var(--text-color);background:color-mix(in srgb,var(--bg-color) 80%,var(--text-color));font-weight:600;}',
+    S+' .cb-nav{display:flex;align-items:center;gap:.5rem;flex-wrap:wrap;margin:0 0 .8rem;}',
+    S+' .cb-dots{display:flex;gap:.35rem;flex:1 1 auto;justify-content:center;}',
+    S+' .cb-dot{min-width:40px;padding:.3rem .5rem;border-radius:20px;text-align:center;font-family:var(--font-mono);}',
+    S+' .cb-dot[aria-current="step"]{border-color:var(--text-color);background:var(--text-color);color:var(--bg-color);font-weight:700;}',
+    S+' .cb-count{font-size:13px;color:var(--mut);margin:0 0 .2rem;}',
+    S+' .cb-title{font-size:17px;font-weight:600;line-height:1.35;margin:0 0 .4rem;}',
+    S+' .cb-text{font-size:15px;line-height:1.5;margin:0 0 .8rem;max-width:62ch;}',
+    S+' .cb-panel.cb-anim{animation:cbFade .25s ease-out;}',
+    '@keyframes cbFade{from{opacity:0;transform:translateY(4px);}to{opacity:1;transform:none;}}',
+    S+' .cb-pic{max-width:460px;}',
+    S+' .cb-pic svg{display:block;width:100%;height:auto;border:1px solid var(--border-color);border-radius:6px;background:var(--surface);}',
+    S+' .cb-sky{fill:var(--surface);}',
+    S+' .cb-ground{fill:color-mix(in srgb,var(--ok) 13%,var(--bg-color));}',
+    S+' .cb-sun{fill:color-mix(in srgb,var(--warn) 55%,var(--bg-color));}',
+    S+' .cb-leaf{fill:color-mix(in srgb,var(--ok) 60%,var(--bg-color));}',
+    S+' .cb-wood{fill:color-mix(in srgb,var(--text-color) 55%,var(--bg-color));}',
+    S+' .cb-house{fill:color-mix(in srgb,var(--base-bar) 45%,var(--bg-color));stroke:var(--text-color);stroke-width:1.5;}',
+    S+' .cb-board{fill:color-mix(in srgb,var(--bad) 60%,var(--bg-color));stroke:var(--text-color);stroke-width:2;}',
+    S+' .cb-p{stroke:var(--border-color);stroke-width:1;fill:color-mix(in srgb,var(--bg-color) 74%,transparent);}',
+    S+' .cb-p.on{fill:color-mix(in srgb,var(--focus) 14%,transparent);stroke:var(--text-color);stroke-width:2.5;}',
+    S+' .cb-anim-ok .cb-p{transition:fill .25s,stroke-width .25s;}',
+    S+' .cb-counter{font-size:15px;margin:.6rem 0 0;}',
+    S+' .cb-counter b{font-size:17px;}',
+    S+' .cb-qs{display:flex;flex-wrap:wrap;gap:.5rem;margin:0 0 .7rem;}',
+    S+' .cb-stamp{display:inline-block;font-size:13px;font-weight:600;border:2px dashed var(--text-color);border-radius:4px;padding:.2rem .5rem;margin:0 0 .7rem;}',
+    S+' figure.cb-fig{margin:0;}',
+    S+' .cb-fig img{display:block;width:100%;max-width:760px;height:auto;border:1px solid var(--border-color);border-radius:6px;}',
+    S+' .cb-fig figcaption{font-size:14px;line-height:1.5;margin-top:.5rem;max-width:70ch;}',
+    S+' .cb-tag{display:inline-block;font-size:12px;font-weight:600;border:1.5px dashed var(--text-color);border-radius:4px;padding:.05rem .4rem;margin-right:.4rem;}',
+    S+' .cb-sizes{display:flex;gap:.5rem;flex-wrap:wrap;margin:0 0 .4rem;font-family:var(--font-mono);}',
+    S+' .cb-range{width:100%;max-width:420px;margin:.2rem 0 .7rem;accent-color:var(--text-color);display:block;}',
+    S+' .cb-vec{display:flex;gap:2px;margin:.2rem 0 .35rem;max-width:620px;}',
+    S+' .cb-cell{flex:1 1 0;height:26px;border-radius:2px;border:1.5px solid var(--text-color);background:color-mix(in srgb,var(--rs-link) 70%,var(--bg-color));}',
+    S+' .cb-cell.off{background:none;border:1.5px dashed var(--mut);}',
+    S+' .cb-anim-ok .cb-cell{transition:opacity .2s,background .2s;}',
+    S+' .cb-mark{font-size:13px;margin:0 0 .7rem;}',
+    S+' .cb-read{border-left:4px solid var(--text-color);background:var(--surface);padding:.55rem .8rem;margin:0 0 .6rem;max-width:620px;}',
+    S+' .cb-read .cb-num{font-family:var(--font-mono);font-size:22px;font-weight:700;}',
+    S+' .cb-bar{height:10px;border:1px solid var(--text-color);border-radius:3px;margin:.35rem 0;max-width:420px;}',
     S+' .cb-bar i{display:block;height:100%;background:var(--text-color);}',
-    S+' .cb-metric{font-size:.9rem;color:var(--mut);}',
-    S+' .cb-cap{margin:.8rem 0 0;font-size:.95rem;font-weight:600;}',
-    S+' .cb-idea{margin-top:1.4rem;border-top:1px solid var(--border-color);padding-top:1rem;}',
-    S+' .cb-idea h3{margin:0 0 .3rem;font-size:1.05rem;display:flex;flex-wrap:wrap;gap:.6rem;align-items:center;}',
-    S+' .cb-cases{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:1rem;margin-top:.6rem;}',
-    S+' .cb-case{border:1px solid var(--border-color);border-radius:8px;padding:.7rem;background:var(--surface);}',
-    S+' .cb-q{font-weight:600;font-size:.95rem;margin:0 0 .5rem;}',
-    S+' .cb-grid{display:grid;gap:3px;margin-bottom:.5rem;}',
-    S+' .cb-p{aspect-ratio:1/1;border-radius:3px;border:1px solid var(--text-color);}',
-    S+' .cb-p.k{background:var(--text-color);}',
-    S+' .cb-p.d{border-style:dashed;opacity:.35;}',
-    S+' .cb-note{font-size:.9rem;margin:0;}',
-    '@media (max-width:560px){'+S+' .cb-arrow{display:none;}'+S+' .cb-box{flex-basis:100%;}'+S+' .cb-big{font-size:1.9rem;}}',
-    '@media (prefers-reduced-motion:no-preference){'+S+' .cb-bar i{transition:width .25s ease;}'+S+' .cb-cell{transition:opacity .2s ease;}}'
+    S+' .cb-gloss{font-size:13px;line-height:1.45;margin:.2rem 0 0;}',
+    S+' .cb-cap{font-size:14px;font-weight:600;margin:0;}',
+    S+' .cb-chips{display:flex;flex-direction:column;gap:.5rem;max-width:620px;margin:0 0 .7rem;}',
+    S+' .cb-chip{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:.4rem;text-align:left;}',
+    S+' .cb-chip .cb-n{font-weight:600;}',
+    S+' .st{display:inline-block;font-size:12px;line-height:1.25;padding:.15rem .45rem;border-radius:4px;border:1.5px solid var(--text-color);font-weight:600;color:var(--text-color);}',
+    S+' .st.built{background:color-mix(in srgb,var(--ok) 13%,var(--bg-color));border-color:var(--ok);}',
+    S+' .st.partial{background:color-mix(in srgb,var(--warn) 13%,var(--bg-color));border-color:var(--warn);}',
+    S+' .st.proposed{background:none;border-style:dashed;}',
+    S+' .st.failed{border-color:var(--bad);background:repeating-linear-gradient(45deg,color-mix(in srgb,var(--bad) 13%,var(--bg-color)) 0 4px,var(--bg-color) 4px 8px);}',
+    S+' .st.failed span{background:var(--bg-color);padding:0 .2rem;border-radius:2px;}',
+    S+' .cb-detail{font-size:14px;line-height:1.5;border-left:4px solid var(--text-color);background:var(--surface);padding:.6rem .8rem;min-height:3.2em;max-width:620px;}',
+    S+' details.cb-more{margin-top:1rem;border-top:1px solid var(--border-color);padding-top:.6rem;}',
+    S+' details.cb-more summary{cursor:pointer;font-size:14px;font-weight:600;padding:.3rem 0;}',
+    S+' details.cb-more ul{margin:.4rem 0 0;padding-left:1.1rem;font-size:14px;line-height:1.5;}',
+    S+' details.cb-more li{margin:.25rem 0;}',
+    S+' .cb-sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;}',
+    '@media (max-width:480px){'+S+' .cb-dots{order:3;flex-basis:100%;}'+S+' .cb-nav{justify-content:space-between;}}'
   ].join('\n');
 
-  function el(tag, cls, text, parent){
+  function h(tag, cls, text){
     var e = document.createElement(tag);
     if (cls) e.className = cls;
     if (text != null) e.textContent = text;
-    if (parent) parent.appendChild(e);
     return e;
   }
-
-  function chip(parent, status, label){
-    var c = el('span', 'cb-chip ' + status, null, parent);
-    var glyph = {built:'✓', partial:'◐', proposed:'□', failed:'✕'}[status];
-    el('span', null, glyph, c).setAttribute('aria-hidden', 'true');
-    el('b', null, label, c).style.fontWeight = '600';
-    return c;
+  function sv(tag, attrs){
+    var e = document.createElementNS(SVGNS, tag);
+    for (var k in attrs) e.setAttribute(k, attrs[k]);
+    return e;
+  }
+  function statusTag(st, text){
+    var t = h('span', 'st ' + st);
+    t.appendChild(h('span', null, text));
+    return t;
   }
 
-  function mountPipeline(panel, data, detail){
-    var boxes = [];
-    function select(btn, item){
-      boxes.forEach(function(b){ b.setAttribute('aria-pressed', b === btn ? 'true' : 'false'); });
-      detail.textContent = item.name + ' (' + data.statuses[item.status] + '). ' + item.text;
+  function scene(grid, label){
+    var C = 50, W = grid.cols * C, H = grid.rows * C;
+    var svg = sv('svg', {viewBox:'0 0 '+W+' '+H, role:'img', 'aria-label':label});
+    svg.appendChild(sv('rect', {'class':'cb-sky', x:0, y:0, width:W, height:H}));
+    svg.appendChild(sv('rect', {'class':'cb-ground', x:0, y:210, width:W, height:H-210}));
+    svg.appendChild(sv('circle', {'class':'cb-sun', cx:62, cy:58, r:30}));
+    svg.appendChild(sv('rect', {'class':'cb-wood', x:94, y:160, width:14, height:62}));
+    svg.appendChild(sv('circle', {'class':'cb-leaf', cx:101, cy:150, r:38}));
+    svg.appendChild(sv('rect', {'class':'cb-house', x:150, y:150, width:84, height:64}));
+    svg.appendChild(sv('path', {'class':'cb-house', d:'M142 152 L192 112 L242 152 Z'}));
+    svg.appendChild(sv('rect', {'class':'cb-wood', x:296, y:118, width:8, height:98}));
+    svg.appendChild(sv('rect', {'class':'cb-board', x:260, y:66, width:80, height:52, rx:4}));
+    var cells = [];
+    for (var r = 0; r < grid.rows; r++) {
+      for (var c = 0; c < grid.cols; c++) {
+        var p = sv('rect', {'class':'cb-p', x:c*C, y:r*C, width:C, height:C});
+        p.dataset.rc = r + ',' + c;
+        svg.appendChild(p);
+        cells.push(p);
+      }
     }
-    function row(label, items, arrows){
-      el('p', 'cb-lab', label, panel);
-      var g = el('div', 'cb-row', null, panel);
-      g.setAttribute('role', 'group');
-      g.setAttribute('aria-label', label);
-      items.forEach(function(it, i){
-        if (arrows && i) el('span', 'cb-arrow', '→', g).setAttribute('aria-hidden', 'true');
-        var b = el('button', 'cb-box' + (it.status === 'proposed' ? ' proposed' : ''), null, g);
-        b.type = 'button';
-        b.setAttribute('aria-pressed', 'false');
-        el('span', 'cb-name', it.name, b);
-        chip(b, it.status, data.statuses[it.status]);
-        b.addEventListener('click', function(){ select(b, it); });
-        boxes.push(b);
-      });
+    return {svg:svg, cells:cells};
+  }
+  function keptSet(grid, kind){
+    var set = {};
+    if (kind === 'sign') {
+      grid.sign.forEach(function(rc){ set[rc[0]+','+rc[1]] = 1; });
+    } else {
+      for (var r = 0; r < grid.rows; r++) for (var c = 0; c < grid.cols; c++) set[r+','+c] = 1;
+      if (kind === 'most') { delete set['0,0']; delete set['0,'+(grid.cols-1)]; delete set['0,3']; }
     }
-    row(data.pipelineLabel, data.pipeline, true);
-    row(data.sideLabel, data.side, false);
+    return set;
+  }
+  function light(sc, set, label){
+    sc.cells.forEach(function(p){ p.setAttribute('class', set[p.dataset.rc] ? 'cb-p on' : 'cb-p'); });
+    sc.svg.setAttribute('aria-label', label);
   }
 
-  function mountShrink(panel, data){
-    var s = data.shrink, N = 32;
-    var wrap = el('div', null, null, panel);
-    var lab = el('label', 'cb-lab', s.label, wrap);
-    var range = el('input', 'cb-range', null, wrap);
-    range.type = 'range'; range.min = 0; range.max = s.sizes.length - 1; range.step = 1; range.value = 0;
-    range.id = 'cb-range-' + Math.random().toString(36).slice(2, 7);
-    lab.htmlFor = range.id;
-    var stops = el('div', 'cb-stops', null, wrap);
-    stops.setAttribute('role', 'group'); stops.setAttribute('aria-label', s.label + ' stops');
-    var sb = s.sizes.map(function(sz, i){
-      var b = el('button', null, String(sz), stops);
+  function stepAll(panel, st, data){
+    var sc = scene(data.grid, st.gridLabel);
+    light(sc, keptSet(data.grid, 'all'), st.gridLabel);
+    var pic = h('div', 'cb-pic'); pic.appendChild(sc.svg); panel.appendChild(pic);
+    var cnt = h('p', 'cb-counter', st.counterLabel + ' ');
+    cnt.appendChild(h('b', null, st.counterValue));
+    panel.appendChild(cnt);
+  }
+
+  function stepChoose(panel, st, data){
+    panel.appendChild(h('div', 'cb-stamp', st.stamp));
+    var qs = h('div', 'cb-qs');
+    qs.setAttribute('role', 'group');
+    qs.setAttribute('aria-label', st.questionsLabel);
+    panel.appendChild(qs);
+    var sc = scene(data.grid, st.questions[0].gridLabel);
+    var pic = h('div', 'cb-pic'); pic.appendChild(sc.svg); panel.appendChild(pic);
+    var cnt = h('p', 'cb-counter');
+    cnt.setAttribute('aria-live', 'polite');
+    panel.appendChild(cnt);
+    var btns = st.questions.map(function(q, i){
+      var b = h('button', null, q.q);
       b.type = 'button';
-      b.addEventListener('click', function(){ range.value = i; render(); });
+      b.addEventListener('click', function(){ pick(i); });
+      qs.appendChild(b);
       return b;
     });
-    el('p', 'cb-lab', s.vectorLabel, wrap);
-    var vec = el('div', 'cb-vec', null, wrap);
-    vec.setAttribute('aria-hidden', 'true');
+    function pick(i){
+      var q = st.questions[i];
+      btns.forEach(function(b, j){ b.setAttribute('aria-pressed', j === i ? 'true' : 'false'); });
+      light(sc, keptSet(data.grid, q.kept), q.gridLabel);
+      cnt.textContent = st.counterLabel + ' ';
+      cnt.appendChild(h('b', null, q.count));
+    }
+    pick(0);
+  }
+
+  function stepFigure(panel, st){
+    var fig = h('figure', 'cb-fig');
+    var img = h('img');
+    img.src = st.img;
+    img.alt = st.alt;
+    img.loading = 'lazy';
+    img.decoding = 'async';
+    fig.appendChild(img);
+    var cap = h('figcaption');
+    cap.appendChild(h('span', 'cb-tag', st.tag));
+    cap.appendChild(document.createTextNode(st.caption));
+    fig.appendChild(cap);
+    panel.appendChild(fig);
+  }
+
+  function stepShrink(panel, st){
+    var N = 32, max = st.sizes[0];
+    var sizes = h('div', 'cb-sizes');
+    sizes.setAttribute('role', 'group');
+    sizes.setAttribute('aria-label', st.sizeLabel);
+    panel.appendChild(sizes);
+    var range = h('input', 'cb-range');
+    range.type = 'range'; range.min = 0; range.max = st.sizes.length - 1; range.step = 1; range.value = 0;
+    range.setAttribute('aria-label', st.sizeLabel);
+    panel.appendChild(range);
+    var vec = h('div', 'cb-vec');
+    vec.setAttribute('role', 'img');
+    panel.appendChild(vec);
     var cells = [];
-    for (var i = 0; i < N; i++) cells.push(el('div', 'cb-cell', null, vec));
-    var key = el('div', 'cb-key', null, wrap);
-    var kl = el('span', null, null, key), dl = el('span', null, null, key);
-    el('p', 'cb-metric', s.note, wrap);
-    var big = el('div', 'cb-big', null, wrap);
-    var bar = el('div', 'cb-bar', null, wrap); bar.setAttribute('aria-hidden', 'true');
-    var fill = el('i', null, null, bar);
-    el('div', 'cb-metric', s.metric, wrap);
-    var live = el('p', 'cb-lab', null, wrap);
-    live.setAttribute('aria-live', 'polite');
-    el('p', 'cb-cap', s.caption, panel);
-    var total = s.sizes[0];
-    function render(){
-      var i = +range.value, sz = s.sizes[i], keep = Math.round(sz / total * N);
-      cells.forEach(function(c, k){ c.className = 'cb-cell ' + (k < keep ? 'on' : 'off'); });
-      sb.forEach(function(b, k){ b.setAttribute('aria-pressed', k === i ? 'true' : 'false'); });
-      kl.textContent = '✓ ' + s.keptText + ': first ' + sz + ' of ' + total;
-      dl.textContent = sz === total ? '' : '✕ ' + s.droppedText;
-      big.textContent = s.recall[i].toFixed(1);
-      fill.style.width = s.recall[i] + '%';
-      range.setAttribute('aria-valuetext', sz + ' dimensions, recall at 5 is ' + s.recall[i].toFixed(1));
-      live.textContent = 'At ' + sz + ' dimensions, ' + s.metric + ': ' + s.recall[i].toFixed(1);
-    }
-    range.addEventListener('input', render);
-    render();
-  }
-
-  function mountIdea(root, data){
-    var d = data.idea;
-    var sec = el('section', 'cb-idea', null, root);
-    sec.setAttribute('aria-label', d.title);
-    var h = el('h3', null, d.title, sec);
-    chip(h, 'proposed', d.chip);
-    el('p', 'cb-lab', d.badge + '. ' + d.mock, sec);
-    var cases = el('div', 'cb-cases', null, sec);
-    d.cases.forEach(function(c, ci){
-      var box = el('div', 'cb-case', null, cases);
-      el('p', 'cb-q', c.q, box);
-      var g = el('div', 'cb-grid', null, box);
-      g.style.gridTemplateColumns = 'repeat(' + d.cols + ',1fr)';
-      g.setAttribute('role', 'img');
-      g.setAttribute('aria-label', 'Mock patch grid for the question ' + c.q + '. ' + c.note);
-      for (var r = 0; r < d.rows; r++) for (var q = 0; q < d.cols; q++) {
-        var keep;
-        if (c.kept === 'most') keep = !((r === 0 && q < 3) || (r === d.rows - 1 && q > d.cols - 3) || (r + q) % 7 === 0);
-        else keep = c.kept.some(function(p){ return p[0] === r && p[1] === q; });
-        el('div', 'cb-p ' + (keep ? 'k' : 'd'), null, g);
-      }
-      el('p', 'cb-note', c.note, box);
+    for (var i = 0; i < N; i++) { var c = h('span', 'cb-cell'); vec.appendChild(c); cells.push(c); }
+    var mark = h('p', 'cb-mark');
+    panel.appendChild(mark);
+    var read = h('div', 'cb-read');
+    read.setAttribute('aria-live', 'polite');
+    var line = h('div');
+    var name = h('span', null, st.metricName + ': ');
+    var num = h('span', 'cb-num');
+    line.appendChild(name); line.appendChild(num);
+    var bar = h('div', 'cb-bar'); var fill = h('i'); bar.appendChild(fill);
+    bar.setAttribute('aria-hidden', 'true');
+    read.appendChild(line); read.appendChild(bar);
+    read.appendChild(h('p', 'cb-gloss', st.metricGloss));
+    panel.appendChild(read);
+    panel.appendChild(h('p', 'cb-cap', st.caption));
+    var btns = st.sizes.map(function(s, i){
+      var b = h('button', null, String(s));
+      b.type = 'button';
+      b.addEventListener('click', function(){ set(i); });
+      sizes.appendChild(b);
+      return b;
     });
+    function set(i){
+      var s = st.sizes[i], keep = Math.max(1, Math.round(N * s / max));
+      range.value = i;
+      range.setAttribute('aria-valuetext', String(s));
+      btns.forEach(function(b, j){ b.setAttribute('aria-pressed', j === i ? 'true' : 'false'); });
+      cells.forEach(function(c, j){ c.className = j < keep ? 'cb-cell' : 'cb-cell off'; });
+      var m = s === max ? st.keptText + ': all ' + s + ' numbers. Nothing ' + st.droppedText + '.'
+        : st.keptText + ': the first ' + s + ' of ' + max + ' numbers. Dashed cells: ' + st.droppedText + '.';
+      mark.textContent = m;
+      vec.setAttribute('aria-label', st.vectorLabel + ' ' + m);
+      num.textContent = String(st.recall[i]);
+      fill.style.width = st.recall[i] + '%';
+    }
+    range.addEventListener('input', function(){ set(+range.value); });
+    set(0);
   }
 
-  RSVis.mods['cerberus'] = function mount(root, data, ctx){
-    if (!document.getElementById('rs-vis-cerberus-css')) {
-      var st = document.createElement('style');
-      st.id = 'rs-vis-cerberus-css'; st.textContent = CSS;
-      document.head.appendChild(st);
+  function stepChips(panel, st, data){
+    var box = h('div', 'cb-chips');
+    box.setAttribute('role', 'group');
+    box.setAttribute('aria-label', st.title);
+    panel.appendChild(box);
+    var det = h('div', 'cb-detail');
+    det.setAttribute('aria-live', 'polite');
+    panel.appendChild(det);
+    var btns = st.chips.map(function(c, i){
+      var b = h('button', 'cb-chip');
+      b.type = 'button';
+      b.appendChild(h('span', 'cb-n', c.name));
+      b.appendChild(statusTag(c.status, c.statusText));
+      b.addEventListener('click', function(){ pick(i); });
+      box.appendChild(b);
+      return b;
+    });
+    function pick(i){
+      btns.forEach(function(b, j){ b.setAttribute('aria-pressed', j === i ? 'true' : 'false'); });
+      det.textContent = st.chips[i].text;
     }
-    root.textContent = '';
+    pick(0);
+  }
+
+  var BUILD = {all:stepAll, choose:stepChoose, figure:stepFigure, shrink:stepShrink, chips:stepChips};
+
+  function mount(el, data, ctx){
+    ctx = ctx || {};
+    if (!document.getElementById('rs-vis-' + ID + '-css')) {
+      var style = h('style', null, CSS);
+      style.id = 'rs-vis-' + ID + '-css';
+      document.head.appendChild(style);
+    }
+    while (el.firstChild) el.removeChild(el.firstChild);
+    var root = h('div', ctx.reduceMotion ? '' : 'cb-anim-ok');
     root.setAttribute('role', 'group');
-    root.setAttribute('aria-label', data.title);
-    el('p', 'cb-title', data.title, root);
-    var tl = el('div', 'cb-tabs', null, root);
-    tl.setAttribute('role', 'tablist'); tl.setAttribute('aria-label', data.title);
-    var panels = [], tabs = [];
-    var uid = 'cb' + Math.random().toString(36).slice(2, 6);
-    data.tabs.forEach(function(name, i){
-      var t = el('button', 'cb-tab', name, tl);
-      t.type = 'button'; t.id = uid + 't' + i;
-      t.setAttribute('role', 'tab');
-      t.setAttribute('aria-controls', uid + 'p' + i);
-      tabs.push(t);
+    root.setAttribute('aria-label', data.label);
+    el.appendChild(root);
+    var steps = data.steps, n = steps.length, cur = 0;
+
+    var nav = h('div', 'cb-nav');
+    var back = h('button', null, data.back); back.type = 'button';
+    var next = h('button', null, data.next); next.type = 'button';
+    var dots = h('div', 'cb-dots');
+    dots.setAttribute('role', 'group');
+    dots.setAttribute('aria-label', 'Steps');
+    var dotBtns = steps.map(function(s, i){
+      var d = h('button', 'cb-dot', String(i + 1));
+      d.type = 'button';
+      d.setAttribute('aria-label', data.stepWord + ' ' + (i + 1) + ': ' + s.title);
+      d.addEventListener('click', function(){ go(i); });
+      dots.appendChild(d);
+      return d;
     });
-    data.tabs.forEach(function(n, i){
-      var p = el('div', null, null, root);
-      p.id = uid + 'p' + i; p.setAttribute('role', 'tabpanel');
-      p.setAttribute('aria-labelledby', uid + 't' + i);
-      panels.push(p);
+    nav.appendChild(back); nav.appendChild(dots); nav.appendChild(next);
+    root.appendChild(nav);
+
+    var head = h('div');
+    head.setAttribute('aria-live', 'polite');
+    var count = h('p', 'cb-count');
+    var title = h('p', 'cb-title');
+    var text = h('p', 'cb-text');
+    head.appendChild(count); head.appendChild(title); head.appendChild(text);
+    root.appendChild(head);
+    var panel = h('div', 'cb-panel');
+    root.appendChild(panel);
+
+    var more = h('details', 'cb-more');
+    more.appendChild(h('summary', null, data.more.summary));
+    var ul = h('ul');
+    data.more.items.forEach(function(it){
+      var li = h('li');
+      li.appendChild(statusTag(it.status, data.statuses[it.status]));
+      li.appendChild(document.createTextNode(' '));
+      li.appendChild(h('b', null, it.name));
+      li.appendChild(document.createTextNode(': ' + it.text));
+      ul.appendChild(li);
     });
-    var detail = el('div', 'cb-detail', data.detailDefault, panels[0]);
-    detail.setAttribute('aria-live', 'polite');
-    var first = panels[0];
-    var holder = el('div', null, null, first);
-    first.insertBefore(holder, detail);
-    mountPipeline(holder, data, detail);
-    mountShrink(panels[1], data);
-    function show(i, focus){
-      tabs.forEach(function(t, k){
-        t.setAttribute('aria-selected', k === i ? 'true' : 'false');
-        t.tabIndex = k === i ? 0 : -1;
-        panels[k].hidden = k !== i;
+    more.appendChild(ul);
+    root.appendChild(more);
+
+    back.addEventListener('click', function(){ go(cur - 1); });
+    next.addEventListener('click', function(){ go(cur + 1); });
+
+    function go(i){
+      if (i < 0 || i >= n) return;
+      cur = i;
+      var st = steps[i];
+      count.textContent = data.stepWord + ' ' + (i + 1) + ' ' + data.ofWord + ' ' + n;
+      title.textContent = st.title;
+      text.textContent = st.text;
+      back.disabled = i === 0;
+      next.disabled = i === n - 1;
+      dotBtns.forEach(function(d, j){
+        if (j === i) d.setAttribute('aria-current', 'step'); else d.removeAttribute('aria-current');
       });
-      if (focus) tabs[i].focus();
+      while (panel.firstChild) panel.removeChild(panel.firstChild);
+      panel.className = 'cb-panel';
+      if (!ctx.reduceMotion) { void panel.offsetWidth; panel.className = 'cb-panel cb-anim'; }
+      BUILD[st.kind](panel, st, data);
+      if (document.activeElement === back && back.disabled) next.focus();
+      if (document.activeElement === next && next.disabled) back.focus();
     }
-    tabs.forEach(function(t, i){
-      t.addEventListener('click', function(){ show(i, false); });
-      t.addEventListener('keydown', function(e){
-        var n = tabs.length, k = null;
-        if (e.key === 'ArrowRight') k = (i + 1) % n;
-        else if (e.key === 'ArrowLeft') k = (i + n - 1) % n;
-        else if (e.key === 'Home') k = 0;
-        else if (e.key === 'End') k = n - 1;
-        if (k != null) { e.preventDefault(); show(k, true); }
-      });
-    });
-    show(0, false);
-    mountIdea(root, data);
-  };
+    go(0);
+  }
+
+  RSVis.mods[ID] = mount;
 })();

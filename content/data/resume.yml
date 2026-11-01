@@ -692,13 +692,6 @@ projects:
   order:
     research: 1
     agentic: 1
-  problem: 'A language model can write CAD code that runs but builds the wrong part: a flipped rotation,
-    a wrong dimension, a missing hole. A score on the final shape says the part is wrong but not which
-    step broke it, so blind retries drift.'
-  idea: Keep the model frozen and give it a deterministic way to see its own geometry. A new representation
-    records the part after every construction step. A process verifier compares each step with the target
-    and blames the first one that goes wrong. A repair loop feeds that diagnosis back, and what worked
-    is stored as reusable repair cards, the skills, for later runs.
   visual: cad
   mechanism:
   - label: The model writes CadQuery and the code runs in a sandbox
@@ -725,10 +718,6 @@ projects:
   - label: Repair without the ground-truth shape
     status: proposed
     note: One small pilot only.
-  unique:
-  - The diagnosis is deterministic and per step, not a retry on a final score.
-  - Learning lives in an external card store, so the model weights never change.
-  - 'Failures are reported: a feedback ablation tied and a pre-registered gate failed.'
   skills:
   - evaluation
   - langgraph
@@ -743,9 +732,13 @@ projects:
   links:
   - label: Code
     url: https://github.com/Vedaang-Chopra/CAD-Physics
-  summary: A frozen model writes CAD code, and a deterministic verifier tells it which construction step
-    went wrong. Ongoing, and repair is still guided by the target shape.
+  summary: A model that writes CAD code, and gets told exactly which step went wrong.
   blurb: ''
+  tagline: A model that writes CAD code, and gets told exactly which step went wrong.
+  why: Language models often write CAD code that runs but builds the wrong part. A score only says "wrong",
+    not where. I let the model see its part after every step, so it can be told which step broke and fix
+    it, with no retraining.
+  featured: true
   figures:
   - id: cad_repair_turn4
     file: cad_repair_turn4.webp
@@ -769,11 +762,6 @@ projects:
   order:
     research: 2
     agentic: 8
-  problem: Most vision-language models turn every image into the same fixed number of visual tokens, whatever
-    the question. The language model reads a lot it does not need.
-  idea: 'Let the question decide how many image patches reach the language model. The foundation is built:
-    frozen image and text encoders aligned in one shared space that can be shrunk. The question-aware
-    selector is the next step. It is a proposal, not built.'
   visual: cerberus
   mechanism:
   - label: Frozen CLIP image encoder and sentence text encoder
@@ -793,10 +781,6 @@ projects:
     note: One 7B run, training loss only, no held-out answer metric yet.
   - label: Question-conditioned choice of how many patches to keep
     status: proposed
-  unique:
-  - 'Honest about what is a proposal: question-aware selection is framed as a research question with named
-    failure modes.'
-  - 'A negative result is kept: Perceiver compression failed.'
   skills:
   - pytorch
   - clip-sbert
@@ -809,9 +793,13 @@ projects:
   links:
   - label: Code
     url: https://github.com/Vedaang-Chopra/CEREBRUS
-  summary: A resizable image-to-language bridge is built. A question-aware patch selector, where the question
-    decides how much of the image the model reads, is proposed.
+  summary: Teaching a vision-language model to read only the parts of an image that a question needs.
   blurb: ''
+  tagline: Teaching a vision-language model to read only the parts of an image that a question needs.
+  why: Most models cut every image into the same number of pieces, whatever you ask. I want the question
+    to decide how many pieces the model reads. The shared image-and-text base is built. Choosing pieces
+    by question is the next step.
+  featured: true
   figures:
   - id: cerberus_retrieval_r5_by_dim
     file: cerberus_retrieval_r5_by_dim.webp
@@ -843,11 +831,6 @@ projects:
   order:
     research: 3
     agentic: 3
-  problem: Several vision-language models can answer a request, but they differ widely in price and speed.
-    Always calling the biggest one wastes money. Picking wrongly loses accuracy.
-  idea: Build a leakage-free benchmark of which model is good at which kind of task, then learn to send
-    each request to the cheapest model likely to be right. Smaller, quantized models win on some task
-    types, so the strongest model is not always needed.
   visual: artemis
   mechanism:
   - label: Collect answers from five models on 67,711 questions
@@ -865,9 +848,6 @@ projects:
   - label: Serving layer and verifier cascade
     status: partial
     note: Code only, never validated on live backends.
-  unique:
-  - The benchmark was corrected after a leak was found, and the old numbers were retired.
-  - Cost penalties are applied at decision time, so one model serves cheap, fast and accurate modes.
   skills:
   - evaluation
   - routing
@@ -878,9 +858,13 @@ projects:
   links:
   - label: Code
     url: https://github.com/Vedaang-Chopra/ARTEMIS
-  summary: A leakage-free benchmark and a router that sends requests to cheaper vision-language models.
-    The learned router has not yet beaten a simple lookup.
+  summary: Sending each request to the cheapest AI model that can answer it.
   blurb: ''
+  tagline: Sending each request to the cheapest AI model that can answer it.
+  why: Some AI models cost far more than others, and the biggest is not always the best. I built a fair
+    test of which model is good at which task, and a router that picks one per request. So far it has
+    not beaten a simple lookup.
+  featured: true
 - id: athena
   name: ATHENA, from idea to storyboard
   credit: Team project, Georgia Tech
@@ -891,12 +875,6 @@ projects:
   order:
     research: 9
     agentic: 2
-  problem: Turning a vague creative idea into an editable storyboard takes several disconnected tools.
-    A naive pipeline redoes everything when one scene changes, or loses the work when a long run dies.
-  idea: One typed project object flows through a LangGraph. A language model reads the brief once and
-    writes an execution plan. After that, routing is plain code with no model supervisor. Every step checks
-    whether its output already exists and is valid, so runs resume and an edit regenerates only what it
-    affects.
   visual: athena
   mechanism:
   - label: Eight LangGraph nodes from intent to project assembly
@@ -915,10 +893,6 @@ projects:
     note: Text only.
   - label: Video generation from the storyboard
     status: proposed
-  unique:
-  - Deterministic routing driven by an execution plan, replacing an earlier model-supervisor prototype.
-  - Resume and regeneration are properties of the data model, not extra code.
-  - The research tools are a reusable MCP server.
   skills:
   - langgraph
   - pydantic
@@ -927,9 +901,12 @@ projects:
   cards: []
   lead: null
   links: []
-  summary: An idea becomes an editable storyboard through a graph that resumes and regenerates only what
-    changed.
+  summary: From a rough idea to an editable storyboard.
   blurb: ''
+  tagline: From a rough idea to an editable storyboard.
+  why: Turning an idea into a storyboard usually takes many tools. ATHENA is one graph of eight steps
+    that remembers what it has already made, so a change redoes only what it affects.
+  featured: true
   figures:
   - id: athena_generated_shot
     file: athena_generated_shot.webp
@@ -949,12 +926,6 @@ projects:
   order:
     research: 9
     agentic: 4
-  problem: Agent benchmark traces are long and messy, and every agent solves a task its own way. There
-    is no common representation for asking whether solution steps repeat across tasks, so that a stored
-    module could have served them.
-  idea: 'Measure before building: turn each trace into comparable structure, then check whether that structure
-    recurs. The longer-term goal is parameterized deterministic workflows as procedural memory for agents.
-    That goal is not built.'
   visual: shastra
   mechanism:
   - label: Ingest traces from several agent benchmarks
@@ -977,17 +948,18 @@ projects:
     note: Code exists, no results yet.
   - label: Workflow retrieval and adaptation
     status: proposed
-  unique:
-  - Framed as a hit-rate study before building the cache.
-  - A closed vocabulary makes graphs from different agents countable.
   skills:
   - multi-agent
   - pydantic
   cards: []
   lead: null
   links: []
-  summary: Turning agent traces into task graphs to see whether solution steps repeat across tasks.
+  summary: Turning what AI agents did into maps of their steps.
   blurb: ''
+  tagline: Turning what AI agents did into maps of their steps.
+  why: Agents solve the same task in very different ways. I turn their traces into step maps to test whether
+    solutions repeat, so one could be reused.
+  featured: false
   figures:
   - id: shastra_workflow_dag
     file: shastra_workflow_dag.webp
@@ -1008,11 +980,6 @@ projects:
   order:
     research: 9
     agentic: 5
-  problem: A blind or low-vision wearer needs signs read aloud as they walk, without stopping to take
-    a photo. The constraints are latency, battery and reliability on a phone paired with glasses.
-  idea: Read the sign first. Frames are gated on the device for blur and change, sent to a vision-language
-    model that returns structured JSON, and the spoken sentence leads with what the sign means. The live
-    path drops OCR to cut latency.
   visual: ar
   mechanism:
   - label: On-device frame gate on web, Android and iOS
@@ -1024,15 +991,17 @@ projects:
   - label: Meta Ray-Ban hardware path
     status: partial
     note: Not validated. No latency figures.
-  unique:
-  - The same gate is ported to three platforms.
   skills:
   - pytorch
   cards: []
   lead: null
   links: []
-  summary: A prototype that reads signs aloud, sign first, with OCR dropped from the live path.
+  summary: Glasses that read signs aloud.
   blurb: ''
+  tagline: Glasses that read signs aloud.
+  why: A blind or low-vision person needs signs read out as they walk. The prototype reads the sign first,
+    and skips the slow text-reading step.
+  featured: false
 - id: finance
   name: Mutual-fund consensus platform
   credit: Independent
@@ -1043,25 +1012,17 @@ projects:
   order:
     research: 7
     agentic: 9
-  problem: Indian mutual funds publish monthly portfolio disclosures, each fund house in its own format
-    on its own portal. Nobody can easily ask how many independent managers hold a stock, and what kinds.
-  idea: 'When many independent professional investors converge on a stock, that may carry information.
-    First the plumbing: ingest every disclosure into one clean PostgreSQL layer, with provenance and validation.'
   visual: finance
   mechanism:
-  - label: 'Acquisition ladder: plain HTTP, then API, then browser, then manual review'
+  - label: Gather every fund's monthly holdings in one place
     status: built
-  - label: Parse, validate, quarantine bad rows, upsert
+  - label: Count how many fund houses hold each stock
     status: built
-  - label: Survivorship-safe history and a consensus view
+  - label: See when funds came into a stock, against its price
     status: built
-  - label: Read-only API and dashboard
-    status: built
-  - label: Backtest of consensus signals
+  - label: Test whether fund picks predict later returns
     status: negative
-    note: All negative so far, and under review for bias.
-  unique:
-  - Deterministic first, with provenance on every row, and no claim beyond the data.
+    note: Not so far, and the test is under review for bias.
   skills:
   - python
   - sql
@@ -1070,8 +1031,13 @@ projects:
   links:
   - label: Code
     url: https://github.com/Vedaang-Chopra/Financial-Analytics-Work
-  summary: Do many independent fund managers converging on a stock carry a signal? First, clean the data.
+  summary: Do mutual funds agree on what to buy?
   blurb: ''
+  tagline: Do mutual funds agree on what to buy?
+  why: 'Funds publish what they hold every month. I put it in one place to ask a simple question: when
+    many fund managers pick the same stock, does it tell us anything? So far, the answer is that they
+    mostly do not agree.'
+  featured: true
 - id: malware
   name: Malware detection from memory forensics
   credit: Paper with a co-author, B.Tech. Dataset and code are public.
@@ -1082,11 +1048,6 @@ projects:
   order:
     research: 8
     agentic: 9
-  problem: Antivirus looks at files, but malware cannot hide from the memory of the machine it runs on.
-    Can low-level information from a memory dump become a useful signal for machine-learning detection?
-  idea: 'Build the whole pipeline end to end: run ransomware in isolated machines, capture memory, analyse
-    it with Volatility 2 and a public YARA rule set, turn the findings into a labelled dataset, then study
-    the feature space and compare classifiers. IEEE ICAIA 2026, accepted, presenting Nov 16.'
   visual: malware
   mechanism:
   - label: Isolated lab to run malware and capture memory
@@ -1102,9 +1063,6 @@ projects:
   - label: Nine scikit-learn classifiers compared
     status: built
     note: Exploratory, with a leakage caveat. Does not match the paper table.
-  unique:
-  - Everything from malware execution to the classifier was built, including the data-generation setup.
-  - Raw memory dumps and the dataset are released publicly.
   skills:
   - scikit-learn
   cards:
@@ -1113,9 +1071,12 @@ projects:
   links:
   - label: Code and pipeline
     url: https://github.com/Vedaang-Chopra/Malware_Analysis
-  summary: Can a machine's memory reveal malware that file scanners miss? Built end to end, with a public
-    dataset.
+  summary: Can a computer's memory reveal malware?
   blurb: ''
+  tagline: Can a computer's memory reveal malware?
+  why: I ran ransomware in safe machines, captured memory, and trained classifiers on what showed up.
+    The paper is accepted at IEEE ICAIA 2026.
+  featured: false
   figures:
   - id: malware_pipeline_flow
     file: malware_pipeline_flow.webp
@@ -1144,11 +1105,8 @@ projects:
   order:
     research: 9
     agentic: 9
-  problem: Classify malware from call-graph structure.
-  idea: Graph neural networks on MalNet-tiny, GraphSAGE against GAT.
   visual: null
   mechanism: []
-  unique: []
   skills:
   - pytorch
   cards:
@@ -1157,8 +1115,11 @@ projects:
   links:
   - label: Code
     url: https://github.com/Vedaang-Chopra/Neural-Malware-Shield
-  summary: Graph neural networks on malware call graphs, GraphSAGE against GAT.
+  summary: Graph networks that spot malware.
   blurb: ''
+  tagline: Graph networks that spot malware.
+  why: A team project. My part was the graph neural networks.
+  featured: false
 - id: soccer
   name: RL Soccer
   credit: Coursework, team project
@@ -1169,11 +1130,8 @@ projects:
   order:
     research: 10
     agentic: 9
-  problem: Teach a two-on-two soccer agent with reinforcement learning.
-  idea: A PPO curriculum trained for about 30 million steps.
   visual: null
   mechanism: []
-  unique: []
   skills:
   - pytorch
   - ppo
@@ -1183,8 +1141,11 @@ projects:
   links:
   - label: Code
     url: https://github.com/Vedaang-Chopra/RL_Soccer_project
-  summary: A PPO curriculum for two-on-two soccer, trained for about 30 million steps.
+  summary: A reinforcement-learning soccer team.
   blurb: ''
+  tagline: A reinforcement-learning soccer team.
+  why: A course project that trained two-on-two soccer agents with a PPO curriculum.
+  featured: false
   figures:
   - id: soccer_learning_curves
     file: soccer_learning_curves.webp

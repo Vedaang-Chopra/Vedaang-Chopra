@@ -4,294 +4,393 @@ window.RSVis = window.RSVis || { mods: {} };
   var ID = 'artemis';
   var P = '.rs-vis[data-vis="artemis"] ';
   var CSS = [
-    P + '.av{font-family:var(--font-sans);color:var(--text-color);font-size:.92rem;line-height:1.45}',
-    P + '.av-tabs{display:flex;flex-wrap:wrap;gap:.4rem;margin:0 0 .8rem}',
-    P + 'button{font:inherit;color:var(--text-color);background:var(--btn-bg);border:1px solid var(--border-color);border-radius:6px;padding:.35rem .7rem;cursor:pointer}',
-    P + 'button:focus-visible,' + P + 'select:focus-visible{outline:3px solid var(--focus);outline-offset:2px}',
-    P + '.av-tab[aria-selected="true"]{border-color:var(--text-color);font-weight:600;box-shadow:inset 0 -3px 0 var(--text-color)}',
-    P + '.av-head{font-size:1.05rem;font-weight:600;margin:0 0 .3rem}',
-    P + '.av-mut{color:var(--mut)}',
-    P + '.av-small{font-size:.85rem;color:var(--mut);margin:.3rem 0}',
-    P + '.av-live{min-height:2.6em;margin:.4rem 0 .6rem;padding:.45rem .6rem;border-left:3px solid var(--plain-bar);background:var(--surface)}',
-    P + '.av-scroll{overflow-x:auto;max-width:100%}',
-    P + '.av-grid{min-width:600px}',
-    P + '.av-row{display:grid;grid-template-columns:minmax(150px,1.6fr) repeat(5,minmax(70px,1fr)) minmax(96px,1fr);align-items:center;width:100%;text-align:left;border-radius:4px;padding:.18rem .3rem;background:transparent;border:1px solid transparent}',
-    P + '.av-hdr{font-size:.8rem;color:var(--mut);font-weight:600;padding-bottom:.3rem;border-bottom:1px solid var(--border-color)}',
-    P + '.av-hdr span{text-align:center;padding:0 .2rem}',
-    P + '.av-hdr span:first-child{text-align:left}',
-    P + 'button.av-row:hover,' + P + 'button.av-row[aria-pressed="true"]{border-color:var(--text-color);background:var(--surface)}',
-    P + '.av-cell{display:flex;justify-content:center}',
-    P + '.av-dot{flex:none;box-sizing:border-box;width:14px;height:14px;border-radius:50%;border:1px solid var(--base-bar)}',
-    P + '.av-dot.on{width:18px;height:18px;background:var(--text-color);border-color:var(--text-color)}',
-    P + '.av-dot.lg-cheap,' + P + '.av-row.cheap .av-dot.on{background:var(--ok);border-color:var(--ok);border-radius:3px}',
-    P + '.av-dot.lg-dead,' + P + '.av-row.dead .av-dot.on{background:transparent;border:2px dashed var(--mut)}',
-    P + '.av-tag{font-size:.78rem;color:var(--ok);font-weight:600}',
-    P + '.av-tag.dead{color:var(--mut);font-weight:400}',
-    P + '.av-row.cheap{box-shadow:inset 4px 0 0 var(--ok)}',
-    P + '.av-tier{font-weight:600;margin:.7rem 0 .2rem;font-size:.88rem}',
-    P + '.av-legend{display:flex;flex-wrap:wrap;gap:.4rem 1.1rem;margin:.6rem 0 0;padding:0;list-style:none;font-size:.85rem;color:var(--mut)}',
-    P + '.av-legend li{display:flex;align-items:center;gap:.4rem}',
-    P + '.av-ctl{display:flex;flex-wrap:wrap;align-items:center;gap:.5rem;margin:.3rem 0 .6rem}',
-    P + 'select{font:inherit;color:var(--text-color);background:var(--bg-color);border:1px solid var(--border-color);border-radius:6px;padding:.3rem .4rem;max-width:100%}',
-    P + '.av-steps{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:.4rem;margin:.4rem 0;padding:0;list-style:none}',
-    P + '.av-steps button{width:100%;text-align:left;font-size:.85rem}',
-    P + '.av-steps button[aria-current="step"]{border-color:var(--text-color);font-weight:600;background:var(--surface)}',
-    P + '.av-cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:.5rem;margin:.6rem 0;padding:0;list-style:none}',
-    P + '.av-card{border:1px solid var(--border-color);border-radius:6px;padding:.5rem .6rem;background:var(--bg-color);display:grid;gap:.25rem}',
-    P + '.av-card.pick{border:3px solid var(--ok)}',
-    P + '.av-cname{font-weight:600}',
-    P + '.av-blab{font-size:.78rem;color:var(--mut)}',
-    P + '.av-bar{height:8px;background:color-mix(in srgb,var(--base-bar) 30%,transparent);border-radius:2px}',
-    P + '.av-bar i{display:block;height:100%;background:var(--plain-bar);border-radius:2px}',
-    P + '.av-badge{font-size:.78rem;font-weight:600}',
-    P + '.av-badge.ok{color:var(--ok)}',
-    P + '.av-panels{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:.7rem;margin-top:1rem}',
-    P + '.av-panel{border:1px solid var(--border-color);border-radius:6px;padding:.6rem .75rem;background:var(--surface)}',
-    P + '.av-panel h4{margin:0 0 .3rem;font-size:.92rem}',
-    P + '.av-panel p{margin:.2rem 0}',
-    P + '.av-st{list-style:none;margin:0;padding:0;display:grid;gap:.25rem}',
-    P + '.av-st li{display:flex;gap:.45rem;align-items:baseline;flex-wrap:wrap}',
-    P + '.av-sw{display:inline-block;width:12px;height:12px;flex:none;transform:translateY(1px)}',
-    P + '.av-sw.built{background:var(--ok)}',
-    P + '.av-sw.partial{background:linear-gradient(90deg,var(--warn) 50%,transparent 50%);outline:1.5px solid var(--warn);outline-offset:-1.5px}',
-    P + '.av-big{font-size:1.3rem;font-weight:700}',
-    P + '.av-note{font-size:.85rem;color:var(--mut);font-style:italic}',
-    P + '.av-req{border:1px dashed var(--plain-bar);border-radius:6px;padding:.45rem .6rem;margin:.4rem 0}',
-    P + '.anim .av-card,' + P + '.anim .av-row{transition:border-color .15s,background-color .15s}'
+    P + '.aw{container-type:inline-size;font-family:var(--font-sans);color:var(--text-color);font-size:15px;line-height:1.5;margin:1rem 0}',
+    P + '.aw *{box-sizing:border-box}',
+    P + 'button{font:inherit;font-size:14px;color:var(--text-color);background:var(--surface);border:1.5px solid var(--border-color);border-radius:6px;padding:.45rem .75rem;cursor:pointer;min-height:40px}',
+    P + 'button:hover:not([disabled]){border-color:var(--text-color)}',
+    P + 'button[disabled]{opacity:.55;cursor:default}',
+    P + 'button:focus-visible,' + P + 'summary:focus-visible{outline:3px solid var(--focus);outline-offset:2px}',
+    P + '.aw-nav{display:flex;flex-wrap:wrap;align-items:center;gap:.35rem;margin:0 0 .6rem}',
+    P + '.aw-dots{display:flex;gap:.3rem;margin:0;padding:0;list-style:none}',
+    P + '.aw-dot{min-width:36px;padding:.3rem .4rem;text-align:center}',
+    P + '.aw-dot[aria-current="step"]{border-color:var(--text-color);background:color-mix(in srgb,var(--bg-color) 80%,var(--text-color));font-weight:700}',
+    P + '.aw-count{font-size:13px;color:var(--mut);margin:0}',
+    P + '.aw-title{font-size:1.1rem;font-weight:700;margin:.1rem 0 .35rem;line-height:1.35}',
+    P + '.aw-text{margin:0 0 .7rem;max-width:62ch}',
+    P + '.aw-body.fade{animation:awfade .25s ease-out}',
+    '@keyframes awfade{from{opacity:0}to{opacity:1}}',
+    P + '.aw-mut{color:var(--mut);font-size:13px;margin:.4rem 0}',
+    P + '.aw-st{display:inline-block;font-size:12px;line-height:1.2;padding:.15rem .45rem;border-radius:4px;border:1.5px solid var(--text-color);font-weight:600;color:var(--text-color);vertical-align:middle;margin-right:.35rem}',
+    P + '.aw-st.built{background:color-mix(in srgb,var(--ok) 13%,var(--bg-color));border-color:var(--ok)}',
+    P + '.aw-st.part{background:color-mix(in srgb,var(--warn) 13%,var(--bg-color));border-color:var(--warn)}',
+    P + '.aw-st.tried{border-color:var(--bad);background:repeating-linear-gradient(45deg,color-mix(in srgb,var(--bad) 13%,var(--bg-color)) 0 4px,var(--bg-color) 4px 8px)}',
+    P + '.aw-cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(150px,100%),1fr));gap:.5rem;margin:0;padding:0;list-style:none}',
+    P + '.aw-card{border:1.5px solid var(--border-color);border-radius:6px;padding:.55rem .65rem;background:var(--surface);display:grid;gap:.25rem}',
+    P + '.aw-card.pick{border:3px solid var(--ok)}',
+        P + '.aw-cname{font-weight:700;font-size:14px}',
+    P + '.aw-lab{font-size:13px;color:var(--mut);display:flex;justify-content:space-between;gap:.4rem}',
+    P + '.aw-bar{height:9px;background:color-mix(in srgb,var(--base-bar) 25%,transparent);border-radius:2px;overflow:hidden}',
+    P + '.aw-bar i{display:block;height:100%;background:var(--plain-bar)}',
+    P + '.aw-tag{font-size:13px;font-weight:700;color:var(--ok)}',
+    P + '.aw-tag.str{color:var(--text-color);font-weight:600}',
+    P + '.aw-axis{display:flex;justify-content:space-between;font-size:13px;color:var(--mut);margin:.35rem 0 0}',
+    P + '.aw-pick{display:flex;flex-wrap:wrap;gap:.4rem;margin:0 0 .6rem}',
+    P + '.aw-pick button[aria-pressed="true"]{border-color:var(--text-color);background:color-mix(in srgb,var(--bg-color) 80%,var(--text-color));font-weight:700}',
+    P + '.aw-live{font-size:14px;border-left:4px solid var(--text-color);background:var(--surface);padding:.5rem .75rem;margin:.6rem 0;min-height:2.8em}',
+    P + '.aw-none{border:2px dashed var(--mut);border-radius:6px;padding:.4rem .6rem;font-weight:600;margin:.5rem 0 0;font-size:14px}',
+    P + 'details{margin:.7rem 0 0;font-size:14px}',
+    P + 'summary{cursor:pointer;font-weight:600;padding:.3rem 0;min-height:32px}',
+    P + '.aw-tier{font-weight:700;margin:.7rem 0 .2rem;font-size:14px}',
+    P + '.aw-list{margin:0;padding:0;list-style:none;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(300px,100%),1fr));gap:.15rem .9rem}',
+    P + '.aw-list li{display:flex;justify-content:space-between;gap:.5rem;border-bottom:1px solid var(--border-color);padding:.2rem 0}',
+    P + '.aw-list span:last-child{color:var(--mut);text-align:right}',
+    P + '.aw-req{border-left:4px solid var(--plain-bar);padding:.3rem .7rem;margin:0 0 .3rem;font-size:14px;font-style:italic}',
+    P + '.aw-arrow{font-size:13px;color:var(--mut);margin:.1rem 0 .4rem}',
+    P + '.aw-rule{display:grid;grid-template-columns:minmax(96px,1.3fr) repeat(3,minmax(54px,1fr));gap:.3rem .5rem;align-items:center;font-size:13px}',
+    P + '.aw-rule .h{color:var(--mut);font-weight:600;line-height:1.25}',
+    P + '.aw-rule .n{font-weight:600;line-height:1.25}',
+    P + '.aw-rule .win{color:var(--ok);font-weight:700}',
+    P + '.aw-rule .aw-bar{height:14px}',
+    P + '.aw-rule .q i{background:var(--plain-bar)}',
+    P + '.aw-rule .c i{background:repeating-linear-gradient(90deg,var(--mut) 0 3px,transparent 3px 6px)}',
+    P + '.aw-rule .t i{background:var(--base-bar)}',
+    P + '.aw-rule .t.win i{background:var(--ok)}',
+    P + '.aw-ill{display:inline-block;font-size:13px;border:1.5px dashed var(--mut);border-radius:4px;padding:.1rem .45rem;margin:.6rem 0 0;color:var(--text-color)}',
+    P + '.aw-lad{display:grid;gap:.55rem;margin:.2rem 0}',
+    P + '.aw-lrow{display:grid;grid-template-columns:minmax(120px,1fr) 3fr;gap:.6rem;align-items:center}',
+    P + '.aw-lname{font-weight:600;font-size:14px;line-height:1.25}',
+    P + '.aw-lname small{display:block;font-weight:400;font-size:13px;color:var(--mut)}',
+    P + '.aw-ltrack{display:flex;align-items:center;gap:.45rem}',
+    P + '.aw-lbar{height:22px;border-radius:3px;flex:none}',
+    P + '.aw-lbar.base{background:var(--base-bar)}',
+    P + '.aw-lbar.ok{background:var(--ok)}',
+    P + '.aw-lbar.tried{border:2px solid var(--bad);background:repeating-linear-gradient(45deg,color-mix(in srgb,var(--bad) 45%,var(--bg-color)) 0 4px,var(--bg-color) 4px 8px)}',
+    P + '.aw-lbar.bound{border:2px solid var(--plain-bar);background:color-mix(in srgb,var(--plain-bar) 15%,var(--bg-color))}',
+    P + '.aw-lval{font-family:var(--font-mono);font-size:14px;font-weight:600}',
+    P + '.aw-key{font-weight:700;margin:.6rem 0 0}',
+    P + '.aw-ba{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(240px,100%),1fr));gap:.7rem}',
+    P + '.aw-panel{border:1.5px solid var(--border-color);border-radius:6px;padding:.6rem .7rem;background:var(--surface)}',
+    P + '.aw-panel h5{margin:0 0 .45rem;font-size:14px;font-weight:700}',
+    P + '.aw-split{display:grid;grid-template-columns:1fr 1fr;gap:.5rem}',
+    P + '.aw-box{border:1.5px solid var(--text-color);border-radius:4px;padding:.35rem}',
+    P + '.aw-box b{display:block;font-size:13px;margin:0 0 .3rem}',
+    P + '.aw-imgs{display:flex;flex-wrap:wrap;gap:4px}',
+    P + '.aw-img{width:18px;height:18px;border-radius:3px;background:var(--base-bar)}',
+    P + '.aw-img.shared{background:repeating-linear-gradient(45deg,var(--bad) 0 3px,var(--bg-color) 3px 6px);border:2px solid var(--bad);border-radius:50%}',
+    P + '.aw-leg{display:flex;align-items:center;gap:.4rem;font-size:13px;margin:.45rem 0 0}',
+    '@container (max-width:520px){' + P + '.aw-rule{grid-template-columns:repeat(3,1fr);row-gap:.2rem}' + P + '.aw-rule .h:first-child{display:none}' + P + '.aw-rule .n{grid-column:1/-1;margin-top:.35rem}' + P + '.aw-lrow{grid-template-columns:1fr;gap:.2rem}}',
+    P + '.aw-status{margin:.3rem 0 0;padding:0;list-style:none;display:grid;gap:.25rem}'
   ].join('\n');
 
-  function h(tag, attrs, kids) {
+  function h(tag, cls, text) {
     var e = document.createElement(tag);
-    if (attrs) for (var k in attrs) {
-      if (k === 'text') e.textContent = attrs[k];
-      else if (k === 'cls') e.className = attrs[k];
-      else e.setAttribute(k, attrs[k]);
-    }
-    (kids || []).forEach(function (c) { if (c) e.appendChild(c); });
+    if (cls) e.className = cls;
+    if (text != null) e.textContent = text;
     return e;
   }
+  function stBadge(s) {
+    var c = s === 'Built' ? 'built' : s === 'Partial' ? 'part' : 'tried';
+    return h('span', 'aw-st ' + c, s);
+  }
+  function bar(frac, cls) {
+    var b = h('div', 'aw-bar' + (cls ? ' ' + cls : ''));
+    b.setAttribute('aria-hidden', 'true');
+    var i = h('i');
+    i.style.width = Math.max(4, Math.round(frac * 100)) + '%';
+    b.appendChild(i);
+    return b;
+  }
 
-  function mount(el, data, ctx) {
+  var PRICE = ['lowest', 'low', 'middle', 'high', 'highest'];
+  var SPEED = ['fastest', 'fast', 'middle', 'slow', 'slowest'];
+
+  RSVis.mods[ID] = function mount(el, data, ctx) {
     ctx = ctx || {};
-    if (!document.getElementById('rs-vis-artemis-css')) {
+    if (!document.getElementById('rs-vis-' + ID + '-css')) {
       var st = document.createElement('style');
-      st.id = 'rs-vis-artemis-css';
+      st.id = 'rs-vis-' + ID + '-css';
       st.textContent = CSS;
       document.head.appendChild(st);
     }
     var models = data.models.slice().sort(function (a, b) { return a.price_rank - b.price_rank; });
     var byId = {};
     models.forEach(function (m) { byId[m.id] = m; });
-    var top = models[models.length - 1];
-    var tierById = {};
-    data.tiers.forEach(function (t) { tierById[t.id] = t; });
-    function cheaper(t) { return t.tier !== 'dead' && byId[t.pick].price_rank < top.price_rank; }
+    var tasks = {};
+    data.tasks.forEach(function (t) { tasks[t.id] = t; });
+    var strongest = models.filter(function (m) { return m.strongest; })[0];
+    var C = data.counts;
 
-    var root = h('div', { cls: 'av' + (ctx.reduceMotion ? '' : ' anim') });
-    el.appendChild(root);
-
-    var tabs = h('div', { cls: 'av-tabs', role: 'tablist', 'aria-label': 'ARTEMIS views' });
-    var views = [
-      { id: 'grid', name: 'Which model for which task' },
-      { id: 'route', name: 'Route one request' }
-    ];
-    var panels = {}, tabBtns = [];
-    views.forEach(function (v, i) {
-      var b = h('button', { cls: 'av-tab', role: 'tab', id: 'av-tab-' + v.id, 'aria-controls': 'av-pan-' + v.id, 'aria-selected': i === 0 ? 'true' : 'false', tabindex: i === 0 ? '0' : '-1', type: 'button', text: v.name });
-      b.addEventListener('click', function () { select(i); });
-      b.addEventListener('keydown', function (e) {
-        var n = null;
-        if (e.key === 'ArrowRight') n = (i + 1) % views.length;
-        else if (e.key === 'ArrowLeft') n = (i + views.length - 1) % views.length;
-        else if (e.key === 'Home') n = 0;
-        else if (e.key === 'End') n = views.length - 1;
-        if (n !== null) { e.preventDefault(); select(n); tabBtns[n].focus(); }
+    function modelCards(pickId) {
+      var ul = h('ul', 'aw-cards');
+      models.forEach(function (m) {
+        var li = h('li', 'aw-card' + (m.id === pickId ? ' pick' : ''));
+        li.appendChild(h('span', 'aw-cname', m.name));
+        var pl = h('span', 'aw-lab');
+        pl.appendChild(h('span', null, 'Price'));
+        pl.appendChild(h('span', null, PRICE[m.price_rank - 1]));
+        li.appendChild(pl);
+        li.appendChild(bar(m.price_rank / 5));
+        var sl = h('span', 'aw-lab');
+        sl.appendChild(h('span', null, 'Speed'));
+        sl.appendChild(h('span', null, SPEED[m.speed_rank - 1]));
+        li.appendChild(sl);
+        li.appendChild(bar((6 - m.speed_rank) / 5));
+        if (m.id === pickId) li.appendChild(h('span', 'aw-tag', 'Lookup pick'));
+        else if (m.strongest) li.appendChild(h('span', 'aw-tag str', 'Strongest overall'));
+        ul.appendChild(li);
       });
-      tabBtns.push(b);
-      tabs.appendChild(b);
-    });
-    root.appendChild(tabs);
-    function select(i) {
-      views.forEach(function (v, j) {
-        tabBtns[j].setAttribute('aria-selected', j === i ? 'true' : 'false');
-        tabBtns[j].tabIndex = j === i ? 0 : -1;
-        panels[v.id].hidden = j !== i;
-      });
+      return ul;
     }
 
-    /* View 1: grid */
-    var g = h('div', { role: 'tabpanel', id: 'av-pan-grid', 'aria-labelledby': 'av-tab-grid' });
-    panels.grid = g;
-    g.appendChild(h('p', { cls: 'av-head', text: 'No single model is best everywhere.' }));
-    g.appendChild(h('p', { cls: 'av-small', text: 'Rows are the ' + data.counts.families + ' task families, grouped by how well the best model does. Columns are the ' + data.counts.models + ' models, cheapest on the left. The filled mark is the model the per-task lookup picks. On a narrow screen the grid scrolls sideways.' }));
-    var live = h('p', { cls: 'av-live', 'aria-live': 'polite', text: 'Hover, focus or click a task row to see its tier and chosen model.' });
-    g.appendChild(live);
-    var scroll = h('div', { cls: 'av-scroll' });
-    var grid = h('div', { cls: 'av-grid', role: 'group', 'aria-label': 'Per-task model choice grid' });
-    var hdr = h('div', { cls: 'av-row av-hdr', 'aria-hidden': 'true' }, [h('span', { text: 'Task family' })]);
-    models.forEach(function (m) { hdr.appendChild(h('span', { text: m.name })); });
-    hdr.appendChild(h('span', { text: 'Pick vs priciest' }));
-    grid.appendChild(hdr);
-    var rowBtns = [];
-    function describe(t) {
-      var tr = tierById[t.tier], m = byId[t.pick];
-      var s = t.label + '. Tier: ' + tr.name.toLowerCase() + ' (' + tr.desc + '). Lookup picks ' + m.name + '.';
-      if (t.tier === 'dead') s += ' Any pick here is weak, so it does not count as a win.';
-      else if (cheaper(t)) s += ' That is cheaper than the priciest model, ' + top.name + '.';
-      else s += ' That is the priciest model.';
+    function taskSentence(t) {
+      var m = byId[t.pick];
+      if (t.tier === 'dead') return t.label + ': no model does well here. Routing cannot fix a task that no model can do.';
+      var s;
+      if (m.strongest) s = 'For ' + t.label.toLowerCase() + ', the strongest and priciest model really is the best pick.';
+      else s = 'For ' + t.label.toLowerCase() + ', the lookup picks ' + m.name + ', which is cheaper than the strongest model.';
+      if (t.tier === 'weak') s += ' Even the best model is only middling here.';
       return s;
     }
-    data.tiers.forEach(function (tr) {
-      grid.appendChild(h('p', { cls: 'av-tier', text: tr.name + ': ' + tr.desc }));
-      data.tasks.filter(function (t) { return t.tier === tr.id; }).forEach(function (t) {
-        var cls = 'av-row' + (cheaper(t) ? ' cheap' : '') + (t.tier === 'dead' ? ' dead' : '');
-        var b = h('button', { cls: cls, type: 'button', 'aria-pressed': 'false', 'aria-label': describe(t) });
-        b.appendChild(h('span', { text: t.label }));
-        models.forEach(function (m) {
-          b.appendChild(h('span', { cls: 'av-cell' }, [h('span', { cls: 'av-dot' + (m.id === t.pick ? ' on' : '') })]));
-        });
-        var tag = t.tier === 'dead' ? h('span', { cls: 'av-tag dead', text: 'no model does well' }) :
-          cheaper(t) ? h('span', { cls: 'av-tag', text: 'cheaper wins' }) : h('span', { cls: 'av-tag dead', text: 'priciest' });
-        b.appendChild(tag);
-        function show() { live.textContent = describe(t); }
-        b.addEventListener('mouseenter', show);
-        b.addEventListener('focus', show);
-        b.addEventListener('click', function () {
-          rowBtns.forEach(function (o) { o.setAttribute('aria-pressed', 'false'); });
-          b.setAttribute('aria-pressed', 'true');
-          show();
-        });
-        rowBtns.push(b);
-        grid.appendChild(b);
+
+    // Step builders: each returns a node holding one picture.
+    function step1() {
+      var w = h('div');
+      w.appendChild(h('p', 'aw-text', 'Several vision-language models (AI that answers questions about images) can take the same request. They differ widely in price and speed. Always calling the biggest one wastes money.'));
+      var cards = modelCards(null);
+      cards.setAttribute('aria-label', 'Five models ordered from cheapest to most expensive');
+      w.appendChild(cards);
+      var ax = h('div', 'aw-axis');
+      ax.appendChild(h('span', null, 'Cheapest'));
+      ax.appendChild(h('span', null, 'Most expensive'));
+      w.appendChild(ax);
+      w.appendChild(h('p', 'aw-mut', 'Bars show order only, not measured amounts. Longer speed bar means faster.'));
+      return w;
+    }
+
+    function step2() {
+      var w = h('div');
+      w.appendChild(h('p', 'aw-text', 'I built a benchmark of ' + C.questions + ' image questions across ' + C.families + ' kinds of task. A simple lookup table remembers which model did best at each kind. Pick a task.'));
+      var grp = h('div', 'aw-pick');
+      grp.setAttribute('role', 'group');
+      grp.setAttribute('aria-label', 'Choose a kind of task');
+      var live = h('p', 'aw-live');
+      live.setAttribute('aria-live', 'polite');
+      var holder = h('div');
+      var btns = [];
+      function show(id) {
+        var t = tasks[id];
+        btns.forEach(function (b) { b.setAttribute('aria-pressed', String(b._id === id)); });
+        live.textContent = taskSentence(t);
+        holder.textContent = '';
+        var dead = t.tier === 'dead';
+        holder.appendChild(modelCards(dead ? null : t.pick));
+        if (dead) holder.appendChild(h('p', 'aw-none', 'No model does well here'));
+      }
+      data.featured.forEach(function (id) {
+        var b = h('button', null, tasks[id].label);
+        b.type = 'button';
+        b._id = id;
+        b.addEventListener('click', function () { show(id); });
+        btns.push(b);
+        grp.appendChild(b);
       });
-    });
-    scroll.appendChild(grid);
-    g.appendChild(scroll);
-    function sw(cls) { return h('span', { cls: 'av-dot ' + cls, 'aria-hidden': 'true' }); }
-    var lg = h('ul', { cls: 'av-legend', 'aria-label': 'Legend' });
-    lg.appendChild(h('li', null, [sw('on'), h('span', { text: 'filled circle: lookup picks the priciest model' })]));
-    lg.appendChild(h('li', null, [sw('on lg-cheap'), h('span', { text: 'green square and edge bar: a model cheaper than ' + top.name + ' wins' })]));
-    lg.appendChild(h('li', null, [sw('on lg-dead'), h('span', { text: 'dashed circle: dead task, no model does well' })]));
-    lg.appendChild(h('li', null, [sw(''), h('span', { text: 'empty circle: not picked' })]));
-    g.appendChild(lg);
-    root.appendChild(g);
+      w.appendChild(grp);
+      w.appendChild(live);
+      w.appendChild(holder);
+      var bs = h('p', 'aw-mut');
+      bs.appendChild(stBadge('Built'));
+      bs.appendChild(document.createTextNode('Benchmark, built offline.'));
+      w.appendChild(bs);
+      var d = h('details');
+      d.appendChild(h('summary', null, 'See all ' + C.families + ' task families'));
+      d.appendChild(h('p', 'aw-mut', 'Each row shows the model the lookup picks. Grouped by how well the best model does.'));
+      data.tiers.forEach(function (tier) {
+        d.appendChild(h('p', 'aw-tier', tier.name + ': ' + tier.desc));
+        var ul = h('ul', 'aw-list');
+        data.tasks.filter(function (t) { return t.tier === tier.id; }).forEach(function (t) {
+          var li = h('li');
+          li.appendChild(h('span', null, t.label));
+          li.appendChild(h('span', null, t.tier === 'dead' ? 'no model does well' : byId[t.pick].name + (byId[t.pick].strongest ? ' (strongest)' : ' (cheaper)')));
+          ul.appendChild(li);
+        });
+        d.appendChild(ul);
+      });
+      w.appendChild(d);
+      show(data.featured[0]);
+      return w;
+    }
 
-    /* View 2: route one request */
-    var r = h('div', { role: 'tabpanel', id: 'av-pan-route', 'aria-labelledby': 'av-tab-route', hidden: '' });
-    panels.route = r;
-    r.appendChild(h('p', { cls: 'av-head', text: 'Route one request to the cheapest model likely to be right.' }));
-    r.appendChild(h('p', { cls: 'av-note', text: 'Illustration of the decision rule; scores are not shown.' }));
-    var ctl = h('div', { cls: 'av-ctl' });
-    var sel = h('select', { id: 'av-task-sel' });
-    data.tasks.slice().sort(function (a, b) { return a.label < b.label ? -1 : 1; }).forEach(function (t) {
-      var o = h('option', { value: t.id, text: t.label });
-      if (t.id === 'chart_reasoning') o.selected = true;
-      sel.appendChild(o);
-    });
-    ctl.appendChild(h('label', { 'for': 'av-task-sel', text: 'Task family of the request' }));
-    ctl.appendChild(sel);
-    r.appendChild(ctl);
+    // Hand-made shapes for the illustration only; never shown as numbers.
+    var ILL = { deepseek_ocr: [0.15, 0.06], gemma_3_27b: [0.18, 0.16], qwen2_5_vl_3b: [0.6, 0.18], qwen2_5_vl_7b: [0.78, 0.25], qwen3_vl_8b_thinking: [0.66, 0.62] };
+    function step3() {
+      var w = h('div');
+      w.appendChild(h('p', 'aw-text', 'A router guesses how likely each model is to answer well. It subtracts a penalty for price and delay, then sends the request to the best trade.'));
+      w.appendChild(h('div', 'aw-req', 'Request: "How many apples are in this photo?"'));
+      w.appendChild(h('p', 'aw-arrow', 'The router scores all five models:'));
+      var g = h('div', 'aw-rule');
+      g.setAttribute('role', 'img');
+      var best = null, bestV = -1;
+      models.forEach(function (m) {
+        var v = ILL[m.id] ? ILL[m.id][0] - ILL[m.id][1] : 0;
+        if (v > bestV) { bestV = v; best = m; }
+      });
+      g.setAttribute('aria-label', 'Illustration: each model gets a chance-of-good-answer score minus a price and delay penalty. ' + best.name + ' ends highest and is picked.');
+      ['Model', 'Chance of a good answer', 'Minus price and delay', 'What is left'].forEach(function (s) { g.appendChild(h('span', 'h', s)); });
+      models.forEach(function (m) {
+        var q = ILL[m.id] || [0, 0];
+        var win = m === best;
+        g.appendChild(h('span', 'n' + (win ? ' win' : ''), m.name + (win ? ' (picked)' : '')));
+        g.appendChild(bar(q[0], 'q'));
+        g.appendChild(bar(q[1], 'c'));
+        g.appendChild(bar(Math.max(0.02, q[0] - q[1]), 't' + (win ? ' win' : '')));
+      });
+      w.appendChild(g);
+      w.appendChild(h('p', 'aw-ill', 'Illustration of the decision rule, not a recording'));
+      var d = h('details');
+      d.appendChild(h('summary', null, 'What exists today'));
+      var ul = h('ul', 'aw-status');
+      data.status.forEach(function (s) {
+        var li = h('li');
+        li.appendChild(stBadge(s[1]));
+        li.appendChild(document.createTextNode(s[0] + (s[2] ? ': ' + s[2] : '')));
+        ul.appendChild(li);
+      });
+      d.appendChild(ul);
+      d.appendChild(h('p', 'aw-mut', 'A cascade tries a cheap model first and moves up only when the answer looks unsure.'));
+      w.appendChild(d);
+      return w;
+    }
 
-    var steps = [
-      'The request arrives',
-      'The router scores each model for being correct',
-      'Cost and latency penalties are subtracted',
-      'The chosen model answers'
+    function step4() {
+      var w = h('div');
+      w.appendChild(h('p', 'aw-text', 'I compared four ways of choosing a model, by how many test questions they got right. Longer is better.'));
+      var lad = h('div', 'aw-lad');
+      lad.setAttribute('role', 'list');
+      var max = 0.7;
+      data.ladder.forEach(function (r) {
+        var row = h('div', 'aw-lrow');
+        row.setAttribute('role', 'listitem');
+        var nm = h('div', 'aw-lname', r.label);
+        nm.appendChild(h('small', null, r.gloss));
+        row.appendChild(nm);
+        var tr = h('div', 'aw-ltrack');
+        var b = h('span', 'aw-lbar ' + r.kind);
+        b.style.width = Math.round(r.v / max * 78) + '%';
+        b.setAttribute('aria-hidden', 'true');
+        tr.appendChild(b);
+        tr.appendChild(h('span', 'aw-lval', r.value));
+        row.appendChild(tr);
+        lad.appendChild(row);
+      });
+      w.appendChild(lad);
+      w.appendChild(h('p', 'aw-key', 'My learned router did not beat a simple lookup table.'));
+      w.appendChild(h('p', 'aw-mut', 'Accuracy on ' + C.test_questions + ' test questions. Early measurement. Hatched bar: did not beat the lookup.'));
+      var d = h('details');
+      d.appendChild(h('summary', null, 'What this does and does not show'));
+      d.appendChild(h('p', null, 'All of this ran offline on stored answers. The oracle is not a real method: it peeks at the right answers, so it only marks the ceiling. The router and serving code have not been tested on live models.'));
+      w.appendChild(d);
+      return w;
+    }
+
+    function imgs(n, shared) {
+      var d = h('div', 'aw-imgs');
+      for (var i = 0; i < n; i++) d.appendChild(h('span', 'aw-img' + (shared.indexOf(i) >= 0 ? ' shared' : '')));
+      return d;
+    }
+    function panel(title, trainShared, testShared, note) {
+      var p = h('div', 'aw-panel');
+      p.appendChild(h('h5', null, title));
+      var s = h('div', 'aw-split');
+      var a = h('div', 'aw-box'); a.appendChild(h('b', null, 'Training data')); a.appendChild(imgs(6, trainShared));
+      var b = h('div', 'aw-box'); b.appendChild(h('b', null, 'Test data')); b.appendChild(imgs(4, testShared));
+      s.appendChild(a); s.appendChild(b);
+      s.setAttribute('aria-hidden', 'true');
+      p.appendChild(s);
+      p.appendChild(h('p', 'aw-mut', note));
+      return p;
+    }
+    function step5() {
+      var w = h('div');
+      w.appendChild(h('p', 'aw-text', 'Earlier splits shared ' + C.shared_images + ' images between training and test data. Models were partly tested on pictures already seen. I regrouped the split by image and retired the earlier numbers.'));
+      var ba = h('div', 'aw-ba');
+      ba.appendChild(panel('Before', [1, 4], [0, 2], 'Some images sit on both sides, so test scores look better than they are.'));
+      ba.appendChild(panel('After: grouped by image', [], [], 'Every image lives on one side only.'));
+      w.appendChild(ba);
+      var lg = h('p', 'aw-leg');
+      lg.appendChild(h('span', 'aw-img shared'));
+      lg.appendChild(document.createTextNode('Same image in both training and test'));
+      w.appendChild(lg);
+      var bs = h('p', 'aw-mut');
+      bs.appendChild(stBadge('Built'));
+      bs.appendChild(document.createTextNode('Image-grouped splits.'));
+      w.appendChild(bs);
+      return w;
+    }
+
+    var STEPS = [
+      ['Five models, very different price and speed', step1],
+      ['No single model is best at everything', step2],
+      ['A router sends each request to a cheaper model', step3],
+      ['Did it work? Not yet', step4],
+      ['A leak I found and fixed', step5]
     ];
-    var stepNow = 0;
-    var stepList = h('ol', { cls: 'av-steps', role: 'group', 'aria-label': 'Routing steps' });
-    var stepBtns = steps.map(function (s, i) {
-      var b = h('button', { type: 'button', text: (i + 1) + '. ' + s });
-      b.addEventListener('click', function () { stepNow = i; renderRoute(); });
-      stepList.appendChild(h('li', null, [b]));
+
+    el.textContent = '';
+    var root = h('div', 'aw');
+    root.setAttribute('role', 'region');
+    root.setAttribute('aria-label', 'ARTEMIS walkthrough: routing image questions to cheaper models');
+    var nav = h('div', 'aw-nav');
+    nav.setAttribute('role', 'group');
+    nav.setAttribute('aria-label', 'Walkthrough steps');
+    var back = h('button', null, 'Back'); back.type = 'button';
+    var next = h('button', null, 'Next'); next.type = 'button';
+    var dots = h('ol', 'aw-dots');
+    var dotBtns = STEPS.map(function (s, i) {
+      var li = h('li');
+      var b = h('button', 'aw-dot', String(i + 1));
+      b.type = 'button';
+      b.setAttribute('aria-label', 'Step ' + (i + 1) + ': ' + s[0]);
+      b.addEventListener('click', function () { go(i); });
+      li.appendChild(b);
+      dots.appendChild(li);
       return b;
     });
-    r.appendChild(stepList);
-    var nav = h('div', { cls: 'av-ctl', role: 'group', 'aria-label': 'Step navigation' });
-    var prev = h('button', { type: 'button', text: 'Back' });
-    var next = h('button', { type: 'button', text: 'Next step' });
-    prev.addEventListener('click', function () { if (stepNow > 0) { stepNow--; renderRoute(); } });
-    next.addEventListener('click', function () { if (stepNow < steps.length - 1) { stepNow++; renderRoute(); } });
-    nav.appendChild(prev); nav.appendChild(next);
-    r.appendChild(nav);
-    var rLive = h('p', { cls: 'av-live', 'aria-live': 'polite' });
-    r.appendChild(rLive);
-    var req = h('p', { cls: 'av-req' });
-    r.appendChild(req);
-    r.appendChild(h('p', { cls: 'av-small', text: 'Cards run from cheapest to most expensive. Bars are ranks, not measurements.' }));
-    var cardList = h('ul', { cls: 'av-cards', 'aria-label': 'Candidate models, cheapest first' });
-    r.appendChild(cardList);
-    var n = models.length;
-    var cards = models.map(function (m) {
-      var pb = h('i', { style: 'width:' + Math.round(100 * m.price_rank / n) + '%' });
-      var sb = h('i', { style: 'width:' + Math.round(100 * (n + 1 - m.speed_rank) / n) + '%' });
-      var badge = h('span', { cls: 'av-badge' });
-      var c = h('li', { cls: 'av-card' }, [
-        h('span', { cls: 'av-cname', text: m.name }),
-        m.strongest ? h('span', { cls: 'av-blab', text: 'Strongest single model overall' }) : null,
-        h('span', { cls: 'av-blab', text: 'relative price, pinned price table' }),
-        h('span', { cls: 'av-bar', 'aria-hidden': 'true' }, [pb]),
-        h('span', { cls: 'av-blab', text: 'relative speed' }),
-        h('span', { cls: 'av-bar', 'aria-hidden': 'true' }, [sb]),
-        badge
-      ]);
-      cardList.appendChild(c);
-      return { m: m, el: c, badge: badge };
-    });
+    nav.appendChild(back); nav.appendChild(dots); nav.appendChild(next);
+    var head = h('div');
+    head.setAttribute('aria-live', 'polite');
+    var count = h('p', 'aw-count');
+    var title = h('p', 'aw-title');
+    head.appendChild(count); head.appendChild(title);
+    var body = h('div', 'aw-body');
+    root.appendChild(nav); root.appendChild(head); root.appendChild(body);
+    el.appendChild(root);
 
-    function renderRoute() {
-      var t = data.tasks.filter(function (x) { return x.id === sel.value; })[0];
-      var pick = byId[t.pick];
-      req.textContent = 'Request: an image plus a ' + t.label.toLowerCase() + ' question.';
-      stepBtns.forEach(function (b, i) {
-        if (i === stepNow) b.setAttribute('aria-current', 'step'); else b.removeAttribute('aria-current');
+    var cur = 0;
+    function go(i) {
+      cur = Math.max(0, Math.min(STEPS.length - 1, i));
+      count.textContent = 'Step ' + (cur + 1) + ' of ' + STEPS.length;
+      title.textContent = STEPS[cur][0];
+      dotBtns.forEach(function (b, j) {
+        if (j === cur) b.setAttribute('aria-current', 'step'); else b.removeAttribute('aria-current');
       });
-      prev.disabled = stepNow === 0;
-      next.disabled = stepNow === steps.length - 1;
-      var msg;
-      if (stepNow === 0) msg = 'Step 1. A ' + t.label.toLowerCase() + ' request arrives. All ' + data.counts.models + ' models could answer it; they differ widely in price and speed.';
-      else if (stepNow === 1) msg = 'Step 2. The router estimates, for each model, how likely it is to answer correctly. The scores are not shown here.';
-      else if (stepNow === 2) msg = 'Step 3. Cost and latency penalties are subtracted from each score at decision time, so a cheaper or faster model can overtake a stronger one.';
-      else {
-        msg = 'Step 4. ' + pick.name + ' answers. This is the per-task lookup’s pick for ' + t.label.toLowerCase() + ' (the learned router did not beat this lookup on the test split).';
-        if (t.tier === 'dead') msg += ' This is a dead task: no model does well, whichever is picked.';
-        else if (pick.price_rank < top.price_rank) msg += ' It is cheaper than ' + top.name + '.';
-      }
-      rLive.textContent = msg;
-      cards.forEach(function (c) {
-        var isPick = stepNow === 3 && c.m.id === pick.id;
-        c.el.className = 'av-card' + (isPick ? ' pick' : '');
-        c.badge.className = 'av-badge' + (isPick ? ' ok' : '');
-        c.badge.textContent = stepNow === 0 ? 'Candidate' :
-          stepNow === 1 ? 'Correctness score: hidden' :
-          stepNow === 2 ? 'Score minus cost and latency penalty' :
-          isPick ? 'Chosen: answers the request' : 'Not chosen';
-      });
+      var f = document.activeElement;
+      back.disabled = cur === 0;
+      next.disabled = cur === STEPS.length - 1;
+      if (f === next && next.disabled) back.focus();
+      if (f === back && back.disabled) next.focus();
+      body.textContent = '';
+      body.classList.remove('fade');
+      body.appendChild(STEPS[cur][1]());
+      if (!ctx.reduceMotion) { void body.offsetWidth; body.classList.add('fade'); }
     }
-    sel.addEventListener('change', renderRoute);
-    renderRoute();
-    root.appendChild(r);
-
-    /* Static panels */
-    var pans = h('div', { cls: 'av-panels' });
-    pans.appendChild(h('section', { cls: 'av-panel', 'aria-label': 'Leakage fix' }, [
-      h('h4', { text: 'The leak that was removed' }),
-      h('p', { text: 'Earlier splits shared images between train and test. Splitting by image removed the leak and retired the old numbers.' }),
-      h('p', null, [h('span', { cls: 'av-big', text: data.counts.shared_images }), h('span', { cls: 'av-mut', text: ' shared images found' })]),
-      h('p', { cls: 'av-small', text: 'Benchmark: ' + data.counts.questions + ' questions across ' + data.counts.families + ' task families.' })
-    ]));
-    var sl = h('ul', { cls: 'av-st' });
-    data.status.forEach(function (s) {
-      var k = s[1].toLowerCase();
-      var li = h('li', null, [h('span', { cls: 'av-sw ' + k, 'aria-hidden': 'true' }), h('span', { text: s[0] + ': ' }), h('strong', { text: s[1] })]);
-      if (s[2]) li.appendChild(h('span', { cls: 'av-mut', text: '(' + s[2] + ')' }));
-      sl.appendChild(li);
+    back.addEventListener('click', function () { go(cur - 1); });
+    next.addEventListener('click', function () { go(cur + 1); });
+    root.addEventListener('keydown', function (e) {
+      if (e.target && e.target.className === 'aw-dot') {
+        if (e.key === 'ArrowRight') { go(cur + 1); dotBtns[cur].focus(); e.preventDefault(); }
+        if (e.key === 'ArrowLeft') { go(cur - 1); dotBtns[cur].focus(); e.preventDefault(); }
+      }
     });
-    pans.appendChild(h('section', { cls: 'av-panel', 'aria-label': 'Build status' }, [h('h4', { text: 'What exists' }), sl]));
-    root.appendChild(pans);
-  }
-
-  if (window.RSVis.register) window.RSVis.register(ID, mount);
-  window.RSVis.mods = window.RSVis.mods || {};
-  window.RSVis.mods[ID] = mount;
+    go(0);
+  };
 })();
