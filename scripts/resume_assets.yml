@@ -1,0 +1,114 @@
+assets:
+  - id: cad_repair_turn4
+    project: cad
+    file: cad_repair_turn4.webp
+    alt: "Three 3D views for CAD sample 00857821 at repair turn 4: ground truth, generated shape (a plain cylinder), and an overlay showing the mismatch."
+    caption: "Sample 00857821 from an earlier run with up to 6 turns (the current loop uses at most 3), shown at turn 4; repair is guided by the ground-truth shape."
+    tier: ILLUSTRATIVE
+    claim: illustrative (cad_three_system_comparison; gt_assisted caveat)
+    source: "CAD Design/PPT-Plots/5th June/turn4.png"
+    compare_with: cad_repair_turn5
+    source_notebook: null
+    cell_index: null
+  - id: cad_repair_turn5
+    project: cad
+    file: cad_repair_turn5.webp
+    alt: "Same sample at repair turn 5: the generated shape now has a cylinder plus a wedge and overlaps the ground truth more closely."
+    caption: "Same sample and earlier run one turn later, where the generated shape gains the missing wedge; this is one hand-picked sample, not a typical result, and turn 6 regressed."
+    tier: ILLUSTRATIVE
+    claim: illustrative (cad_three_system_comparison; gt_assisted caveat)
+    source: "CAD Design/PPT-Plots/5th June/turn5.png"
+    compare_with: cad_repair_turn4
+    source_notebook: null
+    cell_index: null
+  - id: shastra_workflow_dag
+    project: shastra
+    file: shastra_workflow_dag.webp
+    alt: "Workflow graph extracted from a GAIA question: identify game, find Wikipedia page, extract release date, fetch revision history, count revisions."
+    caption: "One workflow dependency graph built from a single GAIA task trace; it shows the structure only and implies no accuracy or reuse result."
+    tier: ILLUSTRATIVE
+    claim: "illustrative (shastra TDG/workflow graph exists; no accuracy claim, team project)"
+    source: "Shastra/analysis/.hermes/runs/t3_08_09_offline/figures/workflow_dag.png"
+    compare_with: null
+    source_notebook: null
+    cell_index: null
+  - id: cerberus_retrieval_r5_by_dim
+    project: cerberus
+    file: cerberus_retrieval_r5_by_dim.webp
+    alt: "Line chart of image-to-text and text-to-image Recall@5 versus embedding dimension 128 to 4096 for attention and perceiver aligners."
+    caption: "Recall@5 on paired PixMo validation data rises from about 63 percent at 128 dimensions to about 77.7 percent at 4096 for image-to-text retrieval for the attention model, while the perceiver variant stays near zero."
+    tier: VERIFIED
+    claim: cerberus_retrieval_path
+    source: "cerebrus/edge_glass_modular/notebooks/experiments/07_alignment_final_report.ipynb"
+    compare_with: null
+    source_notebook: "cerebrus/edge_glass_modular/notebooks/experiments/07_alignment_final_report.ipynb"
+    cell_index: 12
+  - id: cerberus_tsne_alignment
+    project: cerberus
+    file: cerberus_tsne_alignment.webp
+    alt: "Two t-SNE scatter plots of image and text embeddings: attention aligner interleaved, perceiver aligner in two separate clusters."
+    caption: "Qualitative t-SNE of image and text embeddings from the vision-text alignment notebook, where the attention model interleaves modalities and the perceiver variant does not."
+    tier: ILLUSTRATIVE
+    claim: "illustrative (cerberus_retrieval_path, vision-text only)"
+    source: "cerebrus/edge_glass_modular/notebooks/experiments/07_alignment_final_report.ipynb"
+    compare_with: null
+    source_notebook: "cerebrus/edge_glass_modular/notebooks/experiments/07_alignment_final_report.ipynb"
+    cell_index: 12
+  - id: malware_pipeline_flow
+    project: malware
+    file: malware_pipeline_flow.webp
+    alt: "Flowchart: lab setup, sample generation, memory analysis, dataset creation, then exploratory analysis, machine learning and deep learning."
+    caption: "Three-phase pipeline from malware collection through memory dumps to a labelled dataset and classifiers, from a paper written with a co-author."
+    tier: VERIFIED
+    claim: malware_status (pipeline description only; team project)
+    source: "Malware_Analysis/Code_Base/Re_ paper/Figures/Flow of Code.jpg"
+    compare_with: null
+    source_notebook: null
+    cell_index: null
+  - id: malware_classifier_test_scores
+    project: malware
+    file: malware_classifier_test_scores.webp
+    alt: "Bar chart of test scores for nine classifiers, with Gradient Boosting highest near 0.89."
+    caption: "Test scores of nine classifiers on the memory-forensics window dataset, with Gradient Boosting best at about 0.887; this is an exploratory row-level split with a leakage caveat."
+    tier: VERIFIED
+    claim: malware_status (88.74% GB, 260/293)
+    source: "Malware_Analysis/Code_Base/Memory_Forensics_Volatility_Yara_Rules.ipynb"
+    compare_with: null
+    source_notebook: "Malware_Analysis/Code_Base/Memory_Forensics_Volatility_Yara_Rules.ipynb"
+    cell_index: 53
+  - id: soccer_learning_curves
+    project: soccer
+    file: soccer_learning_curves.webp
+    alt: "Learning curves of mean episode reward versus timesteps for four PPO runs; the v3 curriculum run reaches about 1.97 over 30 million steps."
+    caption: "Training reward (not win rate) for four PPO runs in a team project; the v3 curriculum run ends near 1.97 after about 30 million steps."
+    tier: VERIFIED
+    claim: rl_soccer
+    source: "Georgia Tech/Course Content/CS 8803- DRL/project/project/soccer-twos-starter/notebooks/03_full_training_pipeline_v3.ipynb"
+    compare_with: null
+    source_notebook: "Georgia Tech/Course Content/CS 8803- DRL/project/project/soccer-twos-starter/notebooks/03_full_training_pipeline_v3.ipynb"
+    cell_index: 11
+  - id: athena_generated_shot
+    project: athena
+    file: athena_generated_shot.webp
+    alt: "AI-generated storyboard frame of a woman sipping iced coffee in a cafe."
+    caption: "One generated shot from a live ATHENA run of a coffee ad; some image calls in other runs fail and leave placeholders, and the evaluator is text-only."
+    tier: ILLUSTRATIVE
+    claim: "illustrative (athena_v1_design; team project)"
+    source: "ATHENA/code_base/athena_v1_production/docs/assets/gallery/scene02_first_sip.jpg"
+    compare_with: null
+    source_notebook: null
+    cell_index: null
+rejected:
+  - {source: "CAD 5th June turn1/turn6, original_id_with_error", reason: "Turn 6 is not closer to the ground truth than turn 4 or 5 (box plus cylinder), turn 1 is similar quality to turn 5, so only the turn4-turn5 pair is used"}
+  - {source: "CAD PPT-Plots 11th June, July 16, Oct 26, Paper Plots, 24th August (not opened)", reason: "Not viewed in time; no number check done"}
+  - {source: "CAD final_comparison.ipynb and gate_a notebook", reason: "No image/png outputs saved (no figure to extract), so the 0.8227/0.9163 and Gate A claims have no real figure"}
+  - {source: "Shastra analysis/audit/plots/tdg_plot.png", reason: "Labels like vendor_table_text may come from private or customer task data"}
+  - {source: "ATHENA docs/assets/studio_storyboard.png", reason: "Shows 92% scores not in the fact bank, a broken-image placeholder, and UI chrome"}
+  - {source: "ATHENA images/*_v1.png", reason: "All about 5 KB failed placeholders"}
+  - {source: "cerebrus older_plots/images/post_mrl_text_vision_align.png and 01_pixmo notebook cell 32", reason: "Top-1 values near 14 percent are not in the fact bank"}
+  - {source: "cerebrus 03_trm_vlm_qa_training_MODULAR.ipynb", reason: "Only a QA demo image; no saved 7B LoRA loss curve (0.7420 to 0.1033) found; TRM decoder is scrapped"}
+  - {source: "Which_VLM_Router images/effect_mode_model.png, artemis_vlm_router_architecture.png, 1000_sample_run.png", reason: "Undated utility numbers could be pre-S0 (banned); architecture diagram shows unbuilt live mode and retrainer; S8/S9 plots not found (results only has S0, S2, S10)"}
+  - {source: "Malware Re_ paper/Figures/test_ml_comparison_bar.png", reason: "Duplicate of the notebook bar chart used instead"}
+  - {source: "Malware notebook cells 27, 31 (PCA/t-SNE) and other figures", reason: "Not needed; paper Table I (GB 0.85) disagrees with notebook 0.887 so only the notebook-backed chart is used"}
+  - {source: "RL soccer report/corl figures and other soccer plots", reason: "Not viewed; report figures may include numbers outside the fact bank"}
+  - {source: "ML Security course notebooks, Blind Backdoors, financial_project charts, Molmo and FrugalGPT figures", reason: "No figure chosen: backdoors101 is vendored, financial is not claimable, Molmo and FrugalGPT are third-party, ML Security notebooks not searched"}

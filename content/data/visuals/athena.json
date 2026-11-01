@@ -1,0 +1,48 @@
+{
+  "title": "How ATHENA turns a rough idea into a storyboard",
+  "source_note": "Drawn from the project code (the LangGraph wiring and node modules). Entry routing is from reading the code, not from a live run. Team project.",
+  "steps": [
+    {"title": "You give it a rough idea", "body": "You write a short brief. One language model reads it once and decides the whole plan: which steps to run, which to skip, and whether to research. Plain code then follows that plan, so no model is steering the run.", "plan_label": "The plan (ExecutionPlan)", "plan_note": "Decided once, then followed by ordinary code. It can pause to ask you a clarifying question."},
+    {"title": "A graph of eight steps does the work", "body": "Each step reads what the earlier ones wrote and adds its own piece. Click a step to see what it does.", "hint": "Click a step."},
+    {"title": "Inside 'work on each scene'", "body": "This one step loops over every scene. A failure in one scene does not stop the others.", "details_label": "Show the steps inside", "research_label": "Research tools (an MCP server, a standard way to offer tools to a model)", "image_label": "Image models"},
+    {"title": "Nothing is redone twice", "caption": "Steps whose output already exists are skipped, which is how runs resume and how an edit redoes only what it affects.", "pick": "Where the run starts"},
+    {"title": "Where it is today", "body": "Some parts work, some are half done, and one is only an idea."}
+  ],
+  "nodes": [
+    {"id": "understand", "label": "Understand the idea", "status": "Built", "what": "Reads your brief and writes the plan.", "makes": "The intent and the plan, or a question for you."},
+    {"id": "brainstorm", "label": "Brainstorm", "status": "Built", "what": "Comes up with ideas and picks one, keeping the others.", "makes": "One chosen concept with its reason."},
+    {"id": "characters", "label": "Design characters", "status": "Built", "what": "Designs who is in the story, unless the plan says no characters are needed.", "makes": "A list of characters."},
+    {"id": "world", "label": "Build the world", "status": "Built", "what": "Sets the place, the time period and the mood, unless the plan says it is not needed.", "makes": "The world."},
+    {"id": "story", "label": "Write the story", "status": "Built", "what": "Combines the concept, characters and world into a story told in beats.", "makes": "The story."},
+    {"id": "scenes", "label": "Split into scenes", "status": "Built", "what": "Cuts the story into ordered scenes.", "makes": "Empty scene shells, ready to fill."},
+    {"id": "each", "label": "Work on each scene", "status": "Built", "what": "Runs the scene and shot steps in order, one scene at a time.", "makes": "Scripts, looks, shots and images for each scene."},
+    {"id": "assemble", "label": "Assemble the storyboard", "status": "Built", "what": "Collects everything into one project and writes the editable storyboard files.", "makes": "The storyboard as a data file and a web page."}
+  ],
+  "inner": [
+    {"label": "Research the scene", "per": "per scene", "status": "Built", "what": "Looks things up for the scene. Skipped if research is off or already done. A failed lookup does not stop the run.", "tools": [
+      {"label": "Web search", "what": "Keyless web search with backup engines."},
+      {"label": "Page fetch", "what": "Reads a page as plain text. Offered by the MCP server only."},
+      {"label": "Image search", "what": "Finds reference images and their licence."},
+      {"label": "YouTube search", "what": "Finds videos. Needs an API key."},
+      {"label": "YouTube transcript", "what": "Gets the words spoken in one video. Needs an API key."}]},
+    {"label": "Write the script", "per": "per scene", "status": "Built", "what": "Drafts narration, stage directions and dialogue."},
+    {"label": "Set the look", "per": "per scene", "status": "Built", "what": "Chooses lighting, colour, mood and style."},
+    {"label": "Plan the shots", "per": "per scene", "status": "Built", "what": "Splits the scene into ordered shots with camera angle and framing."},
+    {"label": "Write the image prompt", "per": "per shot", "status": "Built", "what": "Describes one shot to the image model, keeping characters consistent."},
+    {"label": "Generate the image", "per": "per shot", "status": "Partial", "what": "Checks the prompt, then asks the image model. If it errors, a backup model is tried. If all fail, a marked placeholder is kept.", "note": "An image fix is not yet re-verified end to end.", "tools": [
+      {"label": "Image model", "what": "A FLUX model through NVIDIA NIM."},
+      {"label": "Fallback model", "what": "A different FLUX model, tried if the first one errors."}]},
+    {"label": "Check the scene", "per": "per scene", "status": "Partial", "what": "Reports what a viewer might understand or miss. It is a signal only, with no repair loop.", "note": "The evaluator reads text only."}
+  ],
+  "entries": [
+    {"id": "full", "label": "Full idea", "skip": [], "inner_skip": []},
+    {"id": "script", "label": "With a script", "skip": ["brainstorm", "characters", "world", "story", "scenes"], "inner_skip": []},
+    {"id": "scenes", "label": "With scenes", "skip": ["brainstorm", "characters", "world", "story", "scenes"], "inner_skip": [], "note": "Routes the same way as a script in the code."},
+    {"id": "visual", "label": "Visuals only", "skip": ["brainstorm", "characters", "world", "story", "scenes"], "inner_skip": ["Research the scene", "Write the script"], "note": "Whether the look step runs well without a script was not checked."}
+  ],
+  "today": [
+    {"status": "Built", "label": "Routing, resume and tools", "what": "Skipping steps, resuming a run and the research tools work."},
+    {"status": "Partial", "label": "Image generation and scene evaluator", "what": "An image fix is not yet re-verified end to end. The evaluator reads text only."},
+    {"status": "Proposed", "label": "Video generation from the storyboard", "what": "A possible next step. It is not built and is not part of the graph."}
+  ]
+}

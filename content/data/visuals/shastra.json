@@ -1,0 +1,23 @@
+{
+"example":{
+"task":".rewsna eht sa \"tfel\" drow eht fo etisoppo eht etirw ,ecnetnes siht dnatsrednu uoy fI",
+"plain":"If you understand this sentence, write the opposite of the word \"left\" as the answer.",
+"events":["System prompt loaded (code-blob agent instructions).","User task received.","Assistant wrote a facts survey and plan, and decoded the reversed text as an instruction to write the opposite of \"left\".","User message: \"Now go on and execute this plan.\"","Assistant reversed the text and gave the final answer \"right\"."],
+"blocks":[
+{"name":"Block one","text":"Only the system prompt and the user task. No assistant message or tool call.","caps":["task_understanding","context_loading"]},
+{"name":"Block two","text":"The assistant writes a facts survey and plan: reverse the text, interpret it, return \"right\". No tool calls.","caps":["text_reversal","instruction_interpretation","answer_formulation"]},
+{"name":"Block three","text":"The assistant reverses the string, reads the instruction, concludes the opposite is \"right\" and emits final_answer(\"right\") in a code block.","caps":["text_reversal","instruction_interpretation","answer_formulation"]}],
+"nodes":[{"id":"Step one","op":"llm","reads":[],"writes":[]},{"id":"Step two","op":"llm","reads":[],"writes":[]}],
+"edge":{"kind":"order","trust":"observed"},
+"replay":{"answer":"right","match":true,"status":"done"}
+},
+"stages":[
+{"name":"Raw events","status":"Built","count":"","mean":"Agent traces are read in as ordered events: prompts, messages, tool calls."},
+{"name":"Blocks","status":"Built","count":"36 blocks","mean":"Neighbouring events are grouped into blocks, each a coherent piece of work."},
+{"name":"Labelled blocks","status":"Built","count":"8 trajectories, 36 blocks, 17 labels","mean":"An LLM labels each block with capabilities, checked by code and kept in an append-only registry. Label quality is not validated.","note":"Label quality not validated"},
+{"name":"Task graph","status":"Built","count":"","mean":"Blocks become steps with what each reads and writes, joined by dependency edges."},
+{"name":"Reverse decomposition into subtasks","status":"Tried","count":"0 of 11 passed","mean":"Splitting a solution back into subtasks was tried and did not work: none of the 11 passed."},
+{"name":"Replay","status":"Partial","count":"3 of 8 replays done, 2 answers matched","mean":"The graph is compiled to LangGraph code and run again. Only some replays finished."},
+{"name":"Reuse analysis","status":"Proposed","count":"","mean":"Measure whether solution steps recur across tasks. Code exists, no results yet.","note":"Code exists, no results"},
+{"name":"Workflow retrieval and adaptation","status":"Proposed","count":"","mean":"Retrieve a stored workflow and adapt its parameters for a new task. This is the longer-term goal and is not built."}
+]}
