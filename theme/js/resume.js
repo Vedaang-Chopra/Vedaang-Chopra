@@ -74,8 +74,10 @@
             }
         });
         pdfLabel.textContent = PDF_TEXT[lens];
-        var n = countHidden();
-        lensNote.textContent = lens === 'full' ? '' : n + ' projects hidden by this view. Results that did not work stay visible.';
+        if (lensNote) {
+            var n = countHidden();
+            lensNote.textContent = lens === 'full' ? '' : n + ' projects hidden by this view. Results that did not work stay visible.';
+        }
         state.lens = lens;
         writeHash(state);
     }
